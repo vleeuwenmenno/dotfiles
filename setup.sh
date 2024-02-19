@@ -5,6 +5,7 @@ help() {
     echo "Usage: $0 [option...]" >&2
     echo
     echo "   -i, --install     Run installation process"
+    echo "   -c, --continue    Install home-manager and switch to dotfiles flake"
     echo "   -h, --help        Display this help message"
     echo
     exit 1
@@ -105,7 +106,7 @@ if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     clone_dotfiles
 
     echo 'Nix and dotfiles are installed, running initial home-manager setup...'
-    bash -c ~/.dotfiles/setup.sh -c
+    bash -c "~/.dotfiles/setup.sh -c"
 elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
     # Run initial home-manager setup
     home_manager_setup
