@@ -1,3 +1,4 @@
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-nix-channel --update
-nix-shell '<home-manager>' -A install
+# Run the following command to begin
+```
+curl -s https://raw.githubusercontent.com/vleeuwenmenno/dotfiles/master/setup.sh | bash
+```

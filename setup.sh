@@ -1,5 +1,5 @@
 #!/bin/bash
-NIX_CONFIG_URL="https://gist.githubusercontent.com/vleeuwenmenno/4671a99beca2e45dc4b0211de7865dfe/raw/8eb0656fe956db81b18d31caad54aaff66298e0a/nix.conf"
+DOTFILES_REPO="git@github.com:vleeuwenmenno/dotfiles.git"
 
 help() {
     echo "Usage: $0 [option...]" >&2
@@ -19,7 +19,7 @@ install_nix() {
         echo 'Installing NIX'
         sh <(curl -L https://nixos.org/nix/install) --daemon
 
-        echo 'Please restart your shell to continue...'
+        echo 'Please restart your shell to continue... (Then run `./setup.sh -c`)'
         touch ~/.setup-initial-done
     fi
 }
@@ -64,10 +64,19 @@ if [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
     # Add experimental-features to nix.conf
     nix_experimental
 
-    # Insert nix configuration from github gist
-    nix_config_import
+    # Clone dotfiles
+    if [ -d ~/.dotfiles ]; then
+        echo "Dotfiles already cloned."
+    else
+        echo "Cloning dotfiles..."
+        git clone $DOTFILES_REPO ~/.dotfiles
+    fi
 
-    
+    # Run initial home-manager setup
+    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    nix-channel --update
+    nix-shell '<home-manager>' -A install
+    home-manager switch --flake ~/.dotfiles
 elif [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     help
 elif [ "$1" == "-i" ] || [ "$1" == "--init" ]; then
@@ -77,7 +86,11 @@ elif [ "$1" == "-i" ] || [ "$1" == "--init" ]; then
     # Install nix
     install_nix
 else
-    help
+    # Ubuntu specific, hide login message
+    hush_login
+
+    # Install nix
+    install_nix
 fi
 
 
