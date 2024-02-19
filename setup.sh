@@ -42,7 +42,7 @@ hush_login() {
 }
 
 nix_experimental() {
-    if command -v nix > /dev/null; then 
+    if command -v nix > /dev/null; then
         echo 'NIX is already installed.'
     else
         install_nix
@@ -57,7 +57,7 @@ nix_config_import() {
     if [ -f ~/.config/nix/nix.conf ]; then
         echo "Nix configuration is already inserted."
         exit 1
-    else 
+    else
         echo "Inserting nix configuration..."
         mkdir -p ~/.config/nix
         curl -s $NIX_CONFIG_URL -o ~/.config/nix/nix.conf
@@ -90,6 +90,18 @@ switch_to_home_manager() {
     home-manager switch --flake ~/.dotfiles
 }
 
+continue_install() {
+    echo 'Nix and dotfiles are installed'
+    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    chmod +x ~/.dotfiles/setup.sh
+    bash -c "~/.dotfiles/setup.sh -c"
+}
+
+add_exec_zsh() {
+    echo 'Adding `exec zsh` to `~/.bashrc`...'
+    grep -qxF 'exec zsh' ~/.bashrc || echo "exec zsh" | tee -a ~/.bashrc
+}
+
 # Check if parameter is help, continue or initial
 if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     # Check if .dotfiles exists, if so stop
@@ -110,16 +122,16 @@ if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     # Clone dotfiles
     clone_dotfiles
 
-    echo 'Nix and dotfiles are installed'
-    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh 
-    chmod +x ~/.dotfiles/setup.sh	
-    bash -c "~/.dotfiles/setup.sh -c"
+    continue_install
 elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
     # Run initial home-manager setup
     home_manager_setup
 
     # Run initial home-manager switch
     switch_to_home_manager
+
+    # Add `exec zsh` to bashrc
+    add_exec_zsh
 
     # We're done here!
     echo 'Installation complete! Please restart your shell and enjoy!'

@@ -1,0 +1,26 @@
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /opt/1Password/op-ssh-sign
+[commit]
+	gpgsign = true
+
+[user]
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM+sKpcREOUjwMMSzEWAso6830wbOi8kUxqpuXWw5gHr
+	name = "Menno van Leeuwen"
+	email = "menno@vleeuwen.me"
+
+[includeIf "gitdir:/home/menno/Projects/Sandwave/**"]
+	path = /home/menno/Projects/Sandwave/.gitconfig
+
+[includeIf "gitdir:/home/menno/Projects/Personal/**"]
+	path = /home/menno/Projects/Personal/.gitconfig
+
+[safe]
+	directory = *
+
+[advice]
+	detachedHead = false
+
+[push]
+	default = current

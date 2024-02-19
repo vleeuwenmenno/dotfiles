@@ -11,3 +11,7 @@ Tested on:
 ```
 curl -sSL https://raw.githubusercontent.com/vleeuwenmenno/dotfiles/master/setup.sh | bash -s -- "--install"
 ```
+
+## Updating
+To update you can run the alias `update` to pull and switch.
+Afterwards you should reopen a new shell to see the applied changes.
