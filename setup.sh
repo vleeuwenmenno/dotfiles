@@ -4,8 +4,7 @@ DOTFILES_REPO="git@github.com:vleeuwenmenno/dotfiles.git"
 help() {
     echo "Usage: $0 [option...]" >&2
     echo
-    echo "   -i, --init        Initial installation"
-    echo "   -c, --continue    Continue installation"
+    echo "   -i, --install     Run installation process"
     echo "   -h, --help        Display this help message"
     echo
     exit 1
@@ -25,6 +24,16 @@ install_nix() {
 }
 
 hush_login() {
+    # Check if distro is Ubuntu
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        if [ "$ID" != "ubuntu" ]; then
+            return 1
+        fi
+    else
+        return 1
+    fi
+
     # If .hushlogin does not exist, create it
     if [ -f ~/.hushlogin ]; then
         echo 'Login message is already disabled.'
@@ -57,34 +66,48 @@ nix_config_import() {
     fi
 }
 
-# Check if parameter is help, continue or initial
-if [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
-    rm ~/.setup-initial-done
-
-    # Add experimental-features to nix.conf
-    nix_experimental
-
-    # Clone dotfiles
+clone_dotfiles() {
     if [ -d ~/.dotfiles ]; then
         echo "Dotfiles already cloned."
     else
         echo "Cloning dotfiles..."
         git clone $DOTFILES_REPO ~/.dotfiles
     fi
+}
 
-    # Run initial home-manager setup
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
-    nix-shell '<home-manager>' -A install
-    home-manager switch --flake ~/.dotfiles
-elif [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-    help
-else
+home_manager_setup() {
+    # Check if home-manager is installed
+    if command -v home-manager > /dev/null; then
+        echo "Home-manager is already installed."
+    else
+        echo "Installing home-manager..."
+        nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+        nix-channel --update
+        nix-shell '<home-manager>' -A install
+    fi
+}
+
+# Check if parameter is help, continue or initial
+if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     # Ubuntu specific, hide login message
     hush_login
 
     # Install nix
     install_nix
+
+    # Add experimental-features to nix.conf
+    nix_experimental
+
+    # Clone dotfiles
+    clone_dotfiles
+
+    # Run initial home-manager setup
+    home_manager_setup
+
+    # Run initial home-manager switch
+    home-manager switch --flake ~/.dotfiles
+else
+    help
 fi
 
 
