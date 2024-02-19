@@ -111,11 +111,10 @@ if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     clone_dotfiles
 
     echo 'Nix and dotfiles are installed'
+    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh 
     chmod +x ~/.dotfiles/setup.sh	
     bash -c "~/.dotfiles/setup.sh -c"
 elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
-    echo 'Installing home-manager ...'
-
     # Run initial home-manager setup
     home_manager_setup
 
@@ -127,5 +126,3 @@ elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
 else
     help
 fi
-
-
