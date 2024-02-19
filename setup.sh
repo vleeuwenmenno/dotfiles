@@ -85,6 +85,11 @@ home_manager_setup() {
     fi
 }
 
+switch_to_home_manager() {
+    echo 'Running home-manager switch...'
+    home-manager switch --flake ~/.dotfiles
+}
+
 # Check if parameter is help, continue or initial
 if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     # Check if .dotfiles exists, if so stop
@@ -105,15 +110,20 @@ if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     # Clone dotfiles
     clone_dotfiles
 
-    echo 'Nix and dotfiles are installed, running initial home-manager setup...'
+    echo 'Nix and dotfiles are installed'
+    chmod +x ~/.dotfiles/setup.sh	
     bash -c "~/.dotfiles/setup.sh -c"
 elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
+    echo 'Installing home-manager ...'
+
     # Run initial home-manager setup
     home_manager_setup
 
     # Run initial home-manager switch
-    home-manager switch --flake ~/.dotfiles
-    echo 'Please restart your shell and enjoy your new environment!'
+    switch_to_home_manager
+
+    # We're done here!
+    echo 'Installation complete! Please restart your shell and enjoy!'
 else
     help
 fi
