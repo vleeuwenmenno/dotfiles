@@ -104,12 +104,15 @@ if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     # Clone dotfiles
     clone_dotfiles
 
+    echo 'Nix and dotfiles are installed, running initial home-manager setup...'
+    bash -c ~/.dotfiles/setup.sh -c
+elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
     # Run initial home-manager setup
-    bash -c 'source ~/.dotfiles/setup.sh && home_manager_setup' 
+    home_manager_setup
 
     # Run initial home-manager switch
-    bash -c "home-manager switch --flake ~/.dotfiles"
-    echo 'Please restart your shell to continue... (Then run `./setup.sh -c`)'
+    home-manager switch --flake ~/.dotfiles
+    echo 'Please restart your shell and enjoy your new environment!'
 else
     help
 fi
