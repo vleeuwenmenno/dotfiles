@@ -1,5 +1,5 @@
 #!/bin/bash
-DOTFILES_REPO="git@github.com:vleeuwenmenno/dotfiles.git"
+DOTFILES_REPO="https://github.com/vleeuwenmenno/dotfiles.git"
 
 help() {
     echo "Usage: $0 [option...]" >&2
@@ -17,9 +17,6 @@ install_nix() {
     else
         echo 'Installing NIX'
         sh <(curl -L https://nixos.org/nix/install) --daemon
-
-        echo 'Please restart your shell to continue... (Then run `./setup.sh -c`)'
-        touch ~/.setup-initial-done
     fi
 }
 
@@ -89,6 +86,12 @@ home_manager_setup() {
 
 # Check if parameter is help, continue or initial
 if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
+    # Check if .dotfiles exists, if so stop
+    if [ -d ~/.dotfiles ]; then
+        echo "Home folder already contains a .dotfiles folder, please remove/move it first."
+        exit 1
+    fi
+
     # Ubuntu specific, hide login message
     hush_login
 
@@ -102,10 +105,11 @@ if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     clone_dotfiles
 
     # Run initial home-manager setup
-    home_manager_setup
+    bash -c 'source ~/.dotfiles/setup.sh && home_manager_setup' 
 
     # Run initial home-manager switch
-    home-manager switch --flake ~/.dotfiles
+    bash -c "home-manager switch --flake ~/.dotfiles"
+    echo 'Please restart your shell to continue... (Then run `./setup.sh -c`)'
 else
     help
 fi
