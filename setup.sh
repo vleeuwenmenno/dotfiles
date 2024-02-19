@@ -79,12 +79,6 @@ if [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
     home-manager switch --flake ~/.dotfiles
 elif [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     help
-elif [ "$1" == "-i" ] || [ "$1" == "--init" ]; then
-    # Ubuntu specific, hide login message
-    hush_login
-
-    # Install nix
-    install_nix
 else
     # Ubuntu specific, hide login message
     hush_login
