@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-{       
+{
   fonts.fontconfig.enable = true;
   home = {
     username = "menno";
@@ -30,15 +30,6 @@
 
     git = {
       enable = true;
-      contents = {
-        user = {
-          userName = "Menno van Leeuwen";
-          userEmail = "menno@vleeuwen.me";
-        };
-        commit = {
-          gpgSign = true;
-        };
-      };
       includes = [ { path = "~/.dotfiles/config/gitconfig"; } ];
     };
 
