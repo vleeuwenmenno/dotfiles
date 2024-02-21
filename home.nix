@@ -30,8 +30,15 @@
 
     git = {
       enable = true;
-      userName = "Menno van Leeuwen";
-      userEmail = "menno@vleeuwen.me";
+      contents = {
+        user = {
+          userName = "Menno van Leeuwen";
+          userEmail = "menno@vleeuwen.me";
+        };
+        commit = {
+          gpgSign = true;
+        };
+      };
       includes = [ { path = "~/.dotfiles/config/gitconfig"; } ];
     };
 
@@ -70,7 +77,13 @@
         gl = "git log --stat";
       };
 
-      initExtra = "source ~/.dotfiles/config/p10k.zsh";
+      initExtra = ''
+        source ~/.dotfiles/config/p10k.zsh
+
+        if [ -f /home/menno/Projects/Sandwave/.zshrc ]; then
+          source /home/menno/Projects/Sandwave/.zshrc
+        fi
+      '';
 
       syntaxHighlighting = {
         enable = true;
