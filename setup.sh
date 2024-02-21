@@ -133,6 +133,13 @@ elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
     # Add `exec zsh` to bashrc
     add_exec_zsh
 
+    # If it's WSL
+    if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null; then
+        echo 'WSL detected, adding SSH 1Password symlink...'
+        sudo mkdir /opt/1Password
+        sudo ln -s /mnt/c/Users/menno/AppData/Local/1Password/app/8/op-ssh-sign-wsl /opt/1Password/op-ssh-sign
+    fi
+
     # We're done here!
     echo 'Installation complete! Please restart your shell and enjoy!'
 else

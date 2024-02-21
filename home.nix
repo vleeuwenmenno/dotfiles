@@ -1,7 +1,6 @@
-{ config, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }:
+{       
   fonts.fontconfig.enable = true;
-
   home = {
     username = "menno";
     homeDirectory = "/home/menno";
@@ -15,6 +14,7 @@
       lsd
       zsh
       zsh-powerlevel10k
+      fzf
     ];
   };
 
@@ -40,6 +40,17 @@
         };
       };
       includes = [ { path = "~/.dotfiles/config/gitconfig"; } ];
+    };
+
+    ssh = {
+      enable = true;
+      matchBlocks = {
+        server = {
+          port = 22;
+          hostname =  "192.168.86.254";
+          user = "menno";
+        };
+      };
     };
 
     zsh = {
