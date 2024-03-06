@@ -1,0 +1,9 @@
+Host *
+	IdentityAgent ~/.1password/agent.sock
+
+Host server
+  Port 22
+	HostName 192.168.86.254
+  User menno
+  ForwardAgent yes
+
