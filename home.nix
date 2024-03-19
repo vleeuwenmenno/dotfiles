@@ -15,6 +15,7 @@
       zsh
       zsh-powerlevel10k
       fzf
+      rustup
     ];
   };
 
@@ -41,7 +42,23 @@
           hostname =  "192.168.86.254";
           user = "menno";
         };
+        "accept.prikklok" = {
+          port = 22;
+          hostname = "49.13.197.18";
+          user = "menno";
+          forwardAgent = true;
+        };
+        "prod.prikklok" = {
+          port = 22;
+          hostname = "49.13.145.100";
+          user = "menno";
+          forwardAgent = true;
+        };
       };
+      extraConfig = ''
+        Host *
+          IdentityAgent ~/.1password/agent.sock
+      '';
     };
 
     zsh = {
@@ -77,14 +94,26 @@
         docker-compose = "docker compose";
         gg = "git pull";
         gl = "git log --stat";
+        python = "python3";
       };
 
       initExtra = ''
         source ~/.dotfiles/config/p10k.zsh
 
+        # PHP using docker
+        export PATH=/home/menno/Projects/Sandwave/.data/scripts/php:$PATH
+
+        # FVM
+        export PATH=/home/menno/fvm/default/bin:$PATH
+
         if [ -f /home/menno/Projects/Sandwave/.zshrc ]; then
           source /home/menno/Projects/Sandwave/.zshrc
         fi
+
+        # NVM
+        export NVM_DIR="$HOME/.nvm"
+  [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"
       '';
 
       syntaxHighlighting = {
