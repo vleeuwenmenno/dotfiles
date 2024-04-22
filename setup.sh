@@ -122,6 +122,10 @@ if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     # Clone dotfiles
     clone_dotfiles
 
+    # Create symbloic link to .vscode/ and .config/Code/User/
+    ln -s /home/$USER/.dotfiles/vscode /home/$USER/.vscode
+    ln -s /home/$USER/.dotfiles/VSCodeUser /home/$USER/.config/Code/User
+
     continue_install
 elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
     # Run initial home-manager setup

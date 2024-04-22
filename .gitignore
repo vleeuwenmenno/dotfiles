@@ -1,0 +1,5 @@
+vscode/extensions/*
+!vscode/extensions/extensions.json
+VSCodeUser/History/*
+*.vscdb
+*.vscdb.backup
