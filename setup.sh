@@ -148,6 +148,10 @@ elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
         sudo ln -s /mnt/c/Users/menno/AppData/Local/1Password/app/8/op-ssh-sign-wsl /opt/1Password/op-ssh-sign
     fi
 
+    # Let's update the remote URL for this repository to the SSH URL
+    # We mostly use SSH for git operations, so this is more convenient
+    cd ~/.dotfiles && git remote set-url origin git@github.com:vleeuwenmenno/dotfiles.git
+
     # We're done here!
     echo 'Installation complete! Please restart your shell and enjoy!'
 else
