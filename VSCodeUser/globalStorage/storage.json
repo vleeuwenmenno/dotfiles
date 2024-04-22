@@ -849,8 +849,7 @@
                     },
                     {
                         "id": "editor.action.toggleWordWrap",
-                        "label": "&&Word Wrap",
-                        "enabled": false
+                        "label": "&&Word Wrap"
                     }
                 ]
             },
@@ -1797,8 +1796,8 @@
             "backupPath": "/home/menno/.config/Code/Backups/22d69ccf26a603cd127cc9dcfffebd07",
             "uiState": {
                 "mode": 1,
-                "x": 178,
-                "y": 999,
+                "x": 144,
+                "y": 989,
                 "width": 2304,
                 "height": 1087,
                 "zoomLevel": 2

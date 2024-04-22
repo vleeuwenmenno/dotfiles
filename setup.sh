@@ -122,9 +122,13 @@ if [ "$1" == "-i" ] || [ "$1" == "--install" ]; then
     # Clone dotfiles
     clone_dotfiles
 
-    # Create symbloic link to .vscode/ and .config/Code/User/
+    # Create symbloic links for various dotfiles
+    # VSCode directory
     ln -s /home/$USER/.dotfiles/vscode /home/$USER/.vscode
+    # VSCode user settings
     ln -s /home/$USER/.dotfiles/VSCodeUser /home/$USER/.config/Code/User
+    # Git/SSH allowed signers
+    ln -s /home/$USER/.dotfiles/allowed_signers /home/$USER/.ssh/allowed_signers
 
     continue_install
 elif [ "$1" == "-c" ] || [ "$1" == "--continue" ]; then
