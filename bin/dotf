@@ -23,16 +23,16 @@ secrets() {
 }
 
 ensure_git_hooks() {
-    # If .git/hooks is a symlink, skip this
-    if [[ -L .git/hooks ]]; then
+    # If ~/dotfiles/.git/hooks is a symlink, skip this
+    if [[ -L ~/dotfiles/.git/hooks ]]; then
         # Let's make sure the symlink is correct
-        if [[ $(readlink .git/hooks) != ~/dotfiles/bin/actions/git ]]; then
-            printfe "%s\n" "yellow" "The .git/hooks symlink is incorrect. Please remove it and run this script again."
+        if [[ $(readlink ~/dotfiles/.git/hooks) != ~/dotfiles/bin/actions/git ]]; then
+            printfe "%s\n" "yellow" "The ~/dotfiles/.git/hooks symlink is incorrect. Please remove it and run this script again."
         fi
         return
     fi
 
-    if [[ -d .git/hooks ]]; then
+    if [[ -d ~/dotfiles/.git/hooks ]]; then
         rm -rf ~/dotfiles/.git/hooks
         printfe "%s\n" "yellow" "The ~/dotfiles/.git/hooks directory already exists. We're removing it!"
     fi
