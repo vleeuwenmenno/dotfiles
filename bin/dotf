@@ -21,6 +21,11 @@ logo() {
     printfe "%s" "blue" "[$(git -C ~/dotfiles rev-parse --short HEAD)]"
     println "" "normal"
 
+    # Check if we have commits to push
+    if [[ $(git -C ~/dotfiles log origin/master..HEAD) ]]; then
+        printfe "%s" "yellow" "[!] You have $(git -C ~/dotfiles log origin/master..HEAD --oneline | wc -l | tr -d ' ') commits to push"
+    fi
+
     if [[ $continue_eitherway == "continue" ]]; then
         return
     fi
