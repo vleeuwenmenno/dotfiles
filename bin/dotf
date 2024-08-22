@@ -1,0 +1,61 @@
+#!/usr/bin/env zsh
+
+source ~/dotfiles/bin/helpers/functions.sh
+
+logo() {
+    tput setaf 2
+    cat ~/dotfiles/bin/resources/logo.txt
+    println " " "cyan"
+    tput sgr0
+
+    # Print if repo is dirty and the count of untracked files, modified files and staged files
+    if [[ $(git -C ~/dotfiles status --porcelain) ]]; then
+        printfe "%s" "yellow" "dotfiles repo is dirty "
+        printfe "%s" "red" "[$(git -C ~/dotfiles status --porcelain | grep -c '^??')] untracked "
+        printfe "%s" "yellow" "[$(git -C ~/dotfiles status --porcelain | grep -c '^ M')] modified "
+        printfe "%s" "green" "[$(git -C ~/dotfiles status --porcelain | grep -c '^M ')] staged "
+    fi
+
+    printfe "%s" "blue" "[$(git -C ~/dotfiles rev-parse --short HEAD)]"
+    println "" "normal"
+
+    if [[ $(git -C ~/dotfiles status --porcelain) ]]; then
+        # Continue?
+        printfe "%s" "red" "Continue anyway? [y/N] "
+        read -k 1
+
+        if [[ $REPLY != "y" ]]; then
+            println "" "normal"
+            exit 0
+        fi
+        println "" "normal"
+        println "" "normal"
+    fi
+}
+
+update() {
+    ~/dotfiles/bin/actions/update.sh $@
+}
+
+help() {
+    ~/dotfiles/bin/actions/help.sh $@
+}
+
+exports() {
+    ~/dotfiles/bin/actions/export.sh $@
+}
+
+# switch case for parameters
+case $1 in
+    "update")
+        logo
+        update $@
+        ;;
+    "export")
+        logo
+        exports $@
+        ;;
+    "help"|"--help"|"")
+        help $@
+        ;;
+esac

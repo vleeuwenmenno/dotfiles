@@ -1,0 +1,8 @@
+
+All [] are optional parameters. And all <> are required parameters. 
+Usage: dotf [options] [optional parameters]
+
+    update:         Pull latest changes, and update symlinks and configurations.
+    export:         Export dconf, gsettings, and other configurations.
+    help:           Shows this help message
+    

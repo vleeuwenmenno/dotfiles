@@ -3,4 +3,10 @@
 
     "editor.fontFamily": "MesloLGS Nerd Font",
     "terminal.integrated.fontFamily": "MesloLGS Nerd Font",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": false,
+        "scminput": false
+    },
 }
