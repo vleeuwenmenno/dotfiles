@@ -10,4 +10,5 @@
         "scminput": false
     },
     "git.autofetch": true,
+    "workbench.iconTheme": "vscode-icons",
 }

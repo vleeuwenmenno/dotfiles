@@ -19,6 +19,10 @@ printfe "%s\n" "cyan" "Ensuring packages are installed..."
 source ~/dotfiles/bin/helpers/packages.sh
 ensure_packages_installed
 
+printfe "%s\n" "cyan" "Ensuring VSCode extensions are installed..."
+source ~/dotfiles/bin/helpers/vscode-extensions.sh
+ensure_vscode_extensions_installed
+
 printfe "%s\n" "cyan" "Importing Gnome Terminal preferences..."
 cat ~/dotfiles/config/gterminal.preferences | dconf load /org/gnome/terminal/legacy/profiles:/
 

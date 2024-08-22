@@ -55,7 +55,10 @@ ensure_packages_installed() {
     fi
 
     for package in $packages; do
-        if ! command -v $package &> /dev/null; then
+        pkg_status=$(dpkg -s $package 2> /dev/null | grep "Status" | cut -d " " -f 4)
+
+        # If pkg_status is `installed` then we don't need to install the package, otherwise if it's empty then the package is not installed
+        if [ -z $pkg_status ]; then
             printfe "%s" "yellow" "Installing $package..."
             echo -en "\r"
 
