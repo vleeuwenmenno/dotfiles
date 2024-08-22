@@ -19,7 +19,6 @@ plugins=(
     docker
     1password
     ubuntu
-    tmux
     sudo
     screen
     brew
@@ -47,6 +46,7 @@ alias l='lsd -Sl --reverse --human-readable --group-directories-first'
 alias mv='/usr/local/bin/advmv -g'
 alias cp='/usr/local/bin/advcp -g'
 alias ddpul='docker compose down && docker compose pull && docker compose up -d && docker compose logs -f'
+alias cat='bat'
 
 # Tradaware / DiscountOffice
 if [ -d "/home/menno/Projects/Work" ]; then

@@ -160,22 +160,24 @@ check_or_make_symlink() {
     if [ ! -L $1 ]; then
         if [ -f $1 ]; then
             mv $1 $1.bak
-            printfe "%s\n" "yellow" "Backed up $1 to $1.bak"
+            printfe "%s\n" "yellow" "    - Backed up $1 to $1.bak"
         fi
+        mkdir -p $(dirname $1)
         ln -s $2 $1
-        printfe "%s\n" "green" "Created symlink $1 -> $2"
+        printfe "%s\n" "green" "    - Created symlink $1 -> $2"
     fi
 
     # Confirm the symlink that already exists point to the correct location
     if [ -L $1 ]; then
         if [ "$(readlink $1)" != $2 ]; then
-            printfe "%s\n" "yellow" "Symlink $1 exists but points to the wrong location"
-            printfe "%s\n" "yellow" "Expected: $2"
-            printfe "%s\n" "yellow" "Actual: $(readlink $1)"
-            printfe "%s\n" "yellow" "Fixing symlink"
+            printfe "%s\n" "yellow" "    - Symlink $1 exists but points to the wrong location"
+            printfe "%s\n" "yellow" "      Expected: $2"
+            printfe "%s\n" "yellow" "      Actual: $(readlink $1)"
+            printfe "%s\n" "yellow" "      Fixing symlink"
             rm $1
+            mkdir -p $(dirname $1)
             ln -s $2 $1
-            printfe "%s\n" "green" "Created symlink $1 -> $2"
+            printfe "%s\n" "green" "      Created symlink $1 -> $2"
         fi
     fi
 }
