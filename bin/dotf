@@ -18,13 +18,11 @@ logo() {
         printfe "%s" "green" "[$(git -C ~/dotfiles status --porcelain | grep -c '^M ')] staged "
     fi
 
-    printfe "%s" "blue" "[$(git -C ~/dotfiles rev-parse --short HEAD)]"
-    println "" "normal"
-
-    # Check if we have commits to push
+    printfe "%s" "blue" "[$(git -C ~/dotfiles rev-parse --short HEAD)] "
     if [[ $(git -C ~/dotfiles log origin/master..HEAD) ]]; then
-        printfe "%s" "yellow" "[!] You have $(git -C ~/dotfiles log origin/master..HEAD --oneline | wc -l | tr -d ' ') commits to push"
+        printfe "%s" "yellow" "[!] You have $(git -C ~/dotfiles log origin/master..HEAD --oneline | wc -l | tr -d ' ') commit(s) to push"
     fi
+    println "" "normal"
 
     if [[ $continue_eitherway == "continue" ]]; then
         return
