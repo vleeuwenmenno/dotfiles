@@ -44,7 +44,6 @@ elif [[ "$2" == "encrypt" ]]; then
         fi
 
         gpg --quiet --batch --yes --symmetric --cipher-algo AES256 --armor --passphrase="$password" --output $file.gpg $file
-        rm $file
     done
 else
     printfe "%s\n" "red" "Invalid argument. Use 'decrypt' or 'encrypt'"
