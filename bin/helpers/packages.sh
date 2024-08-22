@@ -44,8 +44,6 @@ packages=(
 )
 
 ensure_packages_installed() {
-    ensure_sudo_privileges "In order to install packages, please provide your password:"
-
     # Check if packages array contains duplicates
     if [ $(echo $packages | tr ' ' '\n' | sort | uniq -d | wc -l) -ne 0 ]; then
         printfe "%s\n" "red" "The packages array contains duplicates"
@@ -59,6 +57,8 @@ ensure_packages_installed() {
 
         # If pkg_status is `installed` then we don't need to install the package, otherwise if it's empty then the package is not installed
         if [ -z $pkg_status ]; then
+            ensure_sudo_privileges "In order to install packages, please provide your password:"
+
             printfe "%s" "yellow" "Installing $package..."
             echo -en "\r"
 
