@@ -9,4 +9,5 @@
         "markdown": false,
         "scminput": false
     },
+    "git.autofetch": true,
 }
