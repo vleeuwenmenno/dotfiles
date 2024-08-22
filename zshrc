@@ -49,7 +49,7 @@ alias cp='/usr/local/bin/advcp -g'
 alias ddpul='docker compose down && docker compose pull && docker compose up -d && docker compose logs -f'
 
 # Tradaware / DiscountOffice
-export TRADAWARE_PATH=/Users/menno/Projects/Work/infra
+export TRADAWARE_PATH=/home/menno/Projects/Work
 source $TRADAWARE_PATH/bin/helpers/source.sh
 
 # 1Password SSH Socket (Linux/macOS)
