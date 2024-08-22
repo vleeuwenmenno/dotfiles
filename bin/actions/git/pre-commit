@@ -15,22 +15,20 @@ if [ -n "$unencrypted_files" ]; then
     staged_files=$(git diff --cached --name-only)
     unencrypted_staged_files=""
     for file in $unencrypted_files; do
-        if [[ $staged_files == *$file* ]]; then
+        # Use a more robust check to see if the file is in the staged_files list
+        if echo "$staged_files" | grep -q "^$file$"; then 
             unencrypted_staged_files="$unencrypted_staged_files $file"
         fi
     done
 
-    # If there are unencrypted files staged, print a warning and exit
+    # If any unencrypted files are staged, exit with a non-zero status
     if [ -n "$unencrypted_staged_files" ]; then
-        printfe "%s\n" "red" "Unencrypted files found in .ssh/config.d/ that are staged:"
-        for file in $unencrypted_staged_files; do
-            printfe "%s\n" "yellow" "  - $file"
-        done
-        printfe "%s\n" "red" "Please unstage them before committing."
+        echo ""
+        printfe "%s\n" "red" "Error: Unencrypted files are staged for commit!"
+        printfe "%s\n" "blue" "Use 'dotf secrets encrypt' to encrypt them before committing."
         exit 1
     fi
-    
-    echo ""
-    printfe "%s\n" "blue" "Use 'dotf secrets encrypt' to encrypt them."
-fi
 
+    echo ""
+    printfe "%s\n" "blue" "They are not staged so you're good but be vigilant!"
+fi
