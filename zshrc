@@ -49,9 +49,16 @@ alias cp='/usr/local/bin/advcp -g'
 alias ddpul='docker compose down && docker compose pull && docker compose up -d && docker compose logs -f'
 
 # Tradaware / DiscountOffice
-export TRADAWARE_PATH=/home/menno/Projects/Work
-source $TRADAWARE_PATH/bin/helpers/source.sh
+if [ -d "/home/menno/Projects/Work" ]; then
+    export TRADAWARE_PATH=/home/menno/Projects/Work
+    source $TRADAWARE_PATH/bin/helpers/source.sh
+fi
 
 # 1Password SSH Socket (Linux/macOS)
-export SSH_AUTH_SOCK=~/.1password/agent.sock
-# export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    export SSH_AUTH_SOCK=~/.ssh/1password/agent.sock
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+fi
+
+dotf term
