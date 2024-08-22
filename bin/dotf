@@ -8,6 +8,8 @@ logo() {
     println " " "cyan"
     tput sgr0
 
+    continue_eitherway=$1
+
     # Print if repo is dirty and the count of untracked files, modified files and staged files
     if [[ $(git -C ~/dotfiles status --porcelain) ]]; then
         printfe "%s" "yellow" "dotfiles repo is dirty "
@@ -19,6 +21,9 @@ logo() {
     printfe "%s" "blue" "[$(git -C ~/dotfiles rev-parse --short HEAD)]"
     println "" "normal"
 
+    if [[ $continue_eitherway == "continue" ]]; then
+        return
+    fi
     if [[ $(git -C ~/dotfiles status --porcelain) ]]; then
         # Continue?
         printfe "%s" "red" "Continue anyway? [y/N] "
@@ -31,6 +36,10 @@ logo() {
         println "" "normal"
         println "" "normal"
     fi
+}
+
+status() {
+    ~/dotfiles/bin/actions/status.sh $@
 }
 
 update() {
@@ -50,6 +59,10 @@ case $1 in
     "update")
         logo
         update $@
+        ;;
+    "status")
+        logo continue
+        status $@
         ;;
     "export")
         logo
