@@ -1,2 +1,2 @@
-.ssh/config.d/*
-!.ssh/config.d/*.gpg
+config/ssh/config.d/*
+!config/ssh/config.d/*.gpg
