@@ -1,0 +1,6 @@
+{
+    "security.workspace.trust.untrustedFiles": "open",
+
+    "editor.fontFamily": "MesloLGS Nerd Font",
+    "terminal.integrated.fontFamily": "MesloLGS Nerd Font",
+}
