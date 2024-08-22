@@ -9,6 +9,13 @@ printfe "%s\n" "cyan" "Fetching password from 1Password..."
 echo -en '\r'
 
 output=$(op item get "SSH Config Secrets" --fields password)
+
+# Check if the password was found
+if [[ -z "$output" ]]; then
+    printfe "%s\n" "red" "Password not found in 1Password, add a login item with the name 'SSH Config Secrets' and give it a password."
+    exit 1
+fi
+
 command=$(echo "$output" | grep -oP "(?<=use ').*(?=')")
 password=$(eval $command | grep -oP "(?<=  password:    ).*" | tr -d '\n')
 
