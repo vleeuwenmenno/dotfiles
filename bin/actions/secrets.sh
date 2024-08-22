@@ -26,7 +26,7 @@ if [[ "$2" == "decrypt" ]]; then
 
     for file in ~/.ssh/config.d/*.gpg; do
         filename=$(basename $file .gpg)
-        gpg --quiet --batch --yes --decrypt --passphrase="$password" --output ~/.ssh/config.d/$filename $file
+        gpg --quiet --batch --yes --decrypt --passphrase="$password" --output ~/.ssh/config.d/$filename.conf $file
     done
 elif [[ "$2" == "encrypt" ]]; then
     printfe "%s\n" "cyan" "Encrypting .ssh/config.d/ files..."

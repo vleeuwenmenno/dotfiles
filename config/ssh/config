@@ -1,4 +1,4 @@
 Host *
     IdentityAgent ~/.1password/agent.sock
 
-Include ~/.ssh/config.d/*
+Include ~/.ssh/config.d/*.conf
