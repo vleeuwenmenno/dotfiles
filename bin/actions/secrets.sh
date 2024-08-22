@@ -27,16 +27,20 @@ if [[ "$2" == "decrypt" ]]; then
     for file in ~/.ssh/config.d/*.gpg; do
         filename=$(basename $file .gpg)
         gpg --quiet --batch --yes --decrypt --passphrase="$password" --output ~/.ssh/config.d/$filename $file
-        rm $file
     done
 elif [[ "$2" == "encrypt" ]]; then
     printfe "%s\n" "cyan" "Encrypting .ssh/config.d/ files..."
     echo -en '\r'
 
     for file in ~/.ssh/config.d/*; do
-        # Skip already encrypted files
+        # Skip if current file is a .gpg file
         if [[ $file == *.gpg ]]; then
             continue
+        fi
+
+        # If the file has a accompanying .gpg file, remove it
+        if [[ -f $file.gpg ]]; then
+            rm $file.gpg
         fi
 
         gpg --quiet --batch --yes --symmetric --cipher-algo AES256 --armor --passphrase="$password" --output $file.gpg $file
