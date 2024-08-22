@@ -15,6 +15,12 @@ check_or_make_symlink ~/.zshrc ~/dotfiles/zshrc
 check_or_make_symlink ~/.config/Code/User/settings.json ~/dotfiles/vscode/settings.json
 check_or_make_symlink ~/.config/starship.toml ~/dotfiles/config/starship.toml
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  check_or_make_symlink ~/.gitconfig ~/dotfiles/config/gitconfig.macos
+else
+  check_or_make_symlink ~/.gitconfig ~/dotfiles/config/gitconfig.linux
+fi
+
 printfe "%s\n" "cyan" "Ensuring packages are installed..."
 source ~/dotfiles/bin/helpers/packages.sh
 ensure_packages_installed
