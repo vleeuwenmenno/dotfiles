@@ -5,6 +5,10 @@ apt_packages=(
     "git"
     "curl"
     "wget"
+    "gpg"
+    "ca-certificates"
+    "software-properties-common" 
+    "apt-transport-https"
     "vim"
     "sl"
     "just"
@@ -46,7 +50,6 @@ apt_packages=(
     "1password"
     "1password-cli"
     "spotify-client"
-    "yq"
 )
 
 add_wezterm_repo() {
@@ -151,17 +154,6 @@ add_vscode_repo() {
 }
 
 ensure_repositories() {
-    if [ "$verbose" = true ]; then
-        printfe "%s\n" "cyan" "Installing common dependencies..."
-    fi
-    result=$(sudo apt install wget gpg ca-certificates curl software-properties-common apt-transport-https 2>&1)
-
-    if [ $? -ne 0 ]; then
-        printfe "%s\n" "red" "    - Failed to install common dependencies"
-        printfe "%s\n" "yellow" "$result"
-        exit 1
-    fi
-
     add_wezterm_repo
     add_brave_repo
     add_1password_repo
