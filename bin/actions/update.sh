@@ -25,7 +25,8 @@ else
   check_or_make_symlink ~/.gitconfig ~/dotfiles/config/gitconfig.linux
 fi
 
-check_or_make_symlink ~/.ssh/config ~/dotfiles/ssh/config
+check_or_make_symlink ~/.ssh/config ~/dotfiles/config/ssh/config
+check_or_make_symlink ~/.ssh/config.d ~/dotfiles/config/ssh/config.d
 check_or_make_symlink ~/.wezterm.lua ~/dotfiles/config/wezterm.lua
 
 

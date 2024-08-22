@@ -18,6 +18,31 @@ exports() {
     ~/dotfiles/bin/actions/export.sh $@
 }
 
+secrets() {
+    ~/dotfiles/bin/actions/secrets.sh $@
+}
+
+ensure_git_hooks() {
+    # If .git/hooks is a symlink, skip this
+    if [[ -L .git/hooks ]]; then
+        # Let's make sure the symlink is correct
+        if [[ $(readlink .git/hooks) != ~/dotfiles/bin/actions/git ]]; then
+            printfe "%s\n" "yellow" "The .git/hooks symlink is incorrect. Please remove it and run this script again."
+        fi
+        return
+    fi
+
+    if [[ -d .git/hooks ]]; then
+        rm -rf ~/dotfiles/.git/hooks
+        printfe "%s\n" "yellow" "The ~/dotfiles/.git/hooks directory already exists. We're removing it!"
+    fi
+
+    ln -s ~/dotfiles/bin/actions/git ~/dotfiles/.git/hooks
+    printfe "%s\n" "green" "Git hooks are now set up!"
+}
+
+ensure_git_hooks
+
 # switch case for parameters
 case $1 in
     "update")
@@ -34,6 +59,9 @@ case $1 in
         ;;
     "help"|"--help"|"")
         help $@
+        ;;
+    "secrets")
+        secrets $@
         ;;
     term)
         ~/dotfiles/bin/actions/term.sh $@

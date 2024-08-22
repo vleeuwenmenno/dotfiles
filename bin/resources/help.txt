@@ -5,5 +5,6 @@ Usage: dotf [options] [optional parameters]
     update:         Pull latest changes, and update symlinks and configurations.
     export:         Export dconf, gsettings, and other configurations.
     status:         Show the status of the dotfiles repository.
+    secrets:        Encrypt and decrypt secrets.
     help:           Shows this help message
     

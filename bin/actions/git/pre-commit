@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+source ~/dotfiles/bin/helpers/functions.sh
+
+# Check for unencrypted files in .ssh/config.d/
+unencrypted_files=$(find config/ssh/config.d/ -type f ! -name "*.gpg")
+
+if [ -n "$unencrypted_files" ]; then
+    printfe "%s\n" "red" "Unencrypted files found in .ssh/config.d/:"
+    for file in $(find config/ssh/config.d/ -type f ! -name "*.gpg"); do
+        printfe "%s\n" "yellow" "  - $file"
+    done
+
+    echo ""
+    printfe "%s\n" "blue" "Use 'dotf secrets encrypt' to encrypt them."
+    exit 1
+fi
+
