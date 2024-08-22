@@ -45,3 +45,26 @@ ensure_keyboard_shortcuts() {
 
     gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "${new_bindings_string}"
 }
+
+print_keyboard_shortcuts_status() {
+    printfe "%s" "cyan" "Checking keyboard shortcuts..."
+    echo -en "\r"
+
+    # Retrieve current custom keybindings
+    existing_bindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings | tr -d "[]'")
+    existing_count=$(echo $existing_bindings | tr -cd , | wc -c)
+
+    # Iterate over parsed JSON shortcuts
+    for key_combination in $(echo "$shortcuts" | jq -r 'keys[]'); do
+        command=$(echo "$shortcuts" | jq -r ".[\"$key_combination\"]")
+
+        if [[ ! $existing_bindings =~ "custom${index}" ]]; then
+            printfe "%s\n" "red" "    - Custom shortcut ${key_combination} is missing"
+        fi
+
+        ((index++))
+    done
+
+    json_count=$(echo $shortcuts | jq 'keys | length')
+    printfe "%s\n" "cyan" "Keyboard shortcuts $index/$json_count configured"
+}
