@@ -27,13 +27,13 @@ config.keys = {
     },
     -- Ctrl+s for split horizontal
     {
-        key = 's',
+        key = 'h',
         mods = 'CTRL',
         action = wezterm.action{SplitHorizontal={domain="CurrentPaneDomain"}}
     },
     -- Ctrl+d for split vertical
     {
-        key = 'd',
+        key = 'v',
         mods = 'CTRL',
         action = wezterm.action{SplitVertical={domain="CurrentPaneDomain"}}
     },
