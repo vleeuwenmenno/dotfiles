@@ -6,17 +6,10 @@ source ~/dotfiles/bin/helpers/functions.sh
 unencrypted_files=$(find config/ssh/config.d/ -type f ! -name "*.gpg")
 
 if [ -n "$unencrypted_files" ]; then
-    printfe "%s\n" "red" "Unencrypted files found in .ssh/config.d/:"
-    for file in $(find config/ssh/config.d/ -type f ! -name "*.gpg"); do
-        printfe "%s\n" "yellow" "  - $file"
-    done
-
-    # Check if these files are staged
     staged_files=$(git diff --cached --name-only)
     unencrypted_staged_files=""
     for file in $unencrypted_files; do
-        # Use a more robust check to see if the file is in the staged_files list
-        if echo "$staged_files" | grep -q "^$file$"; then 
+        if [[ $staged_files == *"$file"* ]]; then
             unencrypted_staged_files="$unencrypted_staged_files $file"
         fi
     done

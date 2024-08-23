@@ -61,7 +61,7 @@ config.keys = { -- Ctrl+K for to clear the terminal
 
 -- Use default titlebar instead of the one provided by wezterm
 config.window_frame = {
-    inactive_titlebar_bg = '#353535',
+    inactive_titlebar_bg = '#2b2042',
     active_titlebar_bg = '#2b2042',
     inactive_titlebar_fg = '#cccccc',
     active_titlebar_fg = '#ffffff',
@@ -80,6 +80,8 @@ config.window_frame = {
 config.default_cursor_style = "BlinkingUnderline"
 config.initial_rows = 30
 config.initial_cols = 120
+
+config.color_scheme = 'Galizur'
 
 -- and finally, return the configuration to wezterm
 return config
