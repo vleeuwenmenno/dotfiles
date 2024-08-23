@@ -38,6 +38,9 @@ source $ZSH/oh-my-zsh.sh
 # Activate Starship
 eval "$(starship init zsh)"
 
+# Add ~/.local/bin to PATH
+export PATH=$PATH:$HOME/.local/bin
+
 # Aliases
 alias docker-compose='docker compose'
 alias gg='git pull'
@@ -62,4 +65,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 fi
 
-dotf term
+# Show welcome message, but only if the terminal is interactive
+if [ -t 1 ]; then
+    dotf term
+fi

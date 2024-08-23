@@ -9,7 +9,7 @@ if ! command -v jq &> /dev/null; then
 fi
 
 # Parse JSON file
-shortcuts_file=~/dotfiles/config/keyboard-shortcuts.json
+shortcuts_file=~/dotfiles/gnome/keyboard-shortcuts.json
 if [ ! -f "${shortcuts_file}" ]; then
     echo "Shortcuts file not found: ${shortcuts_file}"
     exit 1
@@ -48,7 +48,7 @@ ensure_keyboard_shortcuts() {
 
 print_keyboard_shortcuts_status() {
     printfe "%s" "cyan" "Checking keyboard shortcuts..."
-    echo -en "\r"
+    clear_line
 
     # Retrieve current custom keybindings
     existing_bindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings | tr -d "[]'")
@@ -66,5 +66,11 @@ print_keyboard_shortcuts_status() {
     done
 
     json_count=$(echo $shortcuts | jq 'keys | length')
-    printfe "%s\n" "cyan" "Keyboard shortcuts $index/$json_count configured"
+    printfe "%s" "cyan" "Keyboard shortcuts"
+    if [ $index -eq $json_count ]; then
+        printfe "%s" "green" " $index/$json_count "
+    else
+        printfe "%s" "red" " $index/$json_count "
+    fi
+    printfe "%s\n" "cyan" "shortcuts installed"
 }

@@ -1,7 +1,0 @@
-{
-  "shortcuts": {
-      "<Primary><Alt>e": "nautilus",
-      "<Primary><Alt>t": "wezterm",
-      "<Shift><Alt>space": "1password --quick-access"
-  }
-}

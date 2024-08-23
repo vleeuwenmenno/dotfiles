@@ -1,33 +1,7 @@
 #!/usr/bin/env zsh
 
 source ~/dotfiles/bin/helpers/functions.sh
-
-flatpak_packages=(
-    "app.drey.Doggo"
-    "org.gnome.Boxes"
-    "org.gnome.baobab"
-    "re.sonny.Junction"
-    "com.yubico.yubioath"
-    "net.nokyan.Resources"
-    "com.system76.Popsicle"
-    "com.github.marhkb.Pods"
-    "org.wezfurlong.wezterm"
-    "io.github.dimtpap.coppwr"
-    "com.github.tchx84.Flatseal"
-    "dev.bragefuglseth.Keypunch"
-    "io.github.flattool.Warehouse"
-    "io.github.jonmagon.kdiskmark"
-    "org.onlyoffice.desktopeditors"
-    "io.missioncenter.MissionCenter"
-    "io.podman_desktop.PodmanDesktop"
-    "io.github.giantpinkrobots.flatsweep"
-    "io.github.realmazharhussain.GdmSettings"
-    "io.github.thetumultuousunicornofdarkness.cpu-x"
-)
-
-flatpak_remotes=(
-    "https://flathub.org/repo/flathub.flatpakrepo"
-)
+source ~/dotfiles/bin/lists/flatpak.sh
 
 ensure_remotes_added() {
     for remote in $flatpak_remotes; do
@@ -46,7 +20,7 @@ ensure_flatpak_packages_installed() {
                 printfe "%s\n" "red" "Failed to install $package: $result"
             fi
 
-            echo -en "\r"
+            clear_line
             printfe "%s\n" "green" "    - $package installed"
         else
             printfe "%s\n" "green" "    - $package is already installed"
@@ -56,7 +30,7 @@ ensure_flatpak_packages_installed() {
 
 print_flatpak_status() {
     printfe "%s" "cyan" "Checking Flatpak packages..."
-    echo -en "\r"
+    clear_line
 
     count=$(echo $flatpak_packages | wc -w)
     installed=0
@@ -71,5 +45,11 @@ print_flatpak_status() {
         fi
     done
 
-    printfe "%s\n" "cyan" "Flatpak $installed/$count packages installed"
+    printfe "%s" "cyan" "Flatpak"
+    if [ $installed -eq $count ]; then
+        printfe "%s" "green" " $installed/$count "
+    else
+        printfe "%s" "red" " $installed/$count "
+    fi
+    printfe "%s\n" "cyan" "packages installed"
 }

@@ -1,56 +1,6 @@
 #!/usr/bin/env zsh
 
-apt_packages=(
-    "zsh"
-    "git"
-    "curl"
-    "wget"
-    "gpg"
-    "ca-certificates"
-    "software-properties-common" 
-    "apt-transport-https"
-    "vim"
-    "sl"
-    "just"
-    "libglvnd-dev"
-    "libwayland-dev"
-    "libseat-dev"
-    "libxkbcommon-dev"
-    "libinput-dev"
-    "udev"
-    "dbus"
-    "libdbus-1-dev"
-    "libsystemd-dev"
-    "libpixman-1-dev"
-    "libssl-dev"
-    "libflatpak-dev"
-    "libpulse-dev"
-    "libexpat1-dev"
-    "libfontconfig-dev"
-    "libfreetype-dev"
-    "mold"
-    "cargo"
-    "libgbm-dev"
-    "libclang-dev"
-    "libpipewire-0.3-dev"
-    "libpam0g-dev"
-    "openssh-server"
-    "build-essential"
-    "flatpak"
-    "meson"
-    "pipx"
-    "python3-nautilus"
-    "gettext"
-    "fzf"
-    "neofetch"
-    "screenfetch"
-    "wezterm"
-    "brave-browser"
-    "code"
-    "1password"
-    "1password-cli"
-    "spotify-client"
-)
+source ~/dotfiles/bin/lists/apt.sh
 
 add_wezterm_repo() {
     # Check if we have a wezterm.list file already, if not then create one
@@ -178,7 +128,7 @@ ensure_apt_packages_installed() {
             ensure_sudo_privileges "In order to install $package, please provide your password:"
 
             printfe "%s" "yellow" "    - Installing $package..."
-            echo -en "\r"
+            clear_line
 
             result=$(sudo apt install -y $package 2>&1)
 
@@ -197,7 +147,7 @@ ensure_apt_packages_installed() {
 
 print_apt_status() {
     printfe "%s" "cyan" "Checking APT packages..."
-    echo -en "\r"
+    clear_line
 
     # count entries in packages
     count=$(echo $apt_packages | wc -w)
@@ -215,5 +165,11 @@ print_apt_status() {
         fi
     done
 
-    printfe "%s\n" "cyan" "APT $installed/$count packages installed"
+    printfe "%s" "cyan" "APT"
+    if [ $installed -eq $count ]; then
+        printfe "%s" "green" " $installed/$count "
+    else
+        printfe "%s" "red" " $installed/$count "
+    fi
+    printfe "%s\n" "cyan" "packages installed"
 }

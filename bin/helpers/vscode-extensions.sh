@@ -35,7 +35,7 @@ ensure_vscode_extensions_installed() {
 
 print_vsc_status() {
     printfe "%s" "cyan" "Checking VSCode extensions..."
-    echo -en "\r"
+    clear_line
 
     load_vscode_extensions
     count_installed_extensions=0
@@ -64,6 +64,13 @@ print_vsc_status() {
         done < <(code --list-extensions)
     fi
 
-    total_extensions=${#extensionList[@]}
-    printfe "%s\n" "cyan" "VSCode $count_installed_extensions/$total_extensions extensions installed"
+    count=${#extensionList[@]}
+
+    printfe "%s" "cyan" "VSCode"
+    if [ $count_installed_extensions -eq $count ]; then
+        printfe "%s" "green" " $count_installed_extensions/$count "
+    else
+        printfe "%s" "red" " $count_installed_extensions/$count "
+    fi
+    printfe "%s\n" "cyan" "extensions installed"
 }

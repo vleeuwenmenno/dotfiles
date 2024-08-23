@@ -181,3 +181,7 @@ check_or_make_symlink() {
         fi
     fi
 }
+
+clear_line() {
+    echo -en "\r"
+}

@@ -1,17 +1,7 @@
 #!/usr/bin/env zsh
 
 source ~/dotfiles/bin/helpers/functions.sh
-
-cargo_packages=(
-    "exa"
-    "lsd"
-    "bat"
-    "starship"
-    "ripgrep"
-    "fd-find"
-    "procs"
-    "bottom"
-)
+source ~/dotfiles/bin/lists/cargo.sh
 
 ensure_cargo_packages_installed() {
     # Check if cargo_packages array contains duplicates
@@ -29,7 +19,7 @@ ensure_cargo_packages_installed() {
         if [ -z $pkg_status ]; then
             ensure_sudo_privileges "In order to install cargo_packages, please provide your password:"
             printfe "%s" "yellow" "    - Installing $package..."
-            echo -en "\r"
+            clear_line
             result=$(cargo install $package 2>&1)
 
             if [ $? -ne 0 ]; then
@@ -45,7 +35,7 @@ ensure_cargo_packages_installed() {
 
 print_cargo_status() {
     printfe "%s" "cyan" "Checking Cargo packages..."
-    echo -en "\r"
+    clear_line
 
     count=$(echo $cargo_packages | wc -w)
     installed=0
@@ -62,5 +52,11 @@ print_cargo_status() {
         fi
     done
 
-    printfe "%s\n" "cyan" "Cargo $installed/$count packages installed"
+    printfe "%s" "cyan" "Cargo"
+    if [ $installed -eq $count ]; then
+        printfe "%s" "green" " $installed/$count "
+    else
+        printfe "%s" "red" " $installed/$count "
+    fi
+    printfe "%s\n" "cyan" "packages installed"
 }
