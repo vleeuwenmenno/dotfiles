@@ -5,39 +5,59 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 config.font = wezterm.font("MesloLGS NF")
+config.mouse_bindings = {{
+    event = {
+        Up = {
+            streak = 1,
+            button = "Left"
+        }
+    },
+    mods = "NONE",
+    action = wezterm.action.Nop
+}}
 
-config.keys = {
-    -- Ctrl+K for to clear the terminal
-    {
-        key = 'k', 
-        mods = 'CTRL', 
-        action = wezterm.action{ClearScrollback = "ScrollbackAndViewport"}
-    },
-    -- Ctrl+T for new tab
-    {
-        key = 't',
-        mods = 'CTRL',
-        action = wezterm.action{SpawnTab="CurrentPaneDomain"}
-    },
-    -- Ctrl+W for close tab
-    {
-        key = 'w',
-        mods = 'CTRL',
-        action = wezterm.action{CloseCurrentTab={confirm=true}}
-    },
-    -- Ctrl+s for split horizontal
-    {
-        key = 'h',
-        mods = 'CTRL',
-        action = wezterm.action{SplitHorizontal={domain="CurrentPaneDomain"}}
-    },
-    -- Ctrl+d for split vertical
-    {
-        key = 'v',
-        mods = 'CTRL',
-        action = wezterm.action{SplitVertical={domain="CurrentPaneDomain"}}
-    },
-}
+config.keys = { -- Ctrl+K for to clear the terminal
+{
+    key = 'k',
+    mods = 'CTRL',
+    action = wezterm.action {
+        ClearScrollback = "ScrollbackAndViewport"
+    }
+}, -- Ctrl+T for new tab
+{
+    key = 't',
+    mods = 'CTRL',
+    action = wezterm.action {
+        SpawnTab = "CurrentPaneDomain"
+    }
+}, -- Ctrl+W for close tab
+{
+    key = 'w',
+    mods = 'CTRL',
+    action = wezterm.action {
+        CloseCurrentTab = {
+            confirm = true
+        }
+    }
+}, -- Ctrl+s for split horizontal
+{
+    key = 'h',
+    mods = 'CTRL',
+    action = wezterm.action {
+        SplitHorizontal = {
+            domain = "CurrentPaneDomain"
+        }
+    }
+}, -- Ctrl+d for split vertical
+{
+    key = 'v',
+    mods = 'CTRL',
+    action = wezterm.action {
+        SplitVertical = {
+            domain = "CurrentPaneDomain"
+        }
+    }
+}}
 
 -- Use default titlebar instead of the one provided by wezterm
 config.window_frame = {
@@ -53,7 +73,7 @@ config.window_frame = {
     button_hover_bg = '#3b3052',
 
     font = require('wezterm').font 'Roboto',
-    font_size = 12,
+    font_size = 12
 }
 
 -- Set the default cursor style to a blinking underscore
