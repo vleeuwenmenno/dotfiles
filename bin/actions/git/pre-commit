@@ -21,7 +21,4 @@ if [ -n "$unencrypted_files" ]; then
         printfe "%s\n" "blue" "Use 'dotf secrets encrypt' to encrypt them before committing."
         exit 1
     fi
-
-    echo ""
-    printfe "%s\n" "blue" "They are not staged so you're good but be vigilant!"
 fi
