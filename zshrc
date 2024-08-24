@@ -52,6 +52,17 @@ alias l='lsd -Sl --reverse --human-readable --group-directories-first'
 alias ddpul='docker compose down && docker compose pull && docker compose up -d && docker compose logs -f'
 alias cat='bat'
 
+# Docker Aliases
+alias d='docker'
+alias dc='docker compose'
+alias dce='docker compose exec'
+alias dcl='docker compose logs'
+alias dcd='docker compose down'
+alias dcu='docker compose up'
+alias dcp='docker compose ps'
+alias dcps='docker compose ps'
+alias dcr='docker compose run'
+
 # Tradaware / DiscountOffice
 if [ -d "/home/menno/Projects/Work" ]; then
     export TRADAWARE_PATH=/home/menno/Projects/Work
