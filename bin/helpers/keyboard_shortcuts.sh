@@ -32,6 +32,23 @@ ensure_keyboard_shortcuts() {
     printfe "%s\n" "green" "    - Setting up swhkd configuration..."
     ensure_swhkd > $HOME/.config/swhkdrc
 
+    # If swhkd is running, kill it
+    if pgrep -x "swhkd" > /dev/null; then
+        printfe "%s\n" "yellow" "    - swhkd is running, killing it..."
+        sudo pkill swhkd
+    fi
+
+    # Same for swhks
+    if pgrep -x "swhks" > /dev/null; then
+        printfe "%s\n" "yellow" "    - swhks is running, killing it..."
+        sudo pkill swhks
+    fi
+
+    # Start swhkd
+    printfe "%s\n" "green" "    - starting swhkd..."
+    printfe "%s\n" "yellow" "      Note: this will likely show a password prompt, please enter your password"
+    dotf hotkey-daemon &> /dev/null
+
     # Retrieve current custom keybindings
     existing_bindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings | tr -d "[]'")
     new_bindings=()
