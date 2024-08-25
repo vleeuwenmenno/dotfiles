@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
-source ~/dotfiles/bin/lists/pipx.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 ensure_pipx_packages_installed() {
+    pipx_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.pipx))
     for i in "${pipx_packages[@]}";
     do
         printfe "%s" "cyan" "    - Fetching package details for $i"
@@ -31,6 +31,7 @@ print_pipx_status() {
     printfe "%s" "cyan" "Checking pipx packages..."
     clear_line
 
+    pipx_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.pipx))
     count=$(echo $pipx_packages | wc -w)
     installed=0
 

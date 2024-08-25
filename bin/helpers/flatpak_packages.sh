@@ -1,9 +1,10 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
-source ~/dotfiles/bin/lists/flatpak.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 ensure_remotes_added() {
+    flatpak_remotes=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.flatpak.remotes))
+
     for remote in $flatpak_remotes; do
         printfe "%s\n" "green" "    - Ensuring remote $remote"
         flatpak remote-add --if-not-exists flathub $remote
@@ -11,6 +12,7 @@ ensure_remotes_added() {
 }
 
 ensure_flatpak_packages_installed() {
+    flatpak_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.flatpak.apps))
     for package in $flatpak_packages; do
         if ! flatpak list | grep -q $package; then
             printfe "%s" "yellow" "    - Installing $package"
@@ -31,6 +33,8 @@ ensure_flatpak_packages_installed() {
 print_flatpak_status() {
     printfe "%s" "cyan" "Checking Flatpak packages..."
     clear_line
+
+    flatpak_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.flatpak.apps))
 
     count=$(echo $flatpak_packages | wc -w)
     installed=0

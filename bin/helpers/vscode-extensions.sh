@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 load_vscode_extensions() {
     # Clear the array before populating it

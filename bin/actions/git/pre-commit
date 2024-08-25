@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 # Check for unencrypted files in .ssh/config.d/
 unencrypted_files=$(find config/ssh/config.d/ -type f ! -name "*.gpg")

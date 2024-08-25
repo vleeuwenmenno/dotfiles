@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 printfe "%s\n" "cyan" "Exporting GNOME extensions"
-source ~/dotfiles/bin/helpers/gnome_extensions.sh
+source $HOME/dotfiles/bin/helpers/gnome_extensions.sh
 export_gnome_extensions
 
 printfe "%s\n" "cyan" "Exporting VSCode extensions"

@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
-source ~/dotfiles/bin/lists/fonts.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 install_font() {
     font_url="$1"
@@ -53,8 +52,13 @@ install_font() {
 }
 
 ensure_fonts_installed() {
+    # Load fonts from cat $DOTFILES_CONFIG | shyaml keys config.fonts
+    fonts=($(cat $DOTFILES_CONFIG | shyaml keys config.fonts))
+
     for font in "${fonts[@]}"; do
-        install_font $(echo $font | awk '{print $1}') $(echo $font | awk '{print $2}')
+        name=$(cat $DOTFILES_CONFIG | shyaml get-value config.fonts.$font.name)
+        url=$(cat $DOTFILES_CONFIG | shyaml get-value config.fonts.$font.url)
+        install_font $url $name
     done
 }
 
@@ -67,6 +71,7 @@ print_fonts_status() {
 
     mkdir -p $font_dir
 
+    fonts=($(cat $DOTFILES_CONFIG | shyaml keys config.fonts))
     total_fonts=0
     installed_fonts=0
 

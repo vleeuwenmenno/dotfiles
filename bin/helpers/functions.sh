@@ -8,7 +8,7 @@ println() {
 
 logo() {
     tput setaf 2
-    cat ~/dotfiles/bin/resources/logo.txt
+    cat $HOME/dotfiles/bin/resources/logo.txt
     println " " "cyan"
     tput sgr0
 

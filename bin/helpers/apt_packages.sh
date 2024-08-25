@@ -1,25 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/lists/apt.sh
-
-add_wezterm_repo() {
-    # Check if we have a wezterm.list file already, if not then create one
-    if [ ! -f /etc/apt/sources.list.d/wezterm.list ]; then
-        curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
-        echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
-        result=$(sudo apt update 2>&1)
-
-        if [ $? -ne 0 ]; then
-            printfe "%s\n" "red" "    - Failed to add Wezterm repository"
-            printfe "%s\n" "yellow" "$result"
-            exit 1
-        fi
-
-        printfe "%s\n" "yellow" "    - Added Wezterm repository"
-    else
-        printfe "%s\n" "green" "    - Wezterm repository already added"
-    fi
-}
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 add_brave_repo() {
     # Check if we have a brave-browser-release.list file already, if not then create one
@@ -104,14 +85,38 @@ add_vscode_repo() {
 }
 
 ensure_repositories() {
-    add_wezterm_repo
     add_brave_repo
     add_1password_repo
     add_spotify_repo
     add_vscode_repo
-}
 
+    repos=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.apt.repos))
+    for repo in $repos; do
+        repo_name=$(echo $repo | cut -d ":" -f 2)
+
+        # Go through sources.list.d and check if there's a file containing part of URIs: https://ppa.launchpad.net/$repo_name
+        # We have to check the files not the file names since the file names are not always the same as the repo_name
+        result=$(grep -r "$repo_name" /etc/apt/sources.list.d/*)
+        if [ -z "$result" ]; then
+            printfe "%s\n" "yellow" "    - Adding $repo_name repository..."
+            clear_line
+
+            sudo add-apt-repository -y $repo
+
+            if [ $? -ne 0 ]; then
+                printfe "%s\n" "red" "    - Failed to add $repo_name repository"
+                exit 1
+            else
+                printfe "%s\n" "green" "    - $repo_name repository added successfully"
+            fi
+        else
+            printfe "%s\n" "green" "    - $repo_name repository already added"
+        fi
+    done
+}
 ensure_apt_packages_installed() {
+    apt_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.apt.apps))
+
     # Check if apt_packages array contains duplicates
     if [ $(echo $apt_packages | tr ' ' '\n' | sort | uniq -d | wc -l) -ne 0 ]; then
         printfe "%s\n" "red" "The apt_packages array contains duplicates"
@@ -149,6 +154,8 @@ print_apt_status() {
     printfe "%s" "cyan" "Checking APT packages..."
     clear_line
 
+    apt_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.apt.apps))
+    
     # count entries in packages
     count=$(echo $apt_packages | wc -w)
     installed=0

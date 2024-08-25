@@ -1,8 +1,8 @@
 {
     "security.workspace.trust.untrustedFiles": "open",
-
-    "editor.fontFamily": "MesloLGS NF",
-    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "window.zoomLevel": 0.5,
+    "editor.fontFamily": "Hack Nerd Font",
+    "terminal.integrated.fontFamily": "Hack Nerd Font",
     "github.copilot.enable": {
         "*": true,
         "plaintext": true,

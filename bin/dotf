@@ -1,32 +1,33 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
+export DOTFILES_CONFIG=$HOME/dotfiles/config/config.yaml
 
 status() {
-    ~/dotfiles/bin/actions/status.sh $@
+    $HOME/dotfiles/bin/actions/status.sh $@
 }
 
 update() {
-    ~/dotfiles/bin/actions/update.sh $@
+    $HOME/dotfiles/bin/actions/update.sh $@
 }
 
 help() {
-    ~/dotfiles/bin/actions/help.sh $@
+    $HOME/dotfiles/bin/actions/help.sh $@
 }
 
 exports() {
-    ~/dotfiles/bin/actions/export.sh $@
+    $HOME/dotfiles/bin/actions/export.sh $@
 }
 
 secrets() {
-    ~/dotfiles/bin/actions/secrets.sh $@
+    $HOME/dotfiles/bin/actions/secrets.sh $@
 }
 
 ensure_git_hooks() {
     # If ~/dotfiles/.git/hooks is a symlink, skip this
     if [[ -L ~/dotfiles/.git/hooks ]]; then
         # Let's make sure the symlink is correct
-        if [[ $(readlink ~/dotfiles/.git/hooks) != ~/dotfiles/bin/actions/git ]]; then
+        if [[ $(readlink ~/dotfiles/.git/hooks) != $HOME/dotfiles/bin/actions/git ]]; then
             printfe "%s\n" "yellow" "The ~/dotfiles/.git/hooks symlink is incorrect. Please remove it and run this script again."
         fi
         return
@@ -37,7 +38,7 @@ ensure_git_hooks() {
         printfe "%s\n" "yellow" "The ~/dotfiles/.git/hooks directory already exists. We're removing it!"
     fi
 
-    ln -s ~/dotfiles/bin/actions/git ~/dotfiles/.git/hooks
+    ln -s $HOME/dotfiles/bin/actions/git ~/dotfiles/.git/hooks
     printfe "%s\n" "green" "Git hooks are now set up!"
 }
 
@@ -64,7 +65,10 @@ case $1 in
         secrets $@
         ;;
     term)
-        ~/dotfiles/bin/actions/term.sh $@
+        $HOME/dotfiles/bin/actions/term.sh $@
+        ;;
+    hotkey-daemon)
+        bash -c "swhks & pkexec swhkd -c ~/dotfiles/config/swhkd/swhkdrc" &
         ;;
     *)
         printfe "%s\n" "red" "Unknown command $1"

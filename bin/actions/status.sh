@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
-source ~/dotfiles/bin/helpers/keyboard_shortcuts.sh
-source ~/dotfiles/bin/helpers/apt_packages.sh
-source ~/dotfiles/bin/helpers/pipx_packages.sh
-source ~/dotfiles/bin/helpers/cargo_packages.sh
-source ~/dotfiles/bin/helpers/flatpak_packages.sh
-source ~/dotfiles/bin/helpers/vscode-extensions.sh
-source ~/dotfiles/bin/helpers/fonts.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
+source $HOME/dotfiles/bin/helpers/keyboard_shortcuts.sh
+source $HOME/dotfiles/bin/helpers/apt_packages.sh
+source $HOME/dotfiles/bin/helpers/pipx_packages.sh
+source $HOME/dotfiles/bin/helpers/cargo_packages.sh
+source $HOME/dotfiles/bin/helpers/flatpak_packages.sh
+source $HOME/dotfiles/bin/helpers/vscode-extensions.sh
+source $HOME/dotfiles/bin/helpers/fonts.sh
 
 # Check if parameter --verbose was passed
 if [ "$2" = "--verbose" ]; then

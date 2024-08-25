@@ -1,8 +1,13 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 ensure_gnome_extensions_installed() {
+    if ! command -v gnome-extensions &> /dev/null; then
+        printfe "%s\n" "red" "    - gnome-extensions command not found, likely not running GNOME."
+        return
+    fi
+
     printfe "%s" "cyan" "  - Loading GNOME extension json file..."
     echo -en '\r'
 

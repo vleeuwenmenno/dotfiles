@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/dotfiles/bin/helpers/functions.sh
+source $HOME/dotfiles/bin/helpers/functions.sh
 
 # Ensure jq is installed
 if ! command -v jq &> /dev/null; then
@@ -17,7 +17,21 @@ fi
 
 shortcuts=$(jq -r '.shortcuts' "${shortcuts_file}")
 
+ensure_swhkd() {
+    shortcuts_keys=($(cat "$DOTFILES_CONFIG" | shyaml keys config.keybinds))
+    for key in "${shortcuts_keys[@]}"; do
+        shortcut=$(cat "$DOTFILES_CONFIG" | shyaml get-value config.keybinds.$key.shortcut)
+        command=$(cat "$DOTFILES_CONFIG" | shyaml get-value config.keybinds.$key.command)
+        echo "$shortcut"
+        echo "  $command"
+        echo
+    done
+}
+
 ensure_keyboard_shortcuts() {
+    printfe "%s\n" "green" "    - Setting up swhkd configuration..."
+    ensure_swhkd > $HOME/dotfiles/config/swhkd/swhkdrc
+
     # Retrieve current custom keybindings
     existing_bindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings | tr -d "[]'")
     new_bindings=()

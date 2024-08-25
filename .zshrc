@@ -1,5 +1,3 @@
-export PATH=$PATH:~/dotfiles/bin
-
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
@@ -34,12 +32,24 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
-# Activate Starship
 eval "$(starship init zsh)"
+
+#####################
+# PATH Manipulation #
+#####################
 
 # Add ~/.local/bin to PATH
 export PATH=$PATH:$HOME/.local/bin
+
+# Add ~/.cargo/bin to PATH
+export PATH=$PATH:$HOME/.cargo/bin
+
+# Add dotfiles bin to PATH
+export PATH=$PATH:$HOME/dotfiles/bin
+
+#####################
+# Alias Definitions #
+#####################
 
 # Aliases
 alias docker-compose='docker compose'
@@ -63,6 +73,18 @@ alias dcp='docker compose ps'
 alias dcps='docker compose ps'
 alias dcr='docker compose run'
 
+# Hotkeys daemon
+alias hk='dotf hotkey-daemon'
+
+# Alias for ls to l but only if it's a interactive shell because we don't want to override ls in scripts which could blow up in our face
+if [ -t 1 ]; then
+    alias ls='l'
+fi
+
+######################
+# Export Definitions #
+######################
+
 # Tradaware / DiscountOffice
 if [ -d "/home/menno/Projects/Work" ]; then
     export TRADAWARE_PATH=/home/menno/Projects/Work
@@ -75,6 +97,10 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 fi
+
+#####################
+# End of the line...#
+#####################
 
 # Show welcome message, but only if the terminal is interactive
 if [ -t 1 ]; then

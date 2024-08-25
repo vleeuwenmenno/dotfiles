@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+# In case we run Pop!_OS let's use `cosmic-screenshot --interactive`, otherwise default to `flameshot gui`
+if [[ -x "$(command -v cosmic-screenshot)" ]]; then
+  cosmic-screenshot --interactive
+else
+  flameshot gui
+fi
