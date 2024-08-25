@@ -110,6 +110,13 @@ aptpkgs() {
 }
 
 pipxpkgs() {
+  printfe "%s\n" "cyan" "Ensuring pyenv is installed..."
+  if [ ! -d "$HOME/.pyenv" ]; then
+    curl https://pyenv.run | bash
+  else
+    printfe "%s\n" "green" "    - pyenv is already installed"
+  fi
+
   printfe "%s\n" "cyan" "Ensuring pipx packages are installed..."
   source $HOME/dotfiles/bin/helpers/pipx_packages.sh
   ensure_pipx_packages_installed

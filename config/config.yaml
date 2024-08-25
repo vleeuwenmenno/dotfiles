@@ -148,3 +148,11 @@ config:
         - spotify-client
         - flameshot
         - cmake
+        - libsqlite3-dev
+        - libudev-dev
+        - libncursesw5-dev
+        - libgdbm-dev
+        - libc6-dev
+        - libbz2-dev
+        - libffi-dev
+        - tk-dev
