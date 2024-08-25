@@ -10,6 +10,12 @@ else
   export verbose=false
 fi
 
+# Check if we have shyaml since that's required for the script to function
+if [ ! -x "$(command -v shyaml)" ]; then
+  printfe "%s\n" "red" "shyaml is not installed, installing it..."
+  pipx install shyaml
+fi
+
 pull_dotfiles() {
   ####################################################################################################
   # Pull latest dotfiles
