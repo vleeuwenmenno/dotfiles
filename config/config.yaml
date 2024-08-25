@@ -65,6 +65,7 @@ config:
         - io.github.realmazharhussain.GdmSettings
         - io.github.thetumultuousunicornofdarkness.cpu-x
         - io.github.kukuruzka165.materialgram
+        - net.davidotek.pupgui2
 
     # Supply a git_url and binary to install from source
     cargo:
