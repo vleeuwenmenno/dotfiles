@@ -30,7 +30,7 @@ ensure_swhkd() {
 
 ensure_keyboard_shortcuts() {
     printfe "%s\n" "green" "    - Setting up swhkd configuration..."
-    ensure_swhkd > $HOME/dotfiles/config/swhkd/swhkdrc
+    ensure_swhkd > $HOME/.config/swhkdrc
 
     # Retrieve current custom keybindings
     existing_bindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings | tr -d "[]'")

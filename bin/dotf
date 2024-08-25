@@ -68,7 +68,7 @@ case $1 in
         $HOME/dotfiles/bin/actions/term.sh $@
         ;;
     hotkey-daemon)
-        bash -c "swhks & pkexec swhkd -c ~/dotfiles/config/swhkd/swhkdrc" &
+        bash -c "swhks & pkexec swhkd -c ~/.config/swhkdrc" &
         ;;
     *)
         printfe "%s\n" "red" "Unknown command $1"

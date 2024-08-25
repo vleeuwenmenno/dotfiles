@@ -15,6 +15,9 @@ config:
     screenshot:
       shortcut: Shift + Alt + 4
       command: cosmic-screenshot --interactive
+    missioncenter:
+      shortcut: Ctrl + Shift + Escape
+      command: flatpak run io.missioncenter.MissionCenter
   
   # Commands to run after login
   startup:
