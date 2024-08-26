@@ -95,9 +95,6 @@ config:
 
     apt:
       repos:
-        - ppa:nilarimogard/webupd8
-        - ppa:alexlarsson/flatpak
-
       apps:
         - zsh
         - git

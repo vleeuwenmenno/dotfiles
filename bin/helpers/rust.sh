@@ -21,6 +21,7 @@ ensure_rust_installed() {
             printfe "%s\n" "red" "Failed to install Rust"
             exit 1
         fi
+        rustup default stable
 
         printfe "%s\n" "green" "    - Rust installed successfully"
     fi
