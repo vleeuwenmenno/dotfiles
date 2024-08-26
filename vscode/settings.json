@@ -17,4 +17,5 @@
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
+    "git.openRepositoryInParentFolders": "never",
 }
