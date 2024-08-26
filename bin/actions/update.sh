@@ -150,6 +150,10 @@ tailscalecmd() {
 }
 
 extensions() {
+  printfe "%s\n" "cyan" "Ensuring Oh My Zsh is installed..."
+  source $HOME/dotfiles/bin/helpers/ohmyzsh.sh
+  ensure_ohmyzsh_installed
+
   printfe "%s\n" "cyan" "Ensuring GNOME Extensions are installed..."
   source $HOME/dotfiles/bin/helpers/gnome_extensions.sh
   ensure_gnome_extensions_installed
