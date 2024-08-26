@@ -220,8 +220,8 @@ if [ "$#" -eq 0 ]; then
   groups
   symlinks
   sys_packages
-  cargopkgs
   aptpkgs
+  cargopkgs
   pipxpkgs
   flatpakpkgs
   dockercmd
