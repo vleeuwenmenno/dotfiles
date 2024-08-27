@@ -19,18 +19,19 @@ shortcuts=$(jq -r '.shortcuts' "${shortcuts_file}")
 
 ensure_swhkd() {
     shortcuts_keys=($(cat "$DOTFILES_CONFIG" | shyaml keys config.keybinds))
+    file_contents=""
     for key in "${shortcuts_keys[@]}"; do
         shortcut=$(cat "$DOTFILES_CONFIG" | shyaml get-value config.keybinds.$key.shortcut)
         command=$(cat "$DOTFILES_CONFIG" | shyaml get-value config.keybinds.$key.command)
-        echo "$shortcut"
-        echo "  $command"
-        echo
+        file_contents="${file_contents}\n${shortcut}\n    ${command}\n\n"
+        printfe "%s\n" "green" "    - Ensuring swhkd shortcut ${shortcut} command ${command}"
     done
+    echo -e "${file_contents}" > $HOME/.config/swhkdrc
 }
 
 ensure_keyboard_shortcuts() {
     printfe "%s\n" "green" "    - Setting up swhkd configuration..."
-    ensure_swhkd > $HOME/.config/swhkdrc
+    ensure_swhkd
 
     # If swhkd is running, kill it
     if pgrep -x "swhkd" > /dev/null; then
@@ -49,6 +50,12 @@ ensure_keyboard_shortcuts() {
     printfe "%s\n" "yellow" "      Note: this will likely show a password prompt, please enter your password"
     dotf hotkey-daemon &> /dev/null
 
+    # Check if this is gnome DESKTOP_SESSION is gnome, if not we can stop here
+    # The next part is just for setting up custom shortcuts in GNOME
+    if [ "$XDG_CURRENT_DESKTOP" != "GNOME" ]; then
+        return
+    fi
+
     # Retrieve current custom keybindings
     existing_bindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings | tr -d "[]'")
     new_bindings=()
@@ -58,7 +65,7 @@ ensure_keyboard_shortcuts() {
     for key_combination in $(echo "$shortcuts" | jq -r 'keys[]'); do
         command=$(echo "$shortcuts" | jq -r ".[\"$key_combination\"]")
 
-        printfe '%s\n' "green" "    - Ensuring custom shortcut ${key_combination} command ${command}"
+        printfe '%s\n' "green" "    - Ensuring GNOME shortcut ${key_combination} command ${command}"
 
         custom_binding="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${index}/"
         new_bindings+=("$custom_binding")
