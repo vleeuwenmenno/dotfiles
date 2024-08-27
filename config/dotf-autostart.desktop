@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Startup Script
-Exec=~/dotfiles/bin/actions/startup.sh
+Exec=/home/menno/dotfiles/bin/actions/startup-runner.sh
 X-GNOME-Autostart-enabled=true
 NoDisplay=false
 Comment=Run startup script when logging into Cinnamon

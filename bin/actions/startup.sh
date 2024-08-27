@@ -11,6 +11,24 @@ countdown() {
 }
 
 run_startup_scripts() {
+    logo continue
+    echo ""
+    local time_of_day
+    # Time of day (morning, afternoon, evening, night)
+    case $(date +%H) in
+        0[0-9]|1[0-1])
+            time_of_day="morning"
+            ;;
+        1[2-7])
+            time_of_day="afternoon"
+            ;;
+        1[8-9]|2[0-3])
+            time_of_day="evening"
+            ;;
+    esac
+    printfe "%s" "cyan" "Welcome and good $time_of_day $(whoami)!"
+    echo ""
+
     # Initialize array to hold commands
     local startup_commands=()
     
@@ -37,9 +55,24 @@ run_startup_scripts() {
         printfe "%s" "green" "'... ("
         printfe "%s" "blue" "$command"
         printfe "%s\n" "green" ")"
+
+        # Check if a screen with the same name already exists, if so log it and don't run the command
+        if screen -list | grep -q $command_key; then
+            printfe "%s" "red" "    - Screen session already exists: "
+            printfe "%s" "blue" "$command_key"
+            printfe "%s\n" "red" ""
+            continue
+        fi
         
         # Run the command in a new screen session named after the command_key
         screen -dmS $command_key zsh -c "eval $command"
+
+        # Check if command is ok, if not log that it failed
+        if [ $? -ne 0 ]; then
+            printfe "%s" "red" "    - Command failed: "
+            printfe "%s" "blue" "$command"
+            printfe "%s\n" "red" ""
+        fi
 
         # Wait for the delay between commands
         sleep $(echo "scale=2; $delay_between_ms / 1000" | bc)

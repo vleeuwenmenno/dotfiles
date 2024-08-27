@@ -79,7 +79,7 @@ config:
   
   # Commands to run after login
   startup:
-    delay: 5
+    delay: 1
     delay_between_ms: 500
     commands:
       1password: 1password
