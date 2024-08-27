@@ -72,10 +72,14 @@ case $1 in
     "secrets")
         secrets $@
         ;;
-    term)
+    "startup")
+        # Run $HOME/dotfiles/bin/actions/startup.sh $@ in a new terminal window (Use the default terminal emulator x-terminal-emulator) (Ensure the terminal closes after the script is done)
+        x-terminal-emulator -e $HOME/dotfiles/bin/actions/startup.sh $@
+        ;;
+    "term")
         $HOME/dotfiles/bin/actions/term.sh $@
         ;;
-    hotkey-daemon)
+    "hotkey-daemon")
         bash -c "swhks & pkexec swhkd -c ~/.config/swhkdrc" &
         ;;
     *)

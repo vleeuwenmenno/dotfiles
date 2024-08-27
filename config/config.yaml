@@ -49,6 +49,11 @@ config:
       source: ~/dotfiles/config/alacritty.toml
       target: ~/.config/alacritty/alacritty.toml
 
+    # Autostart desktop file
+    autostart:
+      source: ~/dotfiles/config/dotf-autostart.desktop
+      target: ~/.config/autostart/dotf-autostart.desktop
+
   # What groups users should be added
   user_groups:
     menno:
@@ -74,13 +79,18 @@ config:
   
   # Commands to run after login
   startup:
-    - spotify
-    - vesktop
-    - dotf hotkey-daemon
-    - brave-browser
-    - steam
-    - 1password
-    - flatpak run org.telegram.desktop
+    delay: 5
+    delay_between_ms: 500
+    commands:
+      1password: 1password
+      hotkey-deamon: dotf hotkey-daemon
+      # Might want to run steam in flatpak at some point: flatpak run com.valvesoftware.Steam
+      # Not possible at this point due to avorion needing workshop mods symlinked
+      steam: steam
+      trayscale: flatpak run dev.deedles.Trayscale
+      spotify: flatpak run com.spotify.Client
+      vesktop: flatpak run dev.vencord.Vesktop
+      telegram: flatpak run org.telegram.desktop
   
   # Fonts to install (Mostly tested with Nerd Fonts)
   fonts:

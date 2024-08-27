@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Startup Script
+Exec=~/dotfiles/bin/actions/startup.sh
+X-GNOME-Autostart-enabled=true
+NoDisplay=false
+Comment=Run startup script when logging into Cinnamon
