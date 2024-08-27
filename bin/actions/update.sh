@@ -70,6 +70,11 @@ ensure_symlink() {
     source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.source) &>/dev/null
   fi
 
+  # If this is still empty, last attempt, let's try use the hostname of the machine
+  if [ -z "$source" ]; then
+    source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.sources.$(hostname)) &>/dev/null
+  fi
+
   # If this is still empty, we can't continue and should throw up an error
   if [ -z "$source" ]; then
     printfe "%s\n" "red" "    - No valid source defined for $1"
@@ -77,6 +82,22 @@ ensure_symlink() {
   fi
   
   check_or_make_symlink $source $target
+
+  # Let's check if there was a chmod defined for the symlink
+  chmod=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.chmod 2>/dev/null)
+
+  if [ -n "$chmod" ]; then
+    # Let's see if the current target has the correct chmod
+    current_chmod=$(stat -c %a $target)
+    if [ "$current_chmod" != "$chmod" ]; then
+      printfe "%s" "yellow" "    - Changing chmod of $target to $chmod"
+      # Replace ~ with $HOME in target
+      target=$(echo $target | sed "s|~|$HOME|g")      
+      chmod $chmod $target
+    else
+      return
+    fi
+  fi
 }
 
 symlinks() {

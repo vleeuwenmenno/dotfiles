@@ -17,6 +17,14 @@ config:
       source: ~/dotfiles/config/ssh/config.d
       target: ~/.ssh/config.d
 
+    ssh_authorized_keys:
+      sources:
+        mennos-laptop: ~/dotfiles/config/ssh/authorized_keys/mennos-laptop
+        mennos-desktop: ~/dotfiles/config/ssh/authorized_keys/mennos-desktop
+        homeserver-pc: ~/dotfiles/config/ssh/authorized_keys/homeserver-pc
+      target: ~/.ssh/authorized_keys
+      chmod: 600
+
     # Zshrc
     zshrc:
       source: ~/dotfiles/.zshrc
@@ -56,7 +64,7 @@ config:
       command: alacritty
     screenshot:
       shortcut: Shift + Alt + 4
-      command: cosmic-screenshot --interactive
+      command: flameshot gui
     missioncenter:
       shortcut: Ctrl + Shift + Escape
       command: flatpak run io.missioncenter.MissionCenter
@@ -122,10 +130,10 @@ config:
       fd-find:
       procs:
       bottom:
-      swhkd:
+      Simple-Wayland-HotKey-Daemon:
         git_url: https://github.com/waycrate/swhkd.git
         binary: Simple-Wayland-HotKey-Daemon
-      swhkd:
+      swhks:
         git_url: https://github.com/waycrate/swhkd.git
         binary: swhks
 
@@ -151,7 +159,6 @@ config:
         - vim
         - sl
         - jq
-#        - just
         - libglvnd-dev
         - libwayland-dev
         - libseat-dev
