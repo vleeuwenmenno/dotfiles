@@ -2,28 +2,19 @@
 
 source $HOME/dotfiles/bin/helpers/functions.sh
 
-ensure_remotes_added() {
-    flatpak_remotes=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.flatpak.remotes))
-
-    for remote in $flatpak_remotes; do
-        printfe "%s\n" "green" "    - Ensuring remote $remote"
-        flatpak remote-add --if-not-exists flathub $remote
-    done
-}
-
 ensure_flatpak_packages_installed() {
-    flatpak_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.flatpak.apps))
+    flatpak_packages=($(ls $HOME/dotfiles/config/flatpaks/ | sed 's/.flatpakref//g'))
+
     for package in $flatpak_packages; do
         if ! flatpak list | grep -q $package; then
-            printfe "%s" "yellow" "    - Installing $package"
-            result=$(flatpak install --user -y flathub $package 2>&1)
+            printfe "%s\n" "cyan" "    - Installing $package..."
+            flatpak install -y flathub $package
 
-            if [ $? -ne 0 ]; then
-                printfe "%s\n" "red" "Failed to install $package: $result"
+            if [ $? -eq 0 ]; then
+                printfe "%s\n" "green" "    - $package installed successfully"
+            else
+                printfe "%s\n" "red" "    - $package failed to install"
             fi
-
-            clear_line
-            printfe "%s\n" "green" "    - $package installed"
         else
             printfe "%s\n" "green" "    - $package is already installed"
         fi
@@ -34,7 +25,7 @@ print_flatpak_status() {
     printfe "%s" "cyan" "Checking Flatpak packages..."
     clear_line
 
-    flatpak_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.flatpak.apps))
+    flatpak_packages=($(ls $HOME/dotfiles/config/flatpaks/ | sed 's/.flatpakref//g'))
 
     count=$(echo $flatpak_packages | wc -w)
     installed=0

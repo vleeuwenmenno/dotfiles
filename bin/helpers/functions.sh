@@ -151,42 +151,44 @@ add_to_hosts() {
     fi
 }
 
-# Function to check if $1 is a path to a symlink, if not it will make a symlink to $2
-# In case there's a file at the location of the symlink, it will backup the file
-# Parameters
-# $1: file to check
-# $2: link location
+resolve_path() {
+    echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
+}
+
 check_or_make_symlink() {
-    SOURCE=$1
-    TARGET=$2
+    SOURCE="$1"
+    TARGET="$2"
 
     # Take any ~ and replace it with $HOME
-    SOURCE=$(echo $SOURCE | sed "s|~|$HOME|g")
-    TARGET=$(echo $TARGET | sed "s|~|$HOME|g")
-    
+    SOURCE="${SOURCE/#\~/$HOME}"
+    TARGET="${TARGET/#\~/$HOME}"
+
+    SOURCE=$(resolve_path "$SOURCE")
+    TARGET=$(resolve_path "$TARGET")
+
     # If target is already a symlink, we should check if it points to the correct location
-    if [ -L $TARGET ]; then
-        if [ "$(readlink $TARGET)" != "$SOURCE" ]; then
+    if [ -L "$TARGET" ]; then
+        if [ "$(readlink "$TARGET")" != "$SOURCE" ]; then
             printfe "%s\n" "yellow" "    - Symlink $TARGET exists but points to the wrong location"
             printfe "%s\n" "yellow" "      Expected: $SOURCE"
-            printfe "%s\n" "yellow" "      Actual: $(readlink $TARGET)"
+            printfe "%s\n" "yellow" "      Actual: $(readlink "$TARGET")"
             printfe "%s\n" "yellow" "      Fixing symlink"
-            rm $TARGET
-            mkdir -p $(dirname $TARGET)
-            ln -s $SOURCE $TARGET
+            rm "$TARGET"
+            mkdir -p "$(dirname "$TARGET")"
+            ln -s "$SOURCE" "$TARGET"
             printfe "%s\n" "green" "      Created symlink $TARGET -> $SOURCE"
             return
         fi
     fi
 
     # If target is a file and it's not a symlink, we should back it up
-    if [ -f $TARGET ] && [ ! -L $TARGET ]; then
+    if [ -f "$TARGET" ] && [ ! -L "$TARGET" ]; then
         printfe "%s\n" "yellow" "    - File $TARGET exists, backing up and creating symlink"
-        mv $TARGET $TARGET.bak
+        mv "$TARGET" "$TARGET.bak"
     fi
 
     # If the target is already a symlink, and it points to the correct location, we should return and be happy
-    if [ -L $TARGET ]; then
+    if [ -L "$TARGET" ]; then
         printfe "%s" "green" "    - OK: "
         printfe "%-30s" "blue" "$SOURCE"
         printfe "%s" "cyan" " -> "
@@ -195,11 +197,11 @@ check_or_make_symlink() {
     fi
 
     # Create the symlink
-    mkdir -p $(dirname $TARGET)
-    ln -s $SOURCE $TARGET
+    mkdir -p "$(dirname "$TARGET")"
+    ln -s "$SOURCE" "$TARGET"
 
     # Check if the symlink was created successfully
-    if [ ! -L $TARGET ]; then
+    if [ ! -L "$TARGET" ]; then
         printfe "%s\n" "red" "    - Failed to create symlink $TARGET -> $SOURCE"
         return
     fi

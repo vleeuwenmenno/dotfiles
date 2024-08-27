@@ -55,47 +55,51 @@ groups() {
 }
 
 ensure_symlink() {
-  source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-values config.symlinks.$1.source) &>/dev/null
-  target=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.target) &>/dev/null
+  local source
+  local target
 
-  # Based on the OS_TYPE, get the correct source
+  # Fetch target from YAML
+  target=$(shyaml get-value "config.symlinks.$1.target" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+  
+  # Fetch source from YAML based on OS
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.sources.linux)   &>/dev/null
+    source=$(shyaml get-value "config.symlinks.$1.sources.linux" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-    source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.sources.macos) &>/dev/null
+    source=$(shyaml get-value "config.symlinks.$1.sources.macos" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
   fi
 
-  # Try adding a default source if the OS_TYPE specific source is empty
+  # Fall back to generic source if OS-specific source is empty
   if [ -z "$source" ]; then
-    source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.source) &>/dev/null
+    source=$(shyaml get-value "config.symlinks.$1.source" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
   fi
 
-  # If this is still empty, last attempt, let's try use the hostname of the machine
+  # Attempt to use the hostname of the machine if source is still empty
   if [ -z "$source" ]; then
-    source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.sources.$(hostname)) &>/dev/null
+    source=$(shyaml get-value "config.symlinks.$1.sources.$(hostname)" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
   fi
 
-  # If this is still empty, we can't continue and should throw up an error
+  # Error out if source is still empty
   if [ -z "$source" ]; then
     printfe "%s\n" "red" "    - No valid source defined for $1"
     return
   fi
-  
-  check_or_make_symlink $source $target
 
-  # Let's check if there was a chmod defined for the symlink
-  chmod=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.chmod 2>/dev/null)
+  # Expand ~ with $HOME
+  source="${source/#\~/$HOME}"
+  target="${target/#\~/$HOME}"
 
-  if [ -n "$chmod" ]; then
-    # Let's see if the current target has the correct chmod
-    current_chmod=$(stat -c %a $target)
-    if [ "$current_chmod" != "$chmod" ]; then
-      printfe "%s" "yellow" "    - Changing chmod of $target to $chmod"
-      # Replace ~ with $HOME in target
-      target=$(echo $target | sed "s|~|$HOME|g")      
-      chmod $chmod $target
-    else
-      return
+  # Call the function to check or make the symlink
+  check_or_make_symlink "$source" "$target"
+
+  # Check if there is a chmod defined for the target file
+  desired_chmod=$(shyaml get-value "config.symlinks.$1.chmod" < "$HOME/dotfiles/config/config.yaml" 2>/dev/null)
+
+  if [ -n "$desired_chmod" ]; then
+    # Check if the current source file has the correct chmod
+    current_chmod=$(stat -c %a "$source") # Check permissions of source file, since that's what chmod affects.
+    if [ "$current_chmod" != "$desired_chmod" ]; then
+      printfe "%s\n" "yellow" "    - Changing chmod of $source to $desired_chmod"
+      chmod "$desired_chmod" "$source"
     fi
   fi
 }
@@ -167,11 +171,8 @@ pipxpkgs() {
 }
 
 flatpakpkgs() {
-  printfe "%s\n" "cyan" "Ensuring Flatpak remotes are added..."
-  source $HOME/dotfiles/bin/helpers/flatpak_packages.sh
-  ensure_remotes_added
-
   printfe "%s\n" "cyan" "Ensuring Flatpak packages are installed..."
+  source $HOME/dotfiles/bin/helpers/flatpak_packages.sh
   ensure_flatpak_packages_installed
 }
 
