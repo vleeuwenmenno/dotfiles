@@ -49,6 +49,9 @@ run_startup_scripts() {
     # Wait for the initial delay
     countdown $delay
 
+    # Ensure the log folder exists
+    mkdir -p $HOME/dotfiles/logs/startup
+
     # Execute each command in a new screen window
     for command_key in "${startup_commands[@]}"; do
         local command=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.startup.commands.$command_key)
@@ -67,8 +70,19 @@ run_startup_scripts() {
             continue
         fi
         
+        # Ensure the log file exists, if it exists, clear it
+        touch $HOME/dotfiles/logs/startup/$command_key.log
+
         # Run the command in a new screen session named after the command_key
-        screen -dmS $command_key zsh -c "eval $command"
+        screen -dmS $command_key zsh -c "eval $command > $HOME/dotfiles/logs/startup/$command_key.log 2>&1"
+        sleep $(echo "scale=2; $delay_between_ms / 1000" | bc)
+
+        if ! screen -list | grep -q $command_key; then
+            printfe "%s" "red" "    - Screen session died immediately: "
+            printfe "%s" "blue" "$command_key"
+            printfe "%s\n" "red" " (Within $delay_between_ms ms, check the logs for more information in $HOME/dotfiles/logs/startup/$command_key.log)"
+            continue
+        fi
 
         # Check if command is ok, if not log that it failed
         if [ $? -ne 0 ]; then
@@ -76,9 +90,6 @@ run_startup_scripts() {
             printfe "%s" "blue" "$command"
             printfe "%s\n" "red" ""
         fi
-
-        # Wait for the delay between commands
-        sleep $(echo "scale=2; $delay_between_ms / 1000" | bc)
     done
 }
 
@@ -90,7 +101,11 @@ fi
 
 run_startup_scripts
 
+echo ""
+printfe "%s" "green" "Something went wrong? Check the logs in $HOME/dotfiles/logs/startup/ for more information."
+echo ""
+
 # Show message to press any key to close the terminal window
-printfe "%s" "green" "Press any key to close this window..."
+printfe "%s\n" "green" "Press any key to close this window..."
 read -s -n 1
 exit 0
