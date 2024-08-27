@@ -44,25 +44,6 @@ add_1password_repo() {
     fi
 }
 
-add_spotify_repo() {
-    # Check if we have a spotify.list file already, if not then create one
-    if [ ! -f /etc/apt/sources.list.d/spotify.list ]; then
-        curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-        echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-        result=$(sudo apt update 2>&1)
-
-        if [ $? -ne 0 ]; then
-            printfe "%s\n" "red" "    - Failed to add Spotify repository"
-            printfe "%s\n" "yellow" "$result"
-            exit 1
-        fi
-
-        printfe "%s\n" "yellow" "    - Added Spotify repository"
-    else
-        printfe "%s\n" "green" "    - Spotify repository already added"
-    fi
-}
-
 add_vscode_repo() {
     # Check if we have a vscode.list file already, if not then create one
     if [ ! -f /etc/apt/sources.list.d/vscode.list ]; then
@@ -87,7 +68,6 @@ add_vscode_repo() {
 ensure_repositories() {
     add_brave_repo
     add_1password_repo
-    add_spotify_repo
     add_vscode_repo
 
     repos=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.apt.repos))
