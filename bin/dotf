@@ -79,7 +79,7 @@ case $1 in
         $HOME/dotfiles/bin/actions/term.sh $@
         ;;
     "hotkey-daemon")
-        bash -c "swhks & pkexec swhkd -c ~/.config/swhkdrc" &
+        x-terminal-emulator -e $HOME/dotfiles/bin/actions/hotkey-daemon.sh $@
         ;;
     *)
         printfe "%s\n" "red" "Unknown command $1"

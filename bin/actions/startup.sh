@@ -18,15 +18,18 @@ run_startup_scripts() {
     case $(date +%H) in
         0[0-9]|1[0-1])
             time_of_day="morning"
+            emoji="🌅"
             ;;
         1[2-7])
             time_of_day="afternoon"
+            emoji="🌞"
             ;;
         1[8-9]|2[0-3])
             time_of_day="evening"
+            emoji="🌆"
             ;;
     esac
-    printfe "%s" "cyan" "Welcome and good $time_of_day $(whoami)!"
+    printfe "%s" "cyan" "Hi $(whoami), good $time_of_day! $emoji"
     echo ""
 
     # Initialize array to hold commands
