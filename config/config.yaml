@@ -94,6 +94,18 @@ config:
       url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip
       name: JetBrainsMono
 
+  git:
+    dotfiles:
+      url: ssh://od.mvl.sh/dotfiles
+      branch: master
+      target: ~/dotfiles
+
+    songguru-bot:
+      url: git@github.com:vleeuwenmenno/songguru-bot.git
+      branch: develop
+      target: ~/Projects/Private/songguru-bot
+    
+
   # Packages to install
   # Note: Uninstalling packages is not supported, if you remove a package from this list it will not be removed from the system!
   #       Likewise with flatpak remotes, apt repositories, etc.

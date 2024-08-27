@@ -16,34 +16,6 @@ if [ ! -x "$(command -v shyaml)" ]; then
   pipx install shyaml
 fi
 
-pull_dotfiles() {
-  ####################################################################################################
-  # Pull latest dotfiles
-  ####################################################################################################
-
-  printfe "%s\n" "cyan" "Pulling latest changes..."
-
-  result=$(git -C $HOME/dotfiles pull --ff-only)
-
-  if [ $? -ne 0 ]; then
-    printfe "%s\n" "red" "    - Failed to pull latest changes"
-    printfe "%s\n" "red" "      Result: $result"
-    exit 1
-  fi
-
-  # In case it failed to pull due to conflicts, stop and notify the user
-  if [[ $result == *"CONFLICT"* ]]; then
-    printfe "%s\n" "red" "   - Failed to pull latest changes"
-    printfe "%s\n" "red" "     Result: $result"
-    exit 1
-  fi
-
-  if [ $? -ne 0 ]; then
-    printfe "%s\n" "red" "Failed to pull latest changes"
-    exit 1
-  fi
-}
-
 groups() {
   ####################################################################################################
   # Ensure user groups
@@ -245,6 +217,16 @@ default_shell() {
   fi
 }
 
+git_repos() {
+  ####################################################################################################
+  # Ensure git repos
+  ####################################################################################################
+
+  printfe "%s\n" "cyan" "Ensuring git repos..."
+  source $HOME/dotfiles/bin/helpers/git.sh
+  ensure_git_repos
+}
+
 ####################################################################################################
 # Parse arguments
 ####################################################################################################
@@ -259,6 +241,7 @@ shift
 if [ "$#" -eq 0 ]; then
   printfe "%s\n" "yellow" "No options passed, running full update..."
 
+  git_repos
   pull_dotfiles
   groups
   symlinks
@@ -277,8 +260,8 @@ if [ "$#" -eq 0 ]; then
 else
   for arg in "$@"; do
     case $arg in
-    --pull)
-      pull_dotfiles
+    --git)
+      git_repos
       ;;
     --groups)
       groups
