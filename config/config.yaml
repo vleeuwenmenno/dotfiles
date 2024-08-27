@@ -80,7 +80,7 @@ config:
   # Commands to run after login
   startup:
     delay: 5
-    delay_between_ms: 1
+    delay_between_ms: 1000
     commands:
       1password: 1password
       hotkey-deamon: dotf hotkey-daemon
