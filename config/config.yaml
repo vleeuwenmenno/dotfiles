@@ -164,6 +164,8 @@ config:
         - libinput-dev
         - udev
         - dbus
+        - liblzma-dev
+        - libreadline-dev
         - libdbus-1-dev
         - libsystemd-dev
         - libpixman-1-dev
