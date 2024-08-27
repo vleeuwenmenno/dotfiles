@@ -65,6 +65,9 @@ config:
     screenshot:
       shortcut: Shift + Alt + 4
       command: flameshot gui
+    1password-quick-access:
+      shortcut: Shift + Alt + Space
+      command: 1password --quick-access
     missioncenter:
       shortcut: Ctrl + Shift + Escape
       command: flatpak run io.missioncenter.MissionCenter
@@ -77,6 +80,7 @@ config:
     - brave-browser
     - steam
     - 1password
+    - flatpak run org.telegram.desktop
   
   # Fonts to install (Mostly tested with Nerd Fonts)
   fonts:
