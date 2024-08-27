@@ -1,6 +1,4 @@
-#!/usr/bin/env zsh
-
-source $HOME/dotfiles/bin/helpers/functions.sh
+#!/bin/sh
 
 # Check for unencrypted files in .ssh/config.d/
 unencrypted_files=$(find config/ssh/config.d/ -type f ! -name "*.gpg")
@@ -17,8 +15,8 @@ if [ -n "$unencrypted_files" ]; then
     # If any unencrypted files are staged, exit with a non-zero status
     if [ -n "$unencrypted_staged_files" ]; then
         echo ""
-        printfe "%s\n" "red" "Error: Unencrypted files are staged for commit!"
-        printfe "%s\n" "blue" "Use 'dotf secrets encrypt' to encrypt them before committing."
+        echo "Error: Unencrypted files are staged for commit!"
+        echo "Use 'dotf secrets encrypt' to encrypt them before committing."
         exit 1
     fi
 fi
