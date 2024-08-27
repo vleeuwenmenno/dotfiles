@@ -55,3 +55,33 @@ else
     printfe "%s\n" "red" "Invalid argument. Use 'decrypt' or 'encrypt'"
     exit 1
 fi
+
+
+# Do the same for files under $HOME/dotfiles/secrets/ (These can be any file type, not just .conf so keep the extension)
+if [[ "$2" == "decrypt" ]]; then
+    printfe "%s\n" "cyan" "Decrypting secrets..."
+    echo -en '\r'
+
+    for file in $HOME/dotfiles/secrets/*.gpg; do
+        filename=$(basename $file .gpg)
+        
+        gpg --quiet --batch --yes --decrypt --passphrase="$password" --output $HOME/dotfiles/secrets/$filename $file
+    done
+elif [[ "$2" == "encrypt" ]]; then
+    printfe "%s\n" "cyan" "Encrypting secrets..."
+    echo -en '\r'
+
+    for file in $HOME/dotfiles/secrets/*; do
+        # Skip if current file is a .gpg file
+        if [[ $file == *.gpg ]]; then
+            continue
+        fi
+
+        # If the file has a accompanying .gpg file, remove it
+        if [[ -f $file.gpg ]]; then
+            rm $file.gpg
+        fi
+
+        gpg --quiet --batch --yes --symmetric --cipher-algo AES256 --armor --passphrase="$password" --output $file.gpg $file
+    done
+fi

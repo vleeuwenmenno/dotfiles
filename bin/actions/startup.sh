@@ -29,7 +29,9 @@ run_startup_scripts() {
             emoji="🌆"
             ;;
     esac
-    printfe "%s" "cyan" "Hi $(whoami), good $time_of_day! $emoji"
+    
+    # Run the welcome.py from $HOME/dotfiles/bin/helpers/welcome.py
+    python3 $HOME/dotfiles/bin/helpers/welcome.py
     echo ""
 
     # Initialize array to hold commands

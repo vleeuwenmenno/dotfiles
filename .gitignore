@@ -1,3 +1,5 @@
 config/ssh/config.d/*
 !config/ssh/config.d/*.gpg
 logs/*
+secrets/*
+!secrets/*.gpg
