@@ -102,8 +102,6 @@ fi
 run_startup_scripts
 
 echo ""
-printfe "%s" "green" "Something went wrong? Check the logs in $HOME/dotfiles/logs/startup/ for more information."
-echo ""
 
 # Show message to press any key to close the terminal window
 printfe "%s\n" "green" "Press any key to close this window..."

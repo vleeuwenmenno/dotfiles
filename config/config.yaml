@@ -83,8 +83,8 @@ config:
     delay_between_ms: 1000
     commands:
       1password: 1password
-      hotkey-deamon: x-terminal-emulator -e $HOME/dotfiles/bin/actions/hotkey-daemon.sh
-      trayscale: flatpak run dev.deedles.Trayscale
+      hotkey-deamon: $HOME/dotfiles/bin/actions/hotkey-daemon.sh
+      trayscale: flatpak run dev.deedles.Trayscale --hide-window
       vesktop: flatpak run dev.vencord.Vesktop
       telegram: flatpak run org.telegram.desktop
       spotify: flatpak run com.spotify.Client
