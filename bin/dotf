@@ -23,6 +23,10 @@ secrets() {
     $HOME/dotfiles/bin/actions/secrets.sh $@
 }
 
+push() {
+    $HOME/dotfiles/bin/actions/push.sh $@
+}
+
 ensure_git_hooks() {
     # If ~/dotfiles/.git/hooks is a symlink, skip this
     if [[ -L ~/dotfiles/.git/hooks ]]; then
@@ -49,6 +53,10 @@ case $1 in
     "update")
         logo
         update $@
+        ;;
+    "push")
+        logo continue
+        push $@
         ;;
     "status")
         logo continue
