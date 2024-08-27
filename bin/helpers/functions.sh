@@ -164,7 +164,8 @@ check_or_make_symlink() {
         fi
         mkdir -p $(dirname $1)
         ln -s $2 $1
-        printfe "%s\n" "green" "    - Created symlink $1 -> $2"
+        printfe "%s\n" "green" "    - Created symlink $2 -> $1"
+        return
     fi
 
     # Confirm the symlink that already exists point to the correct location
@@ -177,9 +178,20 @@ check_or_make_symlink() {
             rm $1
             mkdir -p $(dirname $1)
             ln -s $2 $1
-            printfe "%s\n" "green" "      Created symlink $1 -> $2"
+            printfe "%s\n" "green" "      Created symlink $2 -> $1"
+            return
         fi
     fi
+
+    if [ ! -L $1 ]; then
+        printfe "%s\n" "red" "    - Failed to create symlink $2 -> $1"
+        return
+    fi
+
+    printfe "%s" "green" "    - OK: "
+    printfe "%-30s" "blue" "$1"
+    printfe "%s" "cyan" " -> "
+    printfe "%-30s\n" "blue" "$2"
 }
 
 clear_line() {

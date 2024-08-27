@@ -54,26 +54,43 @@ groups() {
   ensure_user_groups
 }
 
+ensure_symlink() {
+  source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-values config.symlinks.$1.source) &>/dev/null
+  target=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.target) &>/dev/null
+
+  # Based on the OS_TYPE, get the correct source
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.sources.linux)   &>/dev/null
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.sources.macos) &>/dev/null
+  fi
+
+  # Try adding a default source if the OS_TYPE specific source is empty
+  if [ -z "$source" ]; then
+    source=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.symlinks.$1.source) &>/dev/null
+  fi
+
+  # If this is still empty, we can't continue and should throw up an error
+  if [ -z "$source" ]; then
+    printfe "%s\n" "red" "    - No valid source defined for $1"
+    return
+  fi
+  
+  check_or_make_symlink $source $target
+}
+
 symlinks() {
   ####################################################################################################
   # Update symlinks
   ####################################################################################################
 
-  printfe "%s\n" "cyan" "Updating config symlinks..."
-  check_or_make_symlink ~/.zshrc ~/dotfiles/.zshrc
-  check_or_make_symlink ~/.config/Code/User/settings.json ~/dotfiles/vscode/settings.json
-  check_or_make_symlink ~/.config/starship.toml ~/dotfiles/config/starship.toml
+  # Load symlinks from config file
+  symlinks=($(cat $HOME/dotfiles/config/config.yaml | shyaml keys config.symlinks))
+  printfe "%s\n" "cyan" "Updating symlinks..."
 
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    check_or_make_symlink ~/.gitconfig ~/dotfiles/config/gitconfig.macos
-  else
-    check_or_make_symlink ~/.gitconfig ~/dotfiles/config/gitconfig.linux
-  fi
-
-  check_or_make_symlink ~/.ssh/config ~/dotfiles/config/ssh/config
-  check_or_make_symlink ~/.ssh/config.d ~/dotfiles/config/ssh/config.d
-  check_or_make_symlink ~/.config/alacritty/alacritty.toml ~/dotfiles/config/alacritty.toml
-
+  for symlink in $symlinks; do
+    ensure_symlink $symlink
+  done  
 }
 
 sys_packages() {

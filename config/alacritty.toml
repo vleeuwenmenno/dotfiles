@@ -29,6 +29,7 @@ render_timer = false
 
 [font]
 size = 14.0
+family = "Hack Nerd Font"
 
 [font.bold]
 family = "Hack Nerd Font"

@@ -1,4 +1,46 @@
 config:
+  # Symbolic links to create
+  symlinks:
+    # Gitconfig
+    gitconfig:
+      sources:
+        macos: ~/dotfiles/config/gitconfig.macos
+        linux: ~/dotfiles/config/gitconfig.linux
+      target: ~/.gitconfig
+      
+    # SSH config
+    ssh:
+      source: ~/dotfiles/config/ssh/config
+      target: ~/.ssh/config
+
+    ssh_config_d:
+      source: ~/dotfiles/config/ssh/config.d
+      target: ~/.ssh/config.d
+
+    # Zshrc
+    zshrc:
+      source: ~/dotfiles/.zshrc
+      target: ~/.zshrc
+
+    # VSCode settings
+    vscode:
+      source: ~/dotfiles/vscode/settings.json
+      target: ~/.config/Code/User/settings.json
+
+    vscode-argv:
+      source: ~/dotfiles/vscode/argv.json
+      target: ~/.vscode/argv.json
+
+    # Starship config
+    starship:
+      source: ~/dotfiles/config/starship.toml
+      target: ~/.config/starship.toml
+
+    # Alacritty config
+    alacritty:
+      source: ~/dotfiles/config/alacritty.toml
+      target: ~/.config/alacritty/alacritty.toml
+
   # What groups users should be added
   user_groups:
     menno:
@@ -109,7 +151,7 @@ config:
         - vim
         - sl
         - jq
-        - just
+#        - just
         - libglvnd-dev
         - libwayland-dev
         - libseat-dev
