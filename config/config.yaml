@@ -197,4 +197,8 @@ config:
         - libffi-dev
         - tk-dev
         - alacritty
-        
+        - cmatrix
+        - toilet
+        - oneko
+        - libaa-bin
+        - libcurses-perl
