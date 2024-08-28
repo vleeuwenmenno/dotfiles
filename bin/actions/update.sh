@@ -190,21 +190,28 @@ fonts() {
   ensure_fonts_installed
 }
 
-default_terminal() {
-  printfe "%s\n" "cyan" "Setting alacritty as default terminal..."
-  # Check if alacritty is installed
-  if [ -x "$(command -v alacritty)" ]; then
+terminal() {
+  printfe "%s\n" "cyan" "Setting gnome-terminal as default terminal..."
+  if [ -x "$(command -v gnome-terminal)" ]; then
     current_terminal=$(sudo update-alternatives --query x-terminal-emulator | grep '^Value:' | awk '{print $2}')
 
-    if [ "$current_terminal" != $(which alacritty) ]; then
-      printfe "%s\n" "yellow" "    - Setting alacritty as default terminal"
-      sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator $(which alacritty) 80
+    if [ "$current_terminal" != $(which gnome-terminal) ]; then
+      printfe "%s\n" "yellow" "    - Setting gnome-terminal as default terminal"
+      sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator $(which gnome-terminal) 80
     else
-      printfe "%s\n" "green" "    - alacritty is already the default terminal"
+      printfe "%s\n" "green" "    - gnome-terminal is already the default terminal"
     fi
   else
-    printfe "%s\n" "red" "    - alacritty is not installed"
+    printfe "%s\n" "red" "    - gnome-terminal is not installed"
   fi
+
+  # Reset gnome-terminal settings
+  printfe "%s\n" "cyan" "Resetting gnome-terminal settings..."
+  dconf reset -f /org/gnome/terminal/
+
+  # Set gnome-terminal settings from $HOME/dotfiles/config/gnome-terminal
+  printfe "%s\n" "cyan" "Loading gnome-terminal settings..."
+  dconf load /org/gnome/terminal/ < $HOME/dotfiles/config/gnome-terminal.dconf
 }
 
 default_shell() {
@@ -242,7 +249,6 @@ if [ "$#" -eq 0 ]; then
   printfe "%s\n" "yellow" "No options passed, running full update..."
 
   git_repos
-  pull_dotfiles
   groups
   symlinks
   sys_packages
@@ -305,8 +311,8 @@ else
     --fonts)
       fonts
       ;;
-    --default-terminal)
-      default_terminal
+    --terminal)
+      terminal
       ;;
     --default-shell)
       default_shell

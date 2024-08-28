@@ -1,0 +1,9 @@
+[legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(15,20,25)'
+default-size-columns=120
+default-size-rows=32
+font='Hack Nerd Font 14'
+foreground-color='rgb(208,207,204)'
+use-system-font=false
+use-theme-colors=false
+visible-name='Default'

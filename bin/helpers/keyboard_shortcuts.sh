@@ -48,7 +48,7 @@ ensure_keyboard_shortcuts() {
     # Start swhkd
     printfe "%s\n" "green" "    - starting swhkd..."
     printfe "%s\n" "yellow" "      Note: this will likely show a password prompt, please enter your password"
-    dotf hotkey-daemon &> /dev/null
+    screen -dmS swhkd zsh -c "$HOME/dotfiles/bin/actions/hotkey-daemon.sh"
 
     # Check if this is gnome DESKTOP_SESSION is gnome, if not we can stop here
     # The next part is just for setting up custom shortcuts in GNOME

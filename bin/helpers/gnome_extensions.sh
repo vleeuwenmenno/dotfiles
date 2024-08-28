@@ -51,6 +51,12 @@ ensure_gnome_extensions_installed() {
 
 # Export a JSON file with all installed GNOME extensions IDs
 export_gnome_extensions() {
+    # Only export if we have the gnome-extensions command
+    if ! command -v gnome-extensions &> /dev/null; then
+        printfe "%s\n" "red" "    - gnome-extensions command not found, likely not running GNOME."
+        return
+    fi
+
     extensions=$(gnome-extensions list --enabled --user)
     echo $extensions | jq -R -s -c 'split("\n")[:-1]' > ~/dotfiles/gnome/extensions.json
 }

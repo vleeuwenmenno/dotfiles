@@ -1,7 +1,7 @@
 [user]
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM+sKpcREOUjwMMSzEWAso6830wbOi8kUxqpuXWw5gHr
-  email = menno@vleeuwen.me
-  name = Menno van Leeuwen
+	email = menno@vleeuwen.me
+	name = Menno van Leeuwen
 
 [gpg]
   format = ssh
@@ -16,3 +16,10 @@
 	ui = true
 [push]
 	autoSetupRemote = true
+[pull]
+	rebase = false
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

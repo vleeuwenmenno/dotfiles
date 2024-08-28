@@ -44,11 +44,6 @@ config:
       source: ~/dotfiles/config/starship.toml
       target: ~/.config/starship.toml
 
-    # Alacritty config
-    alacritty:
-      source: ~/dotfiles/config/alacritty.toml
-      target: ~/.config/alacritty/alacritty.toml
-
     # Autostart desktop file
     autostart:
       source: ~/dotfiles/config/dotf-autostart.desktop
@@ -66,7 +61,7 @@ config:
   keybinds:
     terminal:
       shortcut: Ctrl + Alt + T
-      command: alacritty
+      command: gnome-terminal
     screenshot:
       shortcut: Shift + Alt + 4
       command: flameshot gui
@@ -88,6 +83,7 @@ config:
       vesktop: flatpak run dev.vencord.Vesktop
       telegram: flatpak run org.telegram.desktop
       spotify: flatpak run com.spotify.Client
+      zapzap: flatpak run com.rtosta.zapzap
       steam: steam
   
   # Fonts to install (Mostly tested with Nerd Fonts)
@@ -206,7 +202,6 @@ config:
         - libbz2-dev
         - libffi-dev
         - tk-dev
-        - alacritty
         - cmatrix
         - toilet
         - oneko
