@@ -1,22 +1,9 @@
 #!/bin/sh
 
-# Check for unencrypted files in .ssh/config.d/
-unencrypted_files=$(find config/ssh/config.d/ -type f ! -name "*.gpg")
-
-if [ -n "$unencrypted_files" ]; then
-    staged_files=$(git diff --cached --name-only)
-    unencrypted_staged_files=""
-    for file in $unencrypted_files; do
-        if [[ $staged_files == *"$file"* ]]; then
-            unencrypted_staged_files="$unencrypted_staged_files $file"
-        fi
-    done
-
-    # If any unencrypted files are staged, exit with a non-zero status
-    if [ -n "$unencrypted_staged_files" ]; then
-        echo ""
-        echo "Error: Unencrypted files are staged for commit!"
-        echo "Use 'dotf secrets encrypt' to encrypt them before committing."
-        exit 1
-    fi
+# Check if there are files under secrets/ directory that don't end with .gpg that are staged
+if git diff --cached --name-only | grep -q 'secrets/'; then
+  if git diff --cached --name-only | grep -v '\.gpg$' | grep -q 'secrets/'; then
+    echo "ERROR: You have unencrypted files under secrets/ directory. Please encrypt them before committing."
+    exit 1
+  fi
 fi

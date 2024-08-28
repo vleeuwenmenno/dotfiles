@@ -36,7 +36,7 @@ def main():
     PROMPT_FILE_PATH = home_directory + "/dotfiles/bin/resources/welcome_prompt.txt"
 
     # Load api key from disk
-    with open(home_directory + "/dotfiles/secrets/openai_api_key", 'r') as file:
+    with open(home_directory + "/dotfiles/secrets/openai_api_key.secret", 'r') as file:
         OPENAI_API_KEY = file.read().strip()
     
     weather = get_weather()

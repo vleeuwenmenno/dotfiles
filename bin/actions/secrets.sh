@@ -56,6 +56,30 @@ else
     exit 1
 fi
 
+encrypt_folder() {
+    for file in $1/*; do
+        # Skip if current file is a .gpg file
+        if [[ $file == *.gpg ]]; then
+            continue
+        fi
+
+        # If file is actually a folder, call this function recursively
+        if [[ -d $file ]]; then
+            printfe "%s\n" "cyan" "Encrypting folder $file..."
+            encrypt_folder $file
+            continue
+        fi
+
+        # If the file has a accompanying .gpg file, remove it
+        if [[ -f $file.gpg ]]; then
+            rm $file.gpg
+        fi
+
+        printfe "%s\n" "cyan" "Encrypting $file..."
+        gpg --quiet --batch --yes --symmetric --cipher-algo AES256 --armor --passphrase="$password" --output $file.gpg $file
+    done
+}
+
 
 # Do the same for files under $HOME/dotfiles/secrets/ (These can be any file type, not just .conf so keep the extension)
 if [[ "$2" == "decrypt" ]]; then
@@ -71,17 +95,5 @@ elif [[ "$2" == "encrypt" ]]; then
     printfe "%s\n" "cyan" "Encrypting secrets..."
     echo -en '\r'
 
-    for file in $HOME/dotfiles/secrets/*; do
-        # Skip if current file is a .gpg file
-        if [[ $file == *.gpg ]]; then
-            continue
-        fi
-
-        # If the file has a accompanying .gpg file, remove it
-        if [[ -f $file.gpg ]]; then
-            rm $file.gpg
-        fi
-
-        gpg --quiet --batch --yes --symmetric --cipher-algo AES256 --armor --passphrase="$password" --output $file.gpg $file
-    done
+    encrypt_folder $HOME/dotfiles/secrets
 fi

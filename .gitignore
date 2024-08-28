@@ -1,5 +1,9 @@
 config/ssh/config.d/*
 !config/ssh/config.d/*.gpg
 logs/*
-secrets/*
+
+# Don't include secrets in the repository but do include encrypted secrets
+secrets/wp/*.*
+!secrets/wp/*.gpg
+secrets/*.*
 !secrets/*.gpg
