@@ -71,6 +71,9 @@ config:
     missioncenter:
       shortcut: Ctrl + Shift + Escape
       command: flatpak run io.missioncenter.MissionCenter
+    resources:
+      shortcut: Alt + Shift + Escape
+      command: flatpak run net.nokyan.Resources
   
   # Commands to run after login
   startup:
