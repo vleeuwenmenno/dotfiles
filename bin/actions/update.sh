@@ -172,6 +172,13 @@ extensions() {
   printfe "%s\n" "cyan" "Ensuring VSCode extensions are installed..."
   source $HOME/dotfiles/bin/helpers/vscode-extensions.sh
   ensure_vscode_extensions_installed
+
+  if [ ! -f "$HOME/.local/share/nemo/actions/vscode.nemo_action" ]; then
+    printfe "%s\n" "cyan" "Ensuring nemo open with VSCode extension is installed..."
+    wget https://raw.githubusercontent.com/mhsattarian/nemo-open-in-vscode/master/vscode.nemo_action -O $HOME/.local/share/nemo/actions/vscode.nemo_action
+  else
+    printfe "%s\n" "green" "    - nemo open with VSCode extension is already installed"
+  fi
 }
 
 ####################################################################################################

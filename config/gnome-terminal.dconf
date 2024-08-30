@@ -1,3 +1,6 @@
+[legacy/keybindings]
+reset-and-clear='<Primary><Shift>k'
+
 [legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
 background-color='rgb(15,20,25)'
 default-size-columns=120
