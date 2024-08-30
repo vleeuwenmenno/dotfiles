@@ -106,6 +106,10 @@ eval "$(pyenv init -)"
 # Rocm related workaround
 export HSA_OVERRIDE_GFX_VERSION=11.0.0
 
+# If $HOME/flutter exists, add it to the PATH
+if [ -d "$HOME/flutter" ]; then
+    export PATH="$PATH:$HOME/flutter/bin"
+fi
 
 #####################
 # End of the line...#
