@@ -111,6 +111,11 @@ config:
       url: git@github.com:vleeuwenmenno/songguru-bot.git
       branch: develop
       target: ~/Projects/Private/songguru-bot
+
+    ssdc_app_v2:
+      url: git@github.com:vleeuwenmenno/ssdc_app_v2.git
+      branch: master
+      target: ~/Projects/Private/ssdc_app_v2
     
 
   # Packages to install
@@ -176,8 +181,14 @@ config:
         - libfreetype-dev
         - mold
         - cargo
+        - clang
+        - libgtk-3-dev
+        - gcc-mingw-w64
+        - btop
+        - htop
         - libgbm-dev
         - libclang-dev
+        - libsecret-1-dev
         - libpipewire-0.3-dev
         - libpam0g-dev
         - openssh-server

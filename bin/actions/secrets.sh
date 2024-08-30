@@ -80,20 +80,27 @@ encrypt_folder() {
     done
 }
 
+# Recursively decrypt all .gpg files under the folder specified, recursively call this function for sub folders!
+# Keep the original file name minus the .gpg extension
+decrypt_folder() {
+    for file in $1/*; do
+        # Skip if current file is a .gpg file
+        if [[ $file == *.gpg ]]; then
+            filename=$(basename $file .gpg)
+            printfe "%s\n" "cyan" "Decrypting $file..."
+            gpg --quiet --batch --yes --decrypt --passphrase="$password" --output $1/$filename $file
+        fi
 
-# Do the same for files under $HOME/dotfiles/secrets/ (These can be any file type, not just .conf so keep the extension)
-if [[ "$2" == "decrypt" ]]; then
-    printfe "%s\n" "cyan" "Decrypting secrets..."
-    echo -en '\r'
-
-    for file in $HOME/dotfiles/secrets/*.gpg; do
-        filename=$(basename $file .gpg)
-        
-        gpg --quiet --batch --yes --decrypt --passphrase="$password" --output $HOME/dotfiles/secrets/$filename $file
+        # If file is actually a folder, call this function recursively
+        if [[ -d $file ]]; then
+            printfe "%s\n" "cyan" "Decrypting folder $file..."
+            decrypt_folder $file
+        fi
     done
-elif [[ "$2" == "encrypt" ]]; then
-    printfe "%s\n" "cyan" "Encrypting secrets..."
-    echo -en '\r'
+}
 
-    encrypt_folder $HOME/dotfiles/secrets
+if [[ "$2" == "decrypt" ]]; then
+    decrypt_folder ~/dotfiles/secrets
+elif [[ "$2" == "encrypt" ]]; then
+    encrypt_folder ~/dotfiles/secrets
 fi

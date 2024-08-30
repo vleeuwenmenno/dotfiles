@@ -18,4 +18,16 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "git.openRepositoryInParentFolders": "always",
+    "makefile.configureOnOpen": false,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            140
+        ],
+        "editor.selectionHighlight": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": "off"
+    },
 }
