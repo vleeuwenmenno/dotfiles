@@ -74,6 +74,9 @@ config:
     resources:
       shortcut: Alt + Shift + Escape
       command: flatpak run net.nokyan.Resources
+    gtile:
+      shortcut: Super + Tab
+      command: xdotool key super+g
   
   # Commands to run after login
   startup:
@@ -210,3 +213,5 @@ config:
         - oneko
         - libaa-bin
         - libcurses-perl
+        - clang
+        - libgtk-3-dev

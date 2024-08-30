@@ -3,8 +3,15 @@
 source $HOME/dotfiles/bin/helpers/functions.sh
 
 ensure_gnome_extensions_installed() {
-    if ! command -v gnome-extensions &> /dev/null; then
-        printfe "%s\n" "red" "    - gnome-extensions command not found, likely not running GNOME."
+    # In case gnome-extensions is installed but we don't use GNOME let's do a check
+    if [ "$XDG_CURRENT_DESKTOP" != "GNOME" ]; then
+        printfe "%s\n" "red" "    - XDG_CURRENT_DESKTOP is not GNOME, likely not running GNOME."
+        return
+    fi
+
+    # Attempt to connect to GNOME shell, if it fails, we can stop here
+    if ! gnome-extensions &> /dev/null; then
+        printfe "%s\n" "red" "    - gnome-extensions command not found, likely not running GNOME?!"
         return
     fi
 

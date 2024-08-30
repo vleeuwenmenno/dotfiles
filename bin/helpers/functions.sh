@@ -12,8 +12,6 @@ logo() {
     println " " "cyan"
     tput sgr0
 
-    continue_eitherway=$1
-
     # Print if repo is dirty and the count of untracked files, modified files and staged files
     if [[ $(git -C ~/dotfiles status --porcelain) ]]; then
         printfe "%s" "yellow" "dotfiles repo is dirty "
@@ -27,22 +25,6 @@ logo() {
         printfe "%s" "yellow" "[!] You have $(git -C ~/dotfiles log origin/master..HEAD --oneline | wc -l | tr -d ' ') commit(s) to push"
     fi
     println "" "normal"
-
-    if [[ $continue_eitherway == "continue" ]]; then
-        return
-    fi
-    if [[ $(git -C ~/dotfiles status --porcelain) ]]; then
-        # Continue?
-        printfe "%s" "red" "Continue anyway? [y/N] "
-        read -k 1
-
-        if [[ $REPLY != "y" ]]; then
-            println "" "normal"
-            exit 0
-        fi
-        println "" "normal"
-        println "" "normal"
-    fi
 }
 
 # print colored with printf (args: format, color, message ...)
