@@ -127,7 +127,7 @@ config:
   packages:
     # Supply a git_url and binary to install from source
     cargo:
-      exa:
+      eza:
       lsd:
       bat:
       starship:

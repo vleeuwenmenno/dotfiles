@@ -55,10 +55,9 @@ export PATH=$PATH:$HOME/dotfiles/bin
 alias docker-compose='docker compose'
 alias gg='git pull'
 alias gl='git log --stat'
-alias l='lsd -Sl --reverse --human-readable --group-directories-first'
-# TODO: Add advcp and advmv
-# alias mv='/usr/local/bin/advmv -g'
-# alias cp='/usr/local/bin/advcp -g'
+alias l='eza --header --long --git --group-directories-first --group --icons --color=always --sort=name --hyperlink -o --no-permissions'
+alias ll='l'
+alias la='l -a'
 alias ddpul='docker compose down && docker compose pull && docker compose up -d && docker compose logs -f'
 alias cat='bat'
 
