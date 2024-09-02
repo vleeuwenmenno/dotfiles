@@ -14,22 +14,10 @@ git clone ssh://od.mvl.sh/dotfiles ~/dotfiles
 
 ### 2. Prepare shell
 
-Make sure you are running under ZSH since the dotf script requires ZSH.
+You can run the setup.sh in the dotfiles folder to install all the necessary packages.
 
 ```bash
-sudo apt install zsh
-```
-
-Then open ZSH
-
-```bash
-zsh
-```
-
-And now set the bin folder of dotfiles in your path.
-
-```bash
-export PATH=$PATH:~/dotfiles/bin
+cd ~/dotfiles && ./setup.sh
 ```
 
 ### 3. Run `dotf update`
