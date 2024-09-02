@@ -58,25 +58,45 @@ fi
 
 encrypt_folder() {
     for file in $1/*; do
-        # Skip if current file is a .gpg file
+        # Skip if the current file is a .gpg file
         if [[ $file == *.gpg ]]; then
             continue
         fi
 
-        # If file is actually a folder, call this function recursively
+        # Skip if the current file is a .sha256 file
+        if [[ $file == *.sha256 ]]; then
+            continue
+        fi
+
+        # If the file is a directory, call this function recursively
         if [[ -d $file ]]; then
             printfe "%s\n" "cyan" "Encrypting folder $file..."
             encrypt_folder $file
             continue
         fi
 
-        # If the file has a accompanying .gpg file, remove it
+        current_checksum=$(sha256sum "$file" | awk '{ print $1 }')
+        checksum_file="$file.sha256"
+
+        if [[ -f $checksum_file ]]; then
+            previous_checksum=$(cat $checksum_file)
+
+            if [[ $current_checksum == $previous_checksum ]]; then
+                printfe "%s\n" "green" "Skipping unchanged file $file."
+                continue
+            fi
+        fi
+
+        # If the file has an accompanying .gpg file, remove it
         if [[ -f $file.gpg ]]; then
-            rm $file.gpg
+            rm "$file.gpg"
         fi
 
         printfe "%s\n" "cyan" "Encrypting $file..."
-        gpg --quiet --batch --yes --symmetric --cipher-algo AES256 --armor --passphrase="$password" --output $file.gpg $file
+        gpg --quiet --batch --yes --symmetric --cipher-algo AES256 --armor --passphrase="$password" --output "$file.gpg" "$file"
+
+        # Update checksum file
+        echo $current_checksum > "$checksum_file"
     done
 }
 
