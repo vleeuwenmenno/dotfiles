@@ -19,43 +19,6 @@ fi
 command=$(echo "$output" | grep -oP "(?<=use ').*(?=')")
 password=$(eval $command | grep -oP "(?<=  password:    ).*" | tr -d '\n')
 
-# Check what we are supposed to do (Either decrypt or encrypt)
-if [[ "$2" == "decrypt" ]]; then
-    printfe "%s\n" "cyan" "Decrypting .ssh/config.d/ files..."
-    echo -en '\r'
-
-    for file in ~/.ssh/config.d/*.gpg; do
-        filename=$(basename $file .gpg)
-        
-        # Add .conf to the filename but only if it doesn't already have it
-        if [[ $filename != *.conf ]]; then
-            filename="$filename.conf"
-        fi
-
-        gpg --quiet --batch --yes --decrypt --passphrase="$password" --output ~/.ssh/config.d/$filename $file
-    done
-elif [[ "$2" == "encrypt" ]]; then
-    printfe "%s\n" "cyan" "Encrypting .ssh/config.d/ files..."
-    echo -en '\r'
-
-    for file in ~/.ssh/config.d/*; do
-        # Skip if current file is a .gpg file
-        if [[ $file == *.gpg ]]; then
-            continue
-        fi
-
-        # If the file has a accompanying .gpg file, remove it
-        if [[ -f $file.gpg ]]; then
-            rm $file.gpg
-        fi
-
-        gpg --quiet --batch --yes --symmetric --cipher-algo AES256 --armor --passphrase="$password" --output $file.gpg $file
-    done
-else
-    printfe "%s\n" "red" "Invalid argument. Use 'decrypt' or 'encrypt'"
-    exit 1
-fi
-
 encrypt_folder() {
     for file in $1/*; do
         # Skip if the current file is a .gpg file
