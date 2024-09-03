@@ -88,6 +88,7 @@ fi
 if [ -d "/home/menno/Projects/Work" ]; then
     export TRADAWARE_PATH=/home/menno/Projects/Work
     source $TRADAWARE_PATH/bin/helpers/source.sh
+    export PATH=$PATH:$TRADAWARE_PATH/bin/utilities
 fi
 
 # 1Password SSH Socket (Linux/macOS)

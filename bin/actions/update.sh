@@ -268,7 +268,7 @@ if [ "$#" -eq 0 ]; then
   extensions
   keyboard
   fonts
-  default_terminal
+  terminal
   default_shell
 else
   for arg in "$@"; do
