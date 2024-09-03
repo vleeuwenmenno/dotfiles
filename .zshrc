@@ -110,6 +110,9 @@ if [ -d "$HOME/flutter" ]; then
     export PATH="$PATH:$HOME/flutter/bin"
 fi
 
+# Flutter related environment variables
+export CHROME_EXECUTABLE=/usr/bin/brave-browser
+
 #####################
 # End of the line...#
 #####################
