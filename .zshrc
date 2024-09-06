@@ -114,6 +114,9 @@ fi
 # Flutter related environment variables
 export CHROME_EXECUTABLE=/usr/bin/brave-browser
 
+# 1Password source gh plugin
+source /home/menno/.config/op/plugins.sh
+
 #####################
 # End of the line...#
 #####################
