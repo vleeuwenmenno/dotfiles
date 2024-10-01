@@ -1,4 +1,5 @@
 Host *
-    IdentityFile ~/.ssh/id_ed25519
+    IdentityAgent ~/.1password/agent.sock
+    # IdentityFile ~/.ssh/id_ed25519
 
 Include ~/.ssh/config.d/*.conf
