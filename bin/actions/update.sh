@@ -72,11 +72,18 @@ ensure_symlink() {
   desired_chmod=$(shyaml get-value "config.symlinks.$1.chmod" < "$HOME/dotfiles/config/config.yaml" 2>/dev/null)
 
   if [ -n "$desired_chmod" ]; then
-    # Check if the current source file has the correct chmod
-    current_chmod=$(stat -c %a "$source") # Check permissions of source file, since that's what chmod affects.
+    # Resolve the target if it is a symlink
+    resolved_target=$(readlink -f "$target")
+    
+    # If readlink fails, fall back to the original target
+    if [ -z "$resolved_target" ]; then
+      resolved_target="$target"
+    fi
+
+    current_chmod=$(stat -c %a "$resolved_target")
     if [ "$current_chmod" != "$desired_chmod" ]; then
-      printfe "%s\n" "yellow" "    - Changing chmod of $source to $desired_chmod"
-      chmod "$desired_chmod" "$source"
+      printfe "%s\n" "yellow" "    - Changing chmod of $resolved_target to $desired_chmod"
+      chmod "$desired_chmod" "$resolved_target"
     fi
   fi
 }

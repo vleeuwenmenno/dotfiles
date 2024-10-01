@@ -8,11 +8,18 @@ source $HOME/dotfiles/bin/helpers/functions.sh
 printfe "%s\n" "cyan" "Fetching password from 1Password..."
 echo -en '\r'
 
-output=$(op item get "SSH Config Secrets" --fields password)
+# if WSL alias op to op.exe
+if [[ $(uname -a) == *"microsoft-standard-WSL2"* ]]; then
+    alias op="op.exe"
+else
+    alias op="op"
+fi
+
+output=$(op item get "Dotfiles Secrets" --fields password)
 
 # Check if the password was found
 if [[ -z "$output" ]]; then
-    printfe "%s\n" "red" "Password not found in 1Password, add a login item with the name 'SSH Config Secrets' and give it a password."
+    printfe "%s\n" "red" "Password not found in 1Password, add a login item with the name 'Dotfiles Secrets' and give it a password."
     exit 1
 fi
 

@@ -18,6 +18,16 @@ config:
       source: ~/dotfiles/config/ssh/config.d
       target: ~/.ssh/config.d
 
+    ssh_key:
+      source: ~/dotfiles/config/ssh/id_ed25519
+      target: ~/.ssh/id_ed25519
+      chmod: 600
+
+    ssh_key_public:
+      source: ~/dotfiles/config/ssh/id_ed25519.pub
+      target: ~/.ssh/id_ed25519.pub
+      chmod: 644
+
     ssh_authorized_keys:
       sources:
         mennos-laptop: ~/dotfiles/config/ssh/authorized_keys/mennos-laptop

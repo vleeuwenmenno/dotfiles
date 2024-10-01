@@ -82,8 +82,7 @@ fi
 
 # Alias for ssh.exe and ssh-add.exe on Windows WSL (microsoft-standard-WSL2)
 if [[ $(uname -a) == *"microsoft-standard-WSL2"* ]]; then
-    alias ssh='ssh.exe'
-    alias ssh-add='ssh-add.exe'
+    alias op='op.exe'
 fi
 
 ######################
