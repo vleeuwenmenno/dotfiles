@@ -96,13 +96,6 @@ if [ -d "/home/menno/Projects/Work" ]; then
     export PATH=$PATH:$TRADAWARE_PATH/bin/utilities
 fi
 
-# 1Password SSH Socket (Linux/macOS)
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    export SSH_AUTH_SOCK=~/.ssh/1password/agent.sock
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
-fi
-
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
