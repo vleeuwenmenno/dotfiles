@@ -35,7 +35,12 @@ ensure_symlink() {
   
   # Fetch source from YAML based on OS
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    source=$(shyaml get-value "config.symlinks.$1.sources.linux" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+    # Check for WSL2
+    if [[ $(uname -a) == *"microsoft-standard-WSL2"* ]]; then
+      source=$(shyaml get-value "config.symlinks.$1.sources.wsl" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+    else
+      source=$(shyaml get-value "config.symlinks.$1.sources.linux" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+    fi
   elif [[ "$OSTYPE" == "darwin"* ]]; then
     source=$(shyaml get-value "config.symlinks.$1.sources.macos" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
   fi

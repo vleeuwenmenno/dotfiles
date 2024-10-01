@@ -6,6 +6,7 @@ config:
       sources:
         macos: ~/dotfiles/config/gitconfig.macos
         linux: ~/dotfiles/config/gitconfig.linux
+        wsl: ~/dotfiles/config/gitconfig.wsl
       target: ~/.gitconfig
       
     # SSH config
