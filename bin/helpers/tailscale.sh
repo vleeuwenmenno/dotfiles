@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 ensure_tailscale_installed() {
     # if tailscale is already installed, skip the installation

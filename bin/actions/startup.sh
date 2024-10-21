@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 source $HOME/dotfiles/bin/helpers/functions.sh
 
@@ -76,7 +76,7 @@ run_startup_scripts() {
         touch $HOME/dotfiles/logs/startup/$command_key.log
 
         # Run the command in a new screen session named after the command_key
-        screen -dmS $command_key zsh -c "eval $command > $HOME/dotfiles/logs/startup/$command_key.log 2>&1"
+        screen -dmS $command_key bash -c "eval $command > $HOME/dotfiles/logs/startup/$command_key.log 2>&1"
         sleep $(echo "scale=2; $delay_between_ms / 1000" | bc)
 
         if ! screen -list | grep -q $command_key; then

@@ -36,10 +36,10 @@ config:
       target: ~/.ssh/authorized_keys
       chmod: 600
 
-    # Zshrc
-    zshrc:
-      source: ~/dotfiles/.zshrc
-      target: ~/.zshrc
+    # bashrc
+    bashrc:
+      source: ~/dotfiles/.bashrc
+      target: ~/.bashrc
 
     # VSCode settings
     vscode:
@@ -161,7 +161,8 @@ config:
     apt:
       repos:
       apps:
-        - zsh
+        - bash
+        - bash-completion
         - solaar
         - git
         - curl

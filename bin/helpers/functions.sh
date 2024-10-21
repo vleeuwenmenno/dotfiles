@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 #Color print function, usage: println "message" "color"
 println() {

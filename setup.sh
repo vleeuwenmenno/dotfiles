@@ -2,7 +2,7 @@
 
 # Prepare, we need at least these minimal packages to continue ...
 sudo apt update
-sudo apt install curl zsh nala pipx apt-transport-https ca-certificates gnupg -y
+sudo apt install curl nala pipx apt-transport-https ca-certificates gnupg -y
 
 # Ensure shyaml is available
 echo "Ensuring shyaml is installed..."

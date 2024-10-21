@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 source $HOME/dotfiles/bin/helpers/functions.sh
 source $HOME/dotfiles/bin/helpers/keyboard_shortcuts.sh

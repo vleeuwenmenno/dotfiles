@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 ensure_docker_installed() {
     # if docker is already installed, skip the installation

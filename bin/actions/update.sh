@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 source $HOME/dotfiles/bin/helpers/functions.sh
 
@@ -173,10 +173,6 @@ tailscalecmd() {
 }
 
 extensions() {
-  printfe "%s\n" "cyan" "Ensuring Oh My Zsh is installed..."
-  source $HOME/dotfiles/bin/helpers/ohmyzsh.sh
-  ensure_ohmyzsh_installed
-
   printfe "%s\n" "cyan" "Ensuring GNOME Extensions are installed..."
   source $HOME/dotfiles/bin/helpers/gnome_extensions.sh
   ensure_gnome_extensions_installed
@@ -234,12 +230,12 @@ terminal() {
 }
 
 default_shell() {
-  printfe "%s\n" "cyan" "Setting zsh as default shell..."
-  if [ "$SHELL" != "/usr/bin/zsh" ]; then
-    printfe "%s\n" "yellow" "    - Setting zsh as default shell"
-    chsh -s /usr/bin/zsh
+  printfe "%s\n" "cyan" "Setting bash as default shell..."
+  if [ "$SHELL" != "/usr/bin/bash" ]; then
+    printfe "%s\n" "yellow" "    - Setting bash as default shell"
+    chsh -s /usr/bin/bash
   else
-    printfe "%s\n" "green" "    - zsh is already the default shell"
+    printfe "%s\n" "green" "    - bash is already the default shell"
   fi
 }
 
