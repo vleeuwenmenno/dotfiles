@@ -10,7 +10,7 @@ push_all() {
     printfe "%s\n" "cyan" "Pushing all changes to all remotes..."
 
     # For each remote, push all changes
-    for remote in $remotes; do
+    for remote in "${remotes[@]}"; do
         printfe "%s" "green" "  - Pushing to ["
         printfe "%s" "blue" "$remote"
         printfe "%s\n" "green" "]..."

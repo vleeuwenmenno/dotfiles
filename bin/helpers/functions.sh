@@ -6,6 +6,15 @@ println() {
     printfe "%s\n" $color "$1"
 }
 
+is_wsl() {
+    unameres=$(uname -a | grep -i "microsoft" | wc -l)
+    if [ -n "$unameres" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 logo() {
     tput setaf 2
     cat $HOME/dotfiles/bin/resources/logo.txt

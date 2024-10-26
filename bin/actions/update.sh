@@ -97,7 +97,7 @@ symlinks() {
   symlinks=($(cat $HOME/dotfiles/config/config.yaml | shyaml keys config.symlinks))
   printfe "%s\n" "cyan" "Updating symlinks..."
 
-  for symlink in $symlinks; do
+  for symlink in "${symlinks[@]}"; do
     ensure_symlink $symlink
   done  
 }
@@ -155,6 +155,11 @@ pipxpkgs() {
 }
 
 flatpakpkgs() {
+  if is_wsl; then
+    printfe "%s\n" "yellow" "Running in WSL, skipping Flatpak."
+    return
+  fi
+
   printfe "%s\n" "cyan" "Ensuring Flatpak packages are installed..."
   source $HOME/dotfiles/bin/helpers/flatpak_packages.sh
   ensure_flatpak_packages_installed
@@ -167,12 +172,22 @@ dockercmd() {
 }
 
 tailscalecmd() {
+  if is_wsl; then
+    printfe "%s\n" "yellow" "Running in WSL, skipping Tailscale."
+    return
+  fi
+
   printfe "%s\n" "cyan" "Ensuring Tailscale is installed..."
   source $HOME/dotfiles/bin/helpers/tailscale.sh
   ensure_tailscale_installed
 }
 
 extensions() {
+  if is_wsl; then
+    printfe "%s\n" "yellow" "Running in WSL, skipping extensions."
+    return
+  fi
+
   printfe "%s\n" "cyan" "Ensuring GNOME Extensions are installed..."
   source $HOME/dotfiles/bin/helpers/gnome_extensions.sh
   ensure_gnome_extensions_installed
@@ -194,18 +209,33 @@ extensions() {
 ####################################################################################################
 
 keyboard() {
+  if is_wsl; then
+    printfe "%s\n" "yellow" "Running in WSL, skipping keyboard shortcuts."
+    return
+  fi
+
   printfe "%s\n" "cyan" "Setting up keyboard shortcuts..."
   source $HOME/dotfiles/bin/helpers/keyboard_shortcuts.sh
   ensure_keyboard_shortcuts
 }
 
 fonts() {
+  if is_wsl; then
+    printfe "%s\n" "yellow" "Running in WSL, skipping fonts."
+    return
+  fi
+
   printfe "%s\n" "cyan" "Ensuring fonts are installed..."
   source $HOME/dotfiles/bin/helpers/fonts.sh
   ensure_fonts_installed
 }
 
 terminal() {
+  if is_wsl; then
+    printfe "%s\n" "yellow" "Running in WSL, skipping setting default terminal."
+    return
+  fi
+
   printfe "%s\n" "cyan" "Setting gnome-terminal as default terminal..."
   if [ -x "$(command -v gnome-terminal)" ]; then
     current_terminal=$(sudo update-alternatives --query x-terminal-emulator | grep '^Value:' | awk '{print $2}')
@@ -270,8 +300,8 @@ if [ "$#" -eq 0 ]; then
   aptpkgs
   cargopkgs
   pipxpkgs
-  flatpakpkgs
   dockercmd
+  flatpakpkgs
   tailscalecmd
   extensions
   keyboard

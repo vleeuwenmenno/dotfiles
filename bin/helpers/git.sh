@@ -7,7 +7,7 @@ ensure_git_repos() {
     repos=($(cat $HOME/dotfiles/config/config.yaml | shyaml keys config.git))
 
     # For each repo in the config file, ensure it is cloned (url + branch, if specified)
-    for repo in $repos; do
+    for repo in "${repos[@]}"; do
         url=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.git.$repo.url)
         branch=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.git.$repo.branch)
         target=$(cat $HOME/dotfiles/config/config.yaml | shyaml get-value config.git.$repo.target)

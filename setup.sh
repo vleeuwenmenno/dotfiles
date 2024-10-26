@@ -20,8 +20,6 @@ fi
 
 sed -i -e '$a\'$'\n''export PATH=$PATH:$HOME/.local/bin' ~/.bashrc
 sed -i -e '$a\'$'\n''export PATH=$PATH:~/dotfiles/bin' ~/.bashrc
-sed -i -e '$a\'$'\n''export PATH=$PATH:$HOME/.local/bin' ~/.zshrc
-sed -i -e '$a\'$'\n''export PATH=$PATH:~/dotfiles/bin' ~/.zshrc
 
 echo "#########################################################"
 echo "#                                                       #"

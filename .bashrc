@@ -47,7 +47,6 @@ fi
 
 # Alias for ssh.exe and ssh-add.exe on Windows WSL (microsoft-standard-WSL2)
 if [[ $(uname -a) == *"microsoft-standard-WSL2"* ]]; then
-    source $HOME/.agent-bridge.sh
     alias op='op.exe'
 fi
 
@@ -91,3 +90,6 @@ eval "$(starship init bash)"
 if [ -t 1 ]; then
     dotf term
 fi
+
+# Source optional agent-bridge script for WSL (This returns early if it's not on WSL)
+source $HOME/dotfiles/bin/1password-agent-bridge.sh

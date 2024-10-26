@@ -71,7 +71,7 @@ ensure_repositories() {
     add_vscode_repo
 
     repos=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.apt.repos))
-    for repo in $repos; do
+    for repo in "${repos[@]}"; do
         repo_name=$(echo $repo | cut -d ":" -f 2)
 
         # Go through sources.list.d and check if there's a file containing part of URIs: https://ppa.launchpad.net/$repo_name
@@ -94,8 +94,9 @@ ensure_repositories() {
         fi
     done
 }
+
 ensure_apt_packages_installed() {
-    apt_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.apt.apps))
+    apt_packages=($(cat $DOTFILES_CONFIG | shyaml get-values config.packages.apt.apps | tr '\n' ' '))
 
     # Check if apt_packages array contains duplicates
     if [ $(echo $apt_packages | tr ' ' '\n' | sort | uniq -d | wc -l) -ne 0 ]; then
@@ -105,7 +106,7 @@ ensure_apt_packages_installed() {
         exit 1
     fi
 
-    for package in $apt_packages; do
+    for package in "${apt_packages[@]}"; do
         pkg_status=$(dpkg -s $package 2> /dev/null | grep "Status" | cut -d " " -f 4)
 
         # If pkg_status is `installed` then we don't need to install the package, otherwise if it's empty then the package is not installed
@@ -140,7 +141,7 @@ print_apt_status() {
     count=$(echo $apt_packages | wc -w)
     installed=0
 
-    for package in $apt_packages; do
+    for package in "${apt_packages[@]}"; do
         pkg_status=$(dpkg -s $package 2> /dev/null | grep "Status" | cut -d " " -f 4)
 
         if [ "$pkg_status" = "installed" ]; then

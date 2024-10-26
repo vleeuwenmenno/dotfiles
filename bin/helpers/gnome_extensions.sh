@@ -3,6 +3,11 @@
 source $HOME/dotfiles/bin/helpers/functions.sh
 
 ensure_gnome_extensions_installed() {
+    if is_wsl; then
+        printfe "%s\n" "yellow" "Running in WSL, skipping GNOME extensions."
+        return
+    fi
+
     # In case gnome-extensions is installed but we don't use GNOME let's do a check
     if [ "$XDG_CURRENT_DESKTOP" != "GNOME" ]; then
         printfe "%s\n" "red" "    - XDG_CURRENT_DESKTOP is not GNOME, likely not running GNOME."

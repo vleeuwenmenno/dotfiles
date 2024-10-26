@@ -13,6 +13,11 @@ load_vscode_extensions() {
 }
 
 ensure_vscode_extensions_installed() {
+    if is_wsl; then
+        printfe "%s\n" "yellow" "Running in WSL, skipping VSCode extensions."
+        return
+    fi
+
     # Load extensions list from jq in ~/dotfiles/vscode/extensions.json
     load_vscode_extensions
 

@@ -35,7 +35,7 @@ print_pipx_status() {
     count=$(echo $pipx_packages | wc -w)
     installed=0
 
-    for package in $pipx_packages; do
+    for package in "${pipx_packages[@]}"; do
         if pipx list | grep -q $package; then
             installed=$((installed + 1))
         else

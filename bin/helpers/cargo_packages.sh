@@ -14,7 +14,7 @@ ensure_cargo_packages_installed() {
         binary=$(cat $DOTFILES_CONFIG | shyaml get-value config.packages.cargo.$package.binary 2>/dev/null)
         
         # If pkg_status is `installed` then we don't need to install the package, otherwise if it's empty then the package is not installed
-        if [ -z $pkg_status ]; then
+        if [ -z "$pkg_status" ]; then
             ensure_sudo_privileges "In order to install $package, please provide your password:"
             printfe "%s" "yellow" "    - Compiling/Installing $package... (This may take a while)"
             clear_line
@@ -50,7 +50,7 @@ print_cargo_status() {
     count=$(echo $cargo_packages | wc -w)
     installed=0
 
-    for package in $cargo_packages; do
+    for package in "${cargo_packages[@]}"; do
         pkg_status=$(cargo install --list | grep -E "^${package}\sv[0-9.]+:$")
 
         if [ -z $pkg_status ]; then

@@ -117,7 +117,7 @@ config:
 
   git:
     dotfiles:
-      url: ssh://od.mvl.sh/dotfiles
+      url: git@git.mvl.sh:vleeuwenmenno/dotfiles.git
       branch: master
       target: ~/dotfiles
 
@@ -163,6 +163,7 @@ config:
       apps:
         - bash
         - bash-completion
+        - cargo
         - solaar
         - git
         - curl
@@ -195,9 +196,9 @@ config:
         - libfontconfig-dev
         - libfreetype-dev
         - mold
-        - cargo
         - clang
         - libgtk-3-dev
+        - gcc
         - gcc-mingw-w64
         - btop
         - htop
@@ -238,4 +239,5 @@ config:
         - libcurses-perl
         - xdotool
         - xclip
-        
+        - unzip
+        - zip

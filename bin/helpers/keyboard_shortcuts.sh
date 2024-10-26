@@ -30,6 +30,11 @@ ensure_swhkd() {
 }
 
 ensure_keyboard_shortcuts() {
+    if is_wsl; then
+        printfe "%s\n" "yellow" "Running in WSL, skipping keyboard shortcuts."
+        return
+    fi
+
     printfe "%s\n" "green" "    - Setting up swhkd configuration..."
     ensure_swhkd
 

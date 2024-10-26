@@ -8,14 +8,11 @@ source $HOME/dotfiles/bin/helpers/functions.sh
 printfe "%s\n" "cyan" "Fetching password from 1Password..."
 echo -en '\r'
 
-# if WSL alias op to op.exe
-if [[ $(uname -a) == *"microsoft-standard-WSL2"* ]]; then
-    alias op="op.exe"
+if is_wsl; then
+    output=$(op.exe item get "Dotfiles Secrets" --fields password)
 else
-    alias op="op"
+    output=$(op item get "Dotfiles Secrets" --fields password)
 fi
-
-output=$(op item get "Dotfiles Secrets" --fields password)
 
 # Check if the password was found
 if [[ -z "$output" ]]; then
@@ -23,8 +20,31 @@ if [[ -z "$output" ]]; then
     exit 1
 fi
 
-command=$(echo "$output" | grep -oP "(?<=use ').*(?=')")
-password=$(eval $command | grep -oP "(?<=  password:    ).*" | tr -d '\n')
+token=$(echo "$output" | grep -oP "(?<=\[use 'op item get ).*(?= --)")
+printfe "%s\n" "cyan" "Got fetch token: $token"
+
+if is_wsl; then
+    password=$(op.exe item get $token --reveal --field password)
+else
+    password=$(op item get $token --reveal --fields password)
+fi
+
+# only continue if password isn't empty
+if [[ -z "$password" ]]; then
+    printfe "%s\n" "red" "Something went wrong while fetching the password from 1Password."
+    
+    # Ask for manual input
+    printfe "%s" "cyan" "Enter the password manually: "
+    read -s password
+    echo
+
+    if [[ -z "$password" ]]; then
+        printfe "%s\n" "red" "Password cannot be empty."
+        exit 1
+    fi
+
+    printfe "%s\n" "green" "Password entered successfully."
+fi
 
 encrypt_folder() {
     for file in $1/*; do

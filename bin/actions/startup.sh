@@ -11,6 +11,11 @@ countdown() {
 }
 
 run_startup_scripts() {
+    if is_wsl; then
+        echo "Running in WSL, skipping startup scripts."
+        return
+    fi
+
     logo continue
     echo ""
     local time_of_day

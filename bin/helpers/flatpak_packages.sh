@@ -5,7 +5,7 @@ source $HOME/dotfiles/bin/helpers/functions.sh
 ensure_flatpak_packages_installed() {
     flatpak_packages=($(ls $HOME/dotfiles/config/flatpaks/ | sed 's/.flatpakref//g'))
 
-    for package in $flatpak_packages; do
+    for package in "${flatpak_packages[@]}"; do
         if ! flatpak list | grep -q $package; then
             printfe "%s\n" "cyan" "    - Installing $package..."
             flatpak install -y flathub $package
@@ -22,6 +22,11 @@ ensure_flatpak_packages_installed() {
 }
 
 print_flatpak_status() {
+    if is_wsl; then
+        printfe "%s\n" "yellow" "Running in WSL, skipping Flatpak packages check."
+        return
+    fi
+
     printfe "%s" "cyan" "Checking Flatpak packages..."
     clear_line
 
@@ -30,7 +35,7 @@ print_flatpak_status() {
     count=$(echo $flatpak_packages | wc -w)
     installed=0
 
-    for package in $flatpak_packages; do
+    for package in "${flatpak_packages[@]}"; do
         if flatpak list | grep -q $package; then
             installed=$((installed + 1))
         else

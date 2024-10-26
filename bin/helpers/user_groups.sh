@@ -7,7 +7,7 @@ ensure_user_groups() {
     users=($(cat $DOTFILES_CONFIG | shyaml keys config.user_groups))
 
     # For each user, ensure they are in the correct groups
-    for user in $users; do
+    for user in "${users[@]}"; do
         # Ensure this user exists
         if [[ ! $(id -u $user) ]]; then
             printfe "%s\n" "red" "    - User $user does not exist"
@@ -25,7 +25,7 @@ ensure_user_in_groups() {
     printfe "%s\n" "cyan" "    - For user $user..."
 
     # For each group, ensure the user is in it
-    for group in $groups; do
+    for group in "${groups[@]}"; do
         # Check if the group exists at all, otherwise skip
         if [[ ! $(getent group $group) ]]; then
             printfe "%s\n" "red" "      Group $group does not exist"
