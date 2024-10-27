@@ -2,16 +2,12 @@
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM+sKpcREOUjwMMSzEWAso6830wbOi8kUxqpuXWw5gHr
 	email = menno@vleeuwen.me
 	name = Menno van Leeuwen
-
 [gpg]
 	format = ssh
-
 [gpg "ssh"]
   program = "/mnt/c/Users/menno/AppData/Local/1Password/app/8/op-ssh-sign-wsl"
-
 [commit]
 	gpgsign = true
-  
 [color]
 	ui = true
 [push]
@@ -23,9 +19,7 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
-[core]
-	sshCommand = ssh.exe
-[url "ssh://git@"]
-	insteadOf = https://
 [safe]
 	directory = *
+[credential]
+	helper = manager
