@@ -67,6 +67,9 @@ case $1 in
     "term")
         $HOME/dotfiles/bin/actions/term.sh $@
         ;;
+    "auto-start"|"-a"|"-auto-start"|"as")
+        $HOME/dotfiles/bin/actions/auto-start.sh $@
+        ;;
     "hotkey-daemon")
         x-terminal-emulator -e $HOME/dotfiles/bin/actions/hotkey-daemon.sh $@
         ;;

@@ -6,6 +6,7 @@
     gh
     nixfmt-rfc-style
     wget
+    fastfetch
 
     # Package management
     pipx
@@ -66,6 +67,7 @@
     starship # Cross-shell prompt
     zellij # Modern terminal multiplexer
     nushell # Modern shell
+    screen # Terminal multiplexer
 
     # File viewers and processors
     hexyl # Modern hexdump

@@ -7,7 +7,6 @@
     ./keyboard-shortcuts.nix
     ./virtualization.nix
     ./packages.nix
-    ./auto-start.nix
   ];
 
   nixpkgs.config = {
