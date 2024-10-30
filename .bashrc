@@ -100,6 +100,7 @@ eval "$(zoxide init bash)"
 # Check if we are running from zellij, if not then launch it
 if [ -z "$ZELLIJ" ]; then
     zellij
+    exit $?
     return
 fi
 
