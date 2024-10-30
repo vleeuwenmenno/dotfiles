@@ -97,6 +97,12 @@ source $HOME/dotfiles/bin/1password-agent-bridge.sh
 # zoxide
 eval "$(zoxide init bash)"
 
+# Check if we are running from zellij, if not then launch it
+if [ -z "$ZELLIJ" ]; then
+    zellij
+    return
+fi
+
 # Display a welcome message for interactive shells
 if [ -t 1 ]; then
     dotf term
