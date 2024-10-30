@@ -59,6 +59,9 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/dotfiles/bin
 
+# Add flatpak to XDG_DATA_DIRS
+export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share
+
 # Tradaware / DiscountOffice Configuration
 if [ -d "/home/menno/Projects/Work" ]; then
     export TRADAWARE_FROM_SOURCE=true

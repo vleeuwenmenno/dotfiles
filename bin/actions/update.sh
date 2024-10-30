@@ -180,17 +180,6 @@ tailscalecmd() {
   ensure_tailscale_installed
 }
 
-extensions() {
-  if is_wsl; then
-    printfe "%s\n" "yellow" "Running in WSL, skipping extensions."
-    return
-  fi
-
-  printfe "%s\n" "cyan" "Ensuring GNOME Extensions are installed..."
-  source $HOME/dotfiles/bin/helpers/gnome_extensions.sh
-  ensure_gnome_extensions_installed
-}
-
 ####################################################################################################
 # Update system settings
 ####################################################################################################
@@ -206,45 +195,6 @@ fonts() {
   ensure_fonts_installed
 }
 
-terminal() {
-  if is_wsl; then
-    printfe "%s\n" "yellow" "Running in WSL, skipping setting default terminal."
-    return
-  fi
-
-  printfe "%s\n" "cyan" "Setting gnome-terminal as default terminal..."
-  if [ -x "$(command -v gnome-terminal)" ]; then
-    current_terminal=$(sudo update-alternatives --query x-terminal-emulator | grep '^Value:' | awk '{print $2}')
-
-    if [ "$current_terminal" != $(which gnome-terminal) ]; then
-      printfe "%s\n" "yellow" "    - Setting gnome-terminal as default terminal"
-      sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator $(which gnome-terminal) 80
-    else
-      printfe "%s\n" "green" "    - gnome-terminal is already the default terminal"
-    fi
-  else
-    printfe "%s\n" "red" "    - gnome-terminal is not installed"
-  fi
-
-  # Reset gnome-terminal settings
-  printfe "%s\n" "cyan" "Resetting gnome-terminal settings..."
-  dconf reset -f /org/gnome/terminal/
-
-  # Set gnome-terminal settings from $HOME/dotfiles/config/gnome-terminal
-  printfe "%s\n" "cyan" "Loading gnome-terminal settings..."
-  dconf load /org/gnome/terminal/ < $HOME/dotfiles/config/gnome-terminal.dconf
-}
-
-default_shell() {
-  printfe "%s\n" "cyan" "Setting bash as default shell..."
-  if [ "$SHELL" != "/usr/bin/bash" ]; then
-    printfe "%s\n" "yellow" "    - Setting bash as default shell"
-    chsh -s /usr/bin/bash
-  else
-    printfe "%s\n" "green" "    - bash is already the default shell"
-  fi
-}
-
 git_repos() {
   ####################################################################################################
   # Ensure git repos
@@ -256,7 +206,7 @@ git_repos() {
 }
 
 homemanager() {
-  home-manager switch
+  cd $HOME/dotfiles/config/home-manager && home-manager switch
 }
 
 ####################################################################################################
@@ -282,14 +232,10 @@ if [ "$#" -eq 0 ]; then
   git_repos
   flatpakpkgs
   tailscalecmd
-  extensions
-  fonts
-  terminal
-  default_shell
 else
   for arg in "$@"; do
     case $arg in
-    --homemanager)
+    --home-manager)
       homemanager
       ;;
     --git)
@@ -320,18 +266,6 @@ else
       ;;
     --tailscale)
       tailscalecmd
-      ;;
-    --extensions)
-      extensions
-      ;;
-    --fonts)
-      fonts
-      ;;
-    --terminal)
-      terminal
-      ;;
-    --default-shell)
-      default_shell
       ;;
     *)
       printfe "%s\n" "red" "Unknown option: $arg"

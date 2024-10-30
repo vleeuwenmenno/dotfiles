@@ -1,8 +1,4 @@
 { pkgs, ... }: {
-  imports = [
-    ./packages/firefox.nix
-  ];
-
   home.packages = with pkgs; [
     # General packages
     git
@@ -12,7 +8,6 @@
     wget
 
     # Package management
-    flatpak
     pipx
 
     # Development SDKs/Toolkits

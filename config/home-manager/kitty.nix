@@ -9,8 +9,8 @@
 
       settings = {
         dynamic_background_opacity = true;
-        background_opacity = "0.85";
-        background_blur = 32;
+        background_opacity = "0.95";
+        background_blur = 64;
       };
 
       

@@ -10,11 +10,9 @@
     ./auto-start.nix
   ];
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = (_: true);
-    };
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnfreePredicate = pkg: true;
   };
 
   home.username = "menno";

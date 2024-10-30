@@ -6,6 +6,7 @@
     ./nvidia.nix
     ./virtualization.nix
     ./users.nix
+    ./flatpak.nix
   ];
 
   # Bootloader.
@@ -84,6 +85,7 @@
     "1password/custom_allowed_browsers" = {
       text = ''
         firefox
+        brave
       '';
       mode = "0755";
     };
