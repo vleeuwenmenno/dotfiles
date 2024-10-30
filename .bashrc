@@ -7,11 +7,15 @@ HISTFILESIZE=2000  # Adjusted to match both histfile and size criteria
 alias docker-compose='docker compose'
 alias gg='git pull'
 alias gl='git log --stat'
+
+# Modern tools aliases
 alias l="eza --header --long --git --group-directories-first --group --icons --color=always --sort=name --hyperlink -o --no-permissions"
 alias ll='l'
 alias la='l -a'
-alias ddpul='docker compose down && docker compose pull && docker compose up -d && docker compose logs -f'
 alias cat='bat'
+alias du='dust'
+alias df='duf'
+alias rm="echo Use 'rip' instead of rm."
 
 # Docker Aliases
 alias d='docker'
@@ -23,9 +27,12 @@ alias dcu='docker compose up'
 alias dcp='docker compose ps'
 alias dcps='docker compose ps'
 alias dcr='docker compose run'
+alias ddpul='docker compose down && docker compose pull && docker compose up -d && docker compose logs -f'
 
 # Git aliases
 alias g='git'
+alias gg='git pull'
+alias gp='git push'
 alias gs='git status -s'
 alias gst='git status'
 alias ga='git add'
@@ -36,9 +43,6 @@ alias gcb='git checkout -b'
 
 # netstat port in use check
 alias port='netstat -atupn | grep LISTEN'
-
-# Hotkeys daemon
-alias hk='dotf hotkey-daemon'
 
 # Alias for ls to l but only if it's an interactive shell because we don't want to override ls in scripts which could blow up in our face
 if [ -t 1 ]; then
@@ -54,11 +58,6 @@ fi
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/dotfiles/bin
-
-# Go Configuration
-export GOPATH=$HOME/.go
-export GOROOT=$HOME/.go-root
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # Tradaware / DiscountOffice Configuration
 if [ -d "/home/menno/Projects/Work" ]; then
@@ -86,10 +85,16 @@ fi
 # Starship Prompt Initialization (Adapted for Bash)
 eval "$(starship init bash)"
 
+# Source nix home-manager
+. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+
+# Source agent-bridge script for 1password
+source $HOME/dotfiles/bin/1password-agent-bridge.sh
+
+# zoxide
+eval "$(zoxide init bash)"
+
 # Display a welcome message for interactive shells
 if [ -t 1 ]; then
     dotf term
 fi
-
-# Source optional agent-bridge script for WSL (This returns early if it's not on WSL)
-source $HOME/dotfiles/bin/1password-agent-bridge.sh

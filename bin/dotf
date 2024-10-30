@@ -72,9 +72,6 @@ case $1 in
     "secrets")
         secrets $@
         ;;
-    "startup")
-        $HOME/dotfiles/bin/actions/startup-runner.sh $@
-        ;;
     "term")
         $HOME/dotfiles/bin/actions/term.sh $@
         ;;

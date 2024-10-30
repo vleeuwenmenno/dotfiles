@@ -16,43 +16,33 @@ if [ ! -x "$(command -v shyaml)" ]; then
   pipx install shyaml
 fi
 
-groups() {
-  ####################################################################################################
-  # Ensure user groups
-  ####################################################################################################
-
-  printfe "%s\n" "cyan" "Ensuring user groups..."
-  source $HOME/dotfiles/bin/helpers/user_groups.sh
-  ensure_user_groups
-}
-
 ensure_symlink() {
   local source
   local target
 
   # Fetch target from YAML
-  target=$(shyaml get-value "config.symlinks.$1.target" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+  target=$(shyaml get-value "config.symlinks.$1.target" < "$HOME/dotfiles/config/config.yaml" 2>/dev/null)
   
   # Fetch source from YAML based on OS
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Check for WSL2
     if [[ $(uname -a) == *"microsoft-standard-WSL2"* ]]; then
-      source=$(shyaml get-value "config.symlinks.$1.sources.wsl" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+      source=$(shyaml get-value "config.symlinks.$1.sources.wsl" < "$HOME/dotfiles/config/config.yaml" 2>/dev/null)
     else
-      source=$(shyaml get-value "config.symlinks.$1.sources.linux" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+      source=$(shyaml get-value "config.symlinks.$1.sources.linux" < "$HOME/dotfiles/config/config.yaml" 2>/dev/null)
     fi
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-    source=$(shyaml get-value "config.symlinks.$1.sources.macos" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+    source=$(shyaml get-value "config.symlinks.$1.sources.macos" < "$HOME/dotfiles/config/config.yaml" 2>/dev/null)
   fi
 
   # Fall back to generic source if OS-specific source is empty
   if [ -z "$source" ]; then
-    source=$(shyaml get-value "config.symlinks.$1.source" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+    source=$(shyaml get-value "config.symlinks.$1.source" < "$HOME/dotfiles/config/config.yaml" 2>/dev/null)
   fi
 
   # Attempt to use the hostname of the machine if source is still empty
   if [ -z "$source" ]; then
-    source=$(shyaml get-value "config.symlinks.$1.sources.$(hostname)" < "$HOME/dotfiles/config/config.yaml") 2>/dev/null
+    source=$(shyaml get-value "config.symlinks.$1.sources.$(hostname)" < "$HOME/dotfiles/config/config.yaml" 2>/dev/null)
   fi
 
   # Error out if source is still empty
@@ -80,7 +70,7 @@ ensure_symlink() {
       resolved_target="$target"
     fi
 
-    current_chmod=$(stat -c %a "$resolved_target")
+    current_chmod=$(stat -c %a "$resolved_target" 2>/dev/null)
     if [ "$current_chmod" != "$desired_chmod" ]; then
       printfe "%s\n" "yellow" "    - Changing chmod of $resolved_target to $desired_chmod"
       chmod "$desired_chmod" "$resolved_target"
@@ -113,6 +103,11 @@ sys_packages() {
     brew upgrade
     brew cleanup
   else
+    if [ -x "$(command -v nixos-version)" ]; then
+      sudo nixos-rebuild switch
+      return
+    fi
+    
     sudo nala upgrade -y
     sudo nala autoremove -y --purge
   fi
@@ -122,26 +117,18 @@ sys_packages() {
 # Update packages
 ####################################################################################################
 
-cargopkgs() {
-  printfe "%s\n" "cyan" "Rust update..."
-  source $HOME/dotfiles/bin/helpers/rust.sh
-  ensure_rust_installed 
-  
+cargopkgs() {  
   printfe "%s\n" "cyan" "Ensuring Cargo packages are installed..."
   source $HOME/dotfiles/bin/helpers/cargo_packages.sh
   ensure_cargo_packages_installed
 }
 
-aptpkgs() {
-  printfe "%s\n" "cyan" "Ensuring APT repositories are added..."
-  source $HOME/dotfiles/bin/helpers/apt_packages.sh
-  ensure_repositories
-
-  printfe "%s\n" "cyan" "Ensuring APT packages are installed..."
-  ensure_apt_packages_installed
-}
-
 pipxpkgs() {
+  if [ ! -x "$(command -v pipx)" ]; then
+    printfe "%s\n" "yellow" "pipx is not available, skipping pipx packages."
+    return
+  fi
+
   printfe "%s\n" "cyan" "Ensuring pyenv is installed..."
   if [ ! -d "$HOME/.pyenv" ]; then
     curl https://pyenv.run | bash
@@ -155,6 +142,11 @@ pipxpkgs() {
 }
 
 flatpakpkgs() {
+  if [ ! -x "$(command -v flatpak)" ]; then
+    printfe "%s\n" "yellow" "Flatpak is not available, skipping Flatpak."
+    return
+  fi
+
   if is_wsl; then
     printfe "%s\n" "yellow" "Running in WSL, skipping Flatpak."
     return
@@ -166,6 +158,12 @@ flatpakpkgs() {
 }
 
 dockercmd() {
+  # On NixOS this is managed by the docker.nix module
+  if [ -x "$(command -v nixos-version)" ]; then
+    printfe "%s\n" "yellow" "Detected NixOS, skipping Docker."
+    return
+  fi
+
   printfe "%s\n" "cyan" "Ensuring Docker is installed..."
   source $HOME/dotfiles/bin/helpers/docker.sh
   ensure_docker_installed
@@ -191,33 +189,11 @@ extensions() {
   printfe "%s\n" "cyan" "Ensuring GNOME Extensions are installed..."
   source $HOME/dotfiles/bin/helpers/gnome_extensions.sh
   ensure_gnome_extensions_installed
-
-  printfe "%s\n" "cyan" "Ensuring VSCode extensions are installed..."
-  source $HOME/dotfiles/bin/helpers/vscode-extensions.sh
-  ensure_vscode_extensions_installed
-
-  if [ ! -f "$HOME/.local/share/nemo/actions/vscode.nemo_action" ]; then
-    printfe "%s\n" "cyan" "Ensuring nemo open with VSCode extension is installed..."
-    wget https://raw.githubusercontent.com/mhsattarian/nemo-open-in-vscode/master/vscode.nemo_action -O $HOME/.local/share/nemo/actions/vscode.nemo_action
-  else
-    printfe "%s\n" "green" "    - nemo open with VSCode extension is already installed"
-  fi
 }
 
 ####################################################################################################
 # Update system settings
 ####################################################################################################
-
-keyboard() {
-  if is_wsl; then
-    printfe "%s\n" "yellow" "Running in WSL, skipping keyboard shortcuts."
-    return
-  fi
-
-  printfe "%s\n" "cyan" "Setting up keyboard shortcuts..."
-  source $HOME/dotfiles/bin/helpers/keyboard_shortcuts.sh
-  ensure_keyboard_shortcuts
-}
 
 fonts() {
   if is_wsl; then
@@ -279,12 +255,16 @@ git_repos() {
   ensure_git_repos
 }
 
+homemanager() {
+  home-manager switch
+}
+
 ####################################################################################################
 # Parse arguments
 ####################################################################################################
 
 # Multiple options can be passed to the script, for example:
-# ./update.sh --verbose --groups --symlinks --packages --keyboard --fonts --default-terminal --default-shell
+# ./update.sh --git --symlinks --packages
 # If no options are passed, the script will run all functions
 
 # Shift the first argument since this is the script name
@@ -293,29 +273,27 @@ shift
 if [ "$#" -eq 0 ]; then
   printfe "%s\n" "yellow" "No options passed, running full update..."
 
-  git_repos
-  groups
   symlinks
   sys_packages
-  aptpkgs
+  homemanager
   cargopkgs
   pipxpkgs
   dockercmd
+  git_repos
   flatpakpkgs
   tailscalecmd
   extensions
-  keyboard
   fonts
   terminal
   default_shell
 else
   for arg in "$@"; do
     case $arg in
+    --homemanager)
+      homemanager
+      ;;
     --git)
       git_repos
-      ;;
-    --groups)
-      groups
       ;;
     --symlinks)
       symlinks
@@ -323,14 +301,10 @@ else
     --packages)
       sys_packages
       cargopkgs
-      aptpkgs
       pipxpkgs
       flatpakpkgs
       dockercmd
       tailscalecmd
-      ;;
-    --apt)
-      aptpkgs
       ;;
     --pipx)
       pipxpkgs
@@ -349,9 +323,6 @@ else
       ;;
     --extensions)
       extensions
-      ;;
-    --keyboard)
-      keyboard
       ;;
     --fonts)
       fonts

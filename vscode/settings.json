@@ -1,6 +1,6 @@
 {
     "security.workspace.trust.untrustedFiles": "open",
-    "window.zoomLevel": 0.5,
+    "window.zoomLevel": 1.2,
     "editor.fontFamily": "Hack Nerd Font",
     "terminal.integrated.fontFamily": "Hack Nerd Font",
     "github.copilot.enable": {
@@ -30,4 +30,8 @@
         "editor.tabCompletion": "onlySnippets",
         "editor.wordBasedSuggestions": "off"
     },
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
+    "editor.autoIndent": "full",
 }

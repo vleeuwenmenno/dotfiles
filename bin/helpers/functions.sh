@@ -7,8 +7,7 @@ println() {
 }
 
 is_wsl() {
-    unameres=$(uname -a | grep -i "microsoft" | wc -l)
-    if [ -n "$unameres" ]; then
+    if [ -f "/proc/sys/fs/binfmt_misc/WSLInterop" ]; then
         return 0
     else
         return 1
@@ -142,11 +141,87 @@ add_to_hosts() {
     fi
 }
 
+function exesudo ()
+{
+    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+    #
+    # LOCAL VARIABLES:
+    #
+    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+    
+    #
+    # I use underscores to remember it's been passed
+    local _funcname_="$1"
+    
+    local params=( "$@" )               ## array containing all params passed here
+    local tmpfile="/dev/shm/$RANDOM"    ## temporary file
+    local content                       ## content of the temporary file
+    local regex                         ## regular expression
+    
+    
+    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+    #
+    # MAIN CODE:
+    #
+    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+    
+    #
+    # WORKING ON PARAMS:
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    #
+    # Shift the first param (which is the name of the function)
+    unset params[0]              ## remove first element
+    # params=( "${params[@]}" )     ## repack array
+    
+    
+    #
+    # WORKING ON THE TEMPORARY FILE:
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    content="#!/bin/bash\n\n"
+    
+    #
+    # Write the params array
+    content="${content}params=(\n"
+    
+    regex="\s+"
+    for param in "${params[@]}"
+    do
+        if [[ "$param" =~ $regex ]]
+            then
+                content="${content}\t\"${param}\"\n"
+            else
+                content="${content}\t${param}\n"
+        fi
+    done
+    
+    content="$content)\n"
+    echo -e "$content" > "$tmpfile"
+    
+    #
+    # Append the function source
+    echo "#$( type "$_funcname_" )" >> "$tmpfile"
+    
+    #
+    # Append the call to the function
+    echo -e "\n$_funcname_ \"\${params[@]}\"\n" >> "$tmpfile"
+    
+
+    #
+    # DONE: EXECUTE THE TEMPORARY FILE WITH SUDO
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    sudo bash "$tmpfile"
+    rm "$tmpfile"
+}
+
 resolve_path() {
     echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
 }
 
 check_or_make_symlink() {
+    source /home/menno/dotfiles/bin/helpers/functions.sh
+
     SOURCE="$1"
     TARGET="$2"
 
@@ -156,6 +231,22 @@ check_or_make_symlink() {
 
     SOURCE=$(resolve_path "$SOURCE")
     TARGET=$(resolve_path "$TARGET")
+
+    # Check if we have permissions to create the symlink
+    if [ ! -w "$(dirname "$TARGET")" ]; then
+        # Check if link exists
+        if [ -L "$TARGET" ]; then
+            # Check if it points to the correct location
+            if [ "$(readlink "$TARGET")" != "$SOURCE" ]; then
+                exesudo check_or_make_symlink "$SOURCE" "$TARGET"
+                return
+            fi
+        else
+            # Link doesn't exist but we don't have permissions to create it, so we should try to create it with sudosudo
+            exesudo check_or_make_symlink "$SOURCE" "$TARGET"
+        fi
+        return
+    fi
 
     # If target is already a symlink, we should check if it points to the correct location
     if [ -L "$TARGET" ]; then
