@@ -51,6 +51,7 @@
     bandwhich # Network utilization tool
     doggo # Modern dig
     gping # Ping with graph
+    htop # Interactive process viewer
 
     # Development utilities
     delta # Better git diff
