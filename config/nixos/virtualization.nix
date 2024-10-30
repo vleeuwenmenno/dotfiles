@@ -1,7 +1,11 @@
 { config, pkgs, ... }: {
   boot.kernelModules = [ "kvm-amd" ];
-  
+
   virtualisation = {
+    docker = {
+      enable = true;
+    };
+
     libvirtd = {
       enable = true;
 

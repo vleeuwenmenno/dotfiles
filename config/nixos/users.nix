@@ -8,6 +8,7 @@
       "kvm" 
       "libvirtd"
       "qemu-libvirtd"
+      "docker"
     ];
     packages = with pkgs; [ ];
   };
