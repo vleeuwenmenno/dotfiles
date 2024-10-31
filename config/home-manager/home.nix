@@ -1,8 +1,9 @@
 { config, pkgs, ... }: {
   imports = [
-    ./vscode.nix
+    ./packages/vscode.nix
+    ./packages/go.nix
+    ./packages/kitty.nix
     ./fonts.nix
-    ./kitty.nix
     ./dconf.nix
     ./keyboard-shortcuts.nix
     ./virtualization.nix

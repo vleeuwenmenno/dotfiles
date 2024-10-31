@@ -206,7 +206,7 @@ git_repos() {
 }
 
 homemanager() {
-  cd $HOME/dotfiles/config/home-manager && home-manager switch
+  cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch
 }
 
 ensure_homemanager_installed() {

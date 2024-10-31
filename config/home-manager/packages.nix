@@ -10,13 +10,13 @@
 
     # Package management
     pipx
+    devbox
 
     # Development SDKs/Toolkits
     gcc
     pkg-config
     gnumake
     stdenv.cc
-    go
     rustc
     cargo
     cargo-edit

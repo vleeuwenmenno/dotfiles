@@ -14,11 +14,11 @@ else
     output=$(op item get "Dotfiles Secrets" --fields password)
 fi
 
-# Check if the password was found
-if [[ -z "$output" ]]; then
-    printfe "%s\n" "red" "Password not found in 1Password, add a login item with the name 'Dotfiles Secrets' and give it a password."
-    exit 1
+# Check if command was a success
+if [[ $? -ne 0 ]]; then
+    printfe "%s\n" "red" "Failed to fetch password from 1Password."
 fi
+
 
 token=$(echo "$output" | grep -oP "(?<=\[use 'op item get ).*(?= --)")
 printfe "%s\n" "cyan" "Got fetch token: $token"
