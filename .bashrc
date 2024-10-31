@@ -89,18 +89,28 @@ fi
 eval "$(starship init bash)"
 
 # Source nix home-manager
-. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+fi
 
 # Source agent-bridge script for 1password
 source $HOME/dotfiles/bin/1password-agent-bridge.sh
 
-# zoxide
-eval "$(zoxide init bash)"
+# zoxide if available
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init bash)"
+fi
 
 # Check if we are running from zellij, if not then launch it
 if [ -z "$ZELLIJ" ]; then
     zellij
-    exit $?
+
+    # Exit if zellij exits properly with a zero exit code
+    if [ $? -eq 0 ]; then
+        exit $?
+    fi
+
+    echo "Zellij exited with a non-zero exit code, continuing..."
     return
 fi
 
