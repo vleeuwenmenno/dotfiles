@@ -7,6 +7,7 @@
     ./virtualization.nix
     ./users.nix
     ./flatpak.nix
+    ./hosts.nix
   ];
 
   # Bootloader.
