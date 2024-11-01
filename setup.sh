@@ -17,6 +17,10 @@ if [ ! -x "$(command -v sed)" ]; then
     return
 fi
 
+if [ ! -f ~/.bashrc ]; then
+    touch ~/.bashrc
+fi
+
 sed -i -e '$a\'$'\n''export PATH=$PATH:$HOME/.local/bin' ~/.bashrc
 sed -i -e '$a\'$'\n''export PATH=$PATH:~/dotfiles/bin' ~/.bashrc
 

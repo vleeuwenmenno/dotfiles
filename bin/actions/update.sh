@@ -214,6 +214,18 @@ homemanager() {
   cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch
 }
 
+ensure_homemanager_installed() {
+  if [ ! -x "$(command -v home-manager)" ]; then
+    printfe "%s\n" "yellow" "Home Manager is not installed, installing it..."
+    nix-channel --add https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz home-manager
+    nix-channel --update
+    nix-shell '<home-manager>' -A install
+
+    printfe "%s\n" "yellow" "Home Manager installed, please run the script again."
+    exit 1
+  fi
+}
+
 ####################################################################################################
 # Parse arguments
 ####################################################################################################
@@ -228,6 +240,7 @@ shift
 if [ "$#" -eq 0 ]; then
   printfe "%s\n" "yellow" "No options passed, running full update..."
 
+  ensure_homemanager_installed
   symlinks
   sys_packages
   homemanager
