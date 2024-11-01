@@ -56,10 +56,10 @@
 
   # Add ROCm packages
   environment.systemPackages = with pkgs; [
-    rocm-smi # GPU monitoring tool
-    rocmPackages.clr # OpenCL Runtime
+    rocmPackages.rocm-smi
+    rocmPackages.clr
     rocmPackages.rocm-core
-    rocmPackages.hip # HIP runtime and compiler
+    rocmPackages.hip
     rocmPackages.rocm-device-libs
   ];
 
