@@ -105,6 +105,7 @@
     ## Multimedia
     spotify
     plex-media-player
+    vlc
 
     ## Astronomy
     stellarium
