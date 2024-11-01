@@ -59,7 +59,7 @@
     rocmPackages.rocm-smi
     rocmPackages.clr
     rocmPackages.rocm-core
-    rocmPackages.hip
+    rocmPackages.hipcc
     rocmPackages.rocm-device-libs
   ];
 
