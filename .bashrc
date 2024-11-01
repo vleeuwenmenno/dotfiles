@@ -62,6 +62,16 @@ export PATH=$PATH:$HOME/dotfiles/bin
 # Add flatpak to XDG_DATA_DIRS
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share
 
+# Allow unfree nixos
+export NIXPKGS_ALLOW_UNFREE=1
+
+# Set DOTF_HOSTNAME to the hostname from .hostname file
+# If this file doesn't exist, use mennos-unknown-hostname
+export DOTF_HOSTNAME="mennos-unknown-hostname"
+if [ -f $HOME/.hostname ]; then
+    export DOTF_HOSTNAME=$(cat $HOME/.hostname)
+fi
+
 # Tradaware / DiscountOffice Configuration
 if [ -d "/home/menno/Projects/Work" ]; then
     export TRADAWARE_FROM_SOURCE=true
