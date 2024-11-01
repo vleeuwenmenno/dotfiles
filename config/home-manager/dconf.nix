@@ -7,10 +7,12 @@
       "org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
       # Pinned apps
+      # add more by listing them with `gsettings list-recursively | grep favorite-apps`
       "org/gnome/shell" = {
         favorite-apps = [
           "io.github.zen_browser.zen.desktop"
           "code.desktop"
+          "org.telegram.desktop.desktop"
           "spotify.desktop"
           "vesktop.desktop"
           "kitty.desktop"

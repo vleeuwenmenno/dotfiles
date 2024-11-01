@@ -48,7 +48,10 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  environment.systemPackages = [ pkgs.tailscale ];
+  environment.systemPackages = [
+    pkgs.tailscale
+    pkgs.pciutils
+  ];
   services.tailscale.enable = true;
 
   # Configure keymap in X11
