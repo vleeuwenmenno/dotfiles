@@ -13,7 +13,6 @@
           system = "x86_64-linux";
           modules = [
             ./hardware/mennos-laptop.nix
-            ./nvidia.nix
             ./configuration.nix
             { networking.hostName = "mennos-laptop"; }
           ];
