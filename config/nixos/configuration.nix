@@ -4,7 +4,6 @@
     # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
     ./packages/default.nix
-    ./nvidia.nix
     ./virtualization.nix
     ./users.nix
     ./flatpak.nix

@@ -104,7 +104,7 @@ sys_packages() {
     brew cleanup
   else
     if [ -x "$(command -v nixos-version)" ]; then
-      sudo nixos-rebuild switch
+      cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --flake .#$DOTF_HOSTNAME
 
       # Exit if this failed
       if [ $? -ne 0 ]; then
@@ -211,7 +211,7 @@ git_repos() {
 }
 
 homemanager() {
-  cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch
+  cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch -b backup
 }
 
 ensure_homemanager_installed() {
