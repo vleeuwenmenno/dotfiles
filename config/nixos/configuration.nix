@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 {
   imports = [
-    # Include the results of the hardware scan.
-    /etc/nixos/hardware-configuration.nix
     ./packages/default.nix
     ./virtualization.nix
     ./users.nix
@@ -13,9 +11,6 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "mennos-laptop";
-  # networking.wireless.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
