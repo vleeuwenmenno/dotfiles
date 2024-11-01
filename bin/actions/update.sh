@@ -105,6 +105,11 @@ sys_packages() {
   else
     if [ -x "$(command -v nixos-version)" ]; then
       sudo nixos-rebuild switch
+
+      # Exit if this failed
+      if [ $? -ne 0 ]; then
+        exit $?
+      fi
       return
     fi
     
@@ -232,6 +237,7 @@ if [ "$#" -eq 0 ]; then
   git_repos
   flatpakpkgs
   tailscalecmd
+  dotf secrets encrypt
 else
   for arg in "$@"; do
     case $arg in

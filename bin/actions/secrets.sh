@@ -2,12 +2,6 @@
 
 source $HOME/dotfiles/bin/helpers/functions.sh
 
-####################################################################################################
-# Decrypt secrets
-####################################################################################################
-printfe "%s\n" "cyan" "Fetching password from 1Password..."
-echo -en '\r'
-
 if is_wsl; then
     output=$(op.exe item get "Dotfiles Secrets" --fields password)
 else
@@ -19,14 +13,19 @@ if [[ $? -ne 0 ]]; then
     printfe "%s\n" "red" "Failed to fetch password from 1Password."
 fi
 
-
-token=$(echo "$output" | grep -oP "(?<=\[use 'op item get ).*(?= --)")
-printfe "%s\n" "cyan" "Got fetch token: $token"
-
-if is_wsl; then
-    password=$(op.exe item get $token --reveal --field password)
+# In case the output does not contain use 'op item get, it means the password was fetched successfully
+# Without having to reveal the password using an external command
+if [[ ! $output == *"use 'op item get"* ]]; then
+    password=$output
 else
-    password=$(op item get $token --reveal --fields password)
+    token=$(echo "$output" | grep -oP "(?<=\[use 'op item get ).*(?= --)")
+    printfe "%s\n" "cyan" "Got fetch token: $token"
+
+    if is_wsl; then
+        password=$(op.exe item get $token --reveal --field password)
+    else
+        password=$(op item get $token --reveal --fields password)
+    fi
 fi
 
 # only continue if password isn't empty
@@ -60,7 +59,6 @@ encrypt_folder() {
 
         # If the file is a directory, call this function recursively
         if [[ -d $file ]]; then
-            printfe "%s\n" "cyan" "Encrypting folder $file..."
             encrypt_folder $file
             continue
         fi
@@ -72,7 +70,6 @@ encrypt_folder() {
             previous_checksum=$(cat $checksum_file)
 
             if [[ $current_checksum == $previous_checksum ]]; then
-                printfe "%s\n" "green" "Skipping unchanged file $file."
                 continue
             fi
         fi
@@ -110,7 +107,9 @@ decrypt_folder() {
 }
 
 if [[ "$2" == "decrypt" ]]; then
+    printfe "%s\n" "cyan" "Decrypting secrets..."
     decrypt_folder ~/dotfiles/secrets
 elif [[ "$2" == "encrypt" ]]; then
+    printfe "%s\n" "cyan" "Encrypting secrets..."
     encrypt_folder ~/dotfiles/secrets
 fi

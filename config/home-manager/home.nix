@@ -1,9 +1,12 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   imports = [
     ./packages/vscode.nix
     ./packages/go.nix
     ./packages/kitty.nix
+    ./packages/zed-editor.nix
     ./fonts.nix
+    ./gnome-extensions.nix
     ./dconf.nix
     ./keyboard-shortcuts.nix
     ./virtualization.nix
@@ -18,11 +21,8 @@
   home.username = "menno";
   home.homeDirectory = "/home/menno";
   home.stateVersion = "24.05";
-  home.file = { };
 
   home.sessionVariables = {
-    GOROOT = "${pkgs.go}/share/go";
-    GOPATH = "${config.home.homeDirectory}/go";
     PATH = "${config.home.homeDirectory}/go/bin:$PATH";
   };
 }

@@ -12,9 +12,4 @@ in
     enable = true;
     package = pinnedPkgs.go;
   };
-
-  home.sessionVariables = {
-    GOPATH = "${config.home.homeDirectory}/go";
-    GOBIN = "${config.home.homeDirectory}/go/bin";
-  };
 }
