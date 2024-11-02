@@ -234,7 +234,6 @@ if [ "$#" -eq 0 ]; then
   homemanager
   cargopkgs
   pipxpkgs
-  dockercmd
   git_repos
   flatpakpkgs
   tailscalecmd
@@ -263,7 +262,6 @@ else
       cargopkgs
       pipxpkgs
       flatpakpkgs
-      dockercmd
       tailscalecmd
       ;;
     --pipx)
@@ -274,9 +272,6 @@ else
       ;;
     --flatpak)
       flatpakpkgs
-      ;;
-    --docker)
-      dockercmd
       ;;
     --tailscale)
       tailscalecmd

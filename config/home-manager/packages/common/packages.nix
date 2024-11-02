@@ -67,7 +67,6 @@
     # Shell and terminal
     starship # Cross-shell prompt
     zellij # Modern terminal multiplexer
-    nushell # Modern shell
     screen # Terminal multiplexer
 
     # File viewers and processors

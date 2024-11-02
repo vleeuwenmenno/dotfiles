@@ -3,10 +3,8 @@ HISTFILE=~/.bash_history
 HISTSIZE=1000
 HISTFILESIZE=2000  # Adjusted to match both histfile and size criteria
 
-# Alias Definitions
+# Docker Compose Alias (Mostly for old shell scripts)
 alias docker-compose='docker compose'
-alias gg='git pull'
-alias gl='git log --stat'
 
 # Home Manager Configuration
 alias hm='cd $HOME/dotfiles/config/home-manager/ && home-manager'
@@ -37,6 +35,7 @@ alias ddpul='docker compose down && docker compose pull && docker compose up -d 
 # Git aliases
 alias g='git'
 alias gg='git pull'
+alias gl='git log --stat'
 alias gp='git push'
 alias gs='git status -s'
 alias gst='git status'
