@@ -45,7 +45,7 @@ prepare_hostname() {
     read hostname
 
     # Validate hostname to ensure it's not empty, contains only alphanumeric characters, and is less than 64 characters
-    while [[ -z $hostname || ! $hostname =~ ^[a-zA-Z0-9]+$ || ${#hostname} -gt 64 ]]; do
+    while [[ -z $hostname || ! $hostname =~ ^[a-zA-Z0-9_-]+$ || ${#hostname} -gt 64 ]]; do
         echo "Invalid hostname. Please enter a valid hostname:"
         read hostname
     done

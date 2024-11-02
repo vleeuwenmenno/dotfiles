@@ -14,7 +14,7 @@ Either install GNOME or Minimal depending on if you intend to setup a server or 
 Clone the repository to your home directory, you can do this by opening a shell with git installed.
 
 ```bash
-nixos-shell -p git
+nix-shell -p git
 git clone https://git.mvl.sh/vleeuwenmenno/dotfiles.git ~/dotfiles
 exit
 ```
