@@ -48,9 +48,10 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  environment.systemPackages = [
-    pkgs.tailscale
-    pkgs.pciutils
+  environment.systemPackages = with pkgs; [
+    tailscale
+    pciutils
+    gnome3.gnome-session
   ];
   services.tailscale.enable = true;
 
@@ -102,8 +103,16 @@
   # Open ports in the firewall.
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ ];
-    allowedUDPPorts = [ ];
+    allowedTCPPorts = [
+      3389
+      3390
+      3391
+    ];
+    allowedUDPPorts = [
+      3389
+      3390
+      3391
+    ];
   };
 
   # Set hostname to DOTF_HOSTNAME if defined, otherwise use the hostname of the system.

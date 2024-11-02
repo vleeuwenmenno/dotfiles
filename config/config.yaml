@@ -22,6 +22,11 @@ config:
     vscode:
       source: ~/dotfiles/vscode/settings.json
       target: ~/.config/Code/User/settings.json
+
+    # Autostart
+    autostart:
+      source: ~/dotfiles/config/autostart
+      target: ~/.config/autostart
       
     # SSH config
     ssh:
