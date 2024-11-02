@@ -136,7 +136,7 @@ launch_zellij_conditionally() {
     fi
 }
 
-launch_zellij_conditionally
+# launch_zellij_conditionally
 
 # Display a welcome message for interactive shells
 if [ -t 1 ]; then
