@@ -20,6 +20,13 @@ ensure_nixos() {
         echo "NixOS not detected, installing Nix..."
         tput sgr0
         sh <(curl -L https://nixos.org/nix/install) --daemon
+
+        if [ $? -ne 0 ]; then
+            tput setaf 1
+            echo "Failed to install Nix. Exiting..."
+            tput sgr0
+            exit 1
+        fi
     fi
 }
 
@@ -39,6 +46,18 @@ setup_symlinks() {
     # Link proper nixos configs
     sudo rm -rf /etc/nixos/configuration.nix
     sudo ln -s $HOME/dotfiles/config/nixos/configuration.nix /etc/nixos/configuration.nix
+
+    # Confirm paths are now proper symlinks
+    if [ -L $HOME/.bashrc ] && [ -L ~/.config/home-manager ] && [ -L /etc/nixos/configuration.nix ]; then
+        tput setaf 2
+        echo "Symlinks set up successfully."
+        tput sgr0
+    else
+        tput setaf 1
+        echo "Failed to set up symlinks. Exiting..."
+        tput sgr0
+        exit 1
+    fi
 }
 
 install_home_manager() {
@@ -50,6 +69,13 @@ install_home_manager() {
     sudo nix-channel --update
     sudo nix-shell '<home-manager>' -A install
     nix-shell '<home-manager>' -A install
+
+    if [ $? -ne 0 ]; then
+        tput setaf 1
+        echo "Failed to install Home Manager. Exiting..."
+        tput sgr0
+        exit 1
+    fi
 }
 
 prepare_hostname() {
@@ -78,6 +104,18 @@ prepare_hostname() {
     # Set the hostname by dumping it into $HOME/.hostname
     touch $HOME/.hostname
     echo $hostname > $HOME/.hostname
+
+    # Confirm we saved the hostname to $HOME/.hostname
+    if [ -f $HOME/.hostname ] && [ $(cat $HOME/.hostname) == $hostname ]; then
+        tput setaf 2
+        echo "Hostname set successfully."
+        tput sgr0
+    else
+        tput setaf 1
+        echo "Failed to set hostname. Exiting..."
+        tput sgr0
+        exit 1
+    fi
 }
 
 prepare_hostname
