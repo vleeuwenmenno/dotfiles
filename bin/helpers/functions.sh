@@ -226,6 +226,9 @@ check_or_make_symlink() {
     SOURCE="${SOURCE/#\~/$HOME}"
     TARGET="${TARGET/#\~/$HOME}"
 
+    # Ensure the parent directory of the target exists
+    mkdir -p "$(dirname "$TARGET")"
+
     SOURCE=$(resolve_path "$SOURCE")
     TARGET=$(resolve_path "$TARGET")
 
