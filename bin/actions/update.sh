@@ -241,10 +241,10 @@ if [ "$#" -eq 0 ]; then
 else
   for arg in "$@"; do
     case $arg in
-    --nixos)
+    --nixos|nixos|nix|nixos-rebuild)
       sys_packages
       ;;
-    --home-manager)
+    --home-manager|--homemanager|ha|hm|home)
       homemanager
       ;;
     --nix)
