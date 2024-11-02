@@ -103,6 +103,8 @@ fi
 if ! command -v starship &> /dev/null; then
     echo "FYI, starship not found"
 else
+    export STARSHIP_ENABLE_RIGHT_PROMPT=true
+    export STARSHIP_ENABLE_BASH_CONTINUATION=true
     eval "$(starship init bash)"
 fi
 
@@ -141,6 +143,35 @@ launch_zellij_conditionally() {
 }
 
 # launch_zellij_conditionally
+
+# Source ble.sh if it exists
+if [[ -f "${HOME}/.nix-profile/share/blesh/ble.sh" ]]; then
+    source "${HOME}/.nix-profile/share/blesh/ble.sh"
+    
+    bleopt prompt_ps1_final='$(starship module character)'
+    
+    # Basic ble.sh settings
+    bleopt complete_menu_complete=1
+    bleopt complete_auto_complete=1
+    
+    # Custom function for fzf history search
+    function fzf_history_search() {
+        local selected
+        selected=$(history | fzf --tac --height=40% --layout=reverse --border --info=inline \
+            --query="$READLINE_LINE" \
+            --color 'fg:#ebdbb2,bg:#282828,hl:#fabd2f,fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f' \
+            --color 'info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#83a598,marker:#fe8019,header:#665c54' \
+            | sed 's/^ *[0-9]* *//')
+        if [[ -n "$selected" ]]; then
+            READLINE_LINE="$selected"
+            READLINE_POINT=${#selected}
+        fi
+        ble-redraw-prompt
+    }
+
+    # Bind Ctrl+R to our custom function
+    bind -x '"\C-r": fzf_history_search'
+fi
 
 # Display a welcome message for interactive shells
 if [ -t 1 ]; then

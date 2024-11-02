@@ -58,7 +58,6 @@
     # Development utilities
     delta # Better git diff
     difftastic # Structural diff tool
-    mcfly # Better shell history
     fzf # Fuzzy finder
     tokei # Code statistics
     tealdeer # Modern tldr client
@@ -66,6 +65,7 @@
 
     # Shell and terminal
     starship # Cross-shell prompt
+    blesh # Bash ble.sh
     zellij # Modern terminal multiplexer
     screen # Terminal multiplexer
 
