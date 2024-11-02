@@ -254,6 +254,9 @@ if [ "$#" -eq 0 ]; then
 else
   for arg in "$@"; do
     case $arg in
+    --nixos)
+      sys_packages
+      ;;
     --home-manager)
       homemanager
       ;;

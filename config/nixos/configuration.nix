@@ -6,6 +6,7 @@
     ./users.nix
     ./flatpak.nix
     ./hosts.nix
+    ./yubikey.nix
   ];
 
   # Bootloader.
@@ -86,6 +87,7 @@
       text = ''
         firefox
         brave
+        zen
       '';
       mode = "0755";
     };
@@ -114,9 +116,6 @@
       3391
     ];
   };
-
-  # Set hostname to DOTF_HOSTNAME if defined, otherwise use the hostname of the system.
-  networking.hostName = builtins.getEnv "DOTF_HOSTNAME";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

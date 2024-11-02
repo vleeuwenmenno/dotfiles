@@ -18,6 +18,16 @@ config:
         wsl: ~/dotfiles/config/gitconfig.wsl
       target: ~/.gitconfig
 
+    # Yubico u2f keys
+    u2f:
+      sources:
+        mennos-laptop: ~/dotfiles/secrets/yubico/u2f.work.keys
+        mennos-desktop: ~/dotfiles/secrets/yubico/u2f.personal.keys
+        mennos-gamingpc: ~/dotfiles/secrets/yubico/u2f.personal.keys
+        homeserver-pc: ~/dotfiles/secrets/yubico/u2f.personal.keys
+      target: ~/.config/Yubico/u2f_keys
+      chmod: 644
+
     # VSCode settings
     vscode:
       source: ~/dotfiles/vscode/settings.json
