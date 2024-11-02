@@ -36,16 +36,22 @@ setup_symlinks() {
     tput sgr0
 
     # Link .bashrc
-    rm -rf $HOME/.bashrc
+    if [ -f $HOME/.bashrc ]; then
+        mv $HOME/.bashrc $HOME/.bashrc.bak
+    fi
     ln -s $HOME/dotfiles/.bashrc $HOME/.bashrc
 
     # Link proper home-manager configs
-    rm -rf ~/.config/home-manager
+    if [ -d ~/.config/home-manager ]; then
+        mv ~/.config/home-manager ~/.config/home-manager.bak
+    fi
     ln -s $HOME/dotfiles/config/home-manager ~/.config/home-manager
 
     # Link proper nixos configs
-    sudo rm -rf /etc/nixos/configuration.nix
-    sudo ln -s $HOME/dotfiles/config/nixos/configuration.nix /etc/nixos/configuration.nix
+    if [ -d /etc/nixos ]; then
+        sudo mv /etc/nixos /etc/nixos.bak
+    fi
+    sudo ln -s $HOME/dotfiles/config/nixos /etc/nixos
 
     # Confirm paths are now proper symlinks
     if [ -L $HOME/.bashrc ] && [ -L ~/.config/home-manager ] && [ -L /etc/nixos/configuration.nix ]; then
