@@ -4,7 +4,6 @@
     # GUI Applications
     ## Utilities
     mission-center
-    flameshot
     gnome.gnome-tweaks
     pinta
     bottles
