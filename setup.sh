@@ -49,9 +49,9 @@ setup_symlinks() {
 
     # Link proper nixos configs
     if [ -d /etc/nixos ]; then
-        sudo mv /etc/nixos /etc/nixos.bak
+        sudo mv /etc/nixos/configuration.nix /etc/nixos/configuration.nix.bak
     fi
-    sudo ln -s $HOME/dotfiles/config/nixos /etc/nixos
+    sudo ln -s $HOME/dotfiles/config/nixos/configuration.nix /etc/nixos/configuration.nix
 
     # Confirm paths are now proper symlinks
     if [ -L $HOME/.bashrc ] && [ -L ~/.config/home-manager ] && [ -L /etc/nixos/configuration.nix ]; then
@@ -85,6 +85,25 @@ install_home_manager() {
 }
 
 prepare_hostname() {
+    # Check if $HOME/.hostname exists, if skip hostname setup
+    if [ -f $HOME/.hostname ]; then
+        hostname=$(cat $HOME/.hostname)
+        tput setaf 2
+        echo "Hostname already found in $HOME/.hostname. Using $hostname."
+        tput sgr0
+
+        # Check if config/nixos/hardware/ contains config/nixos/hardware/$hostname.nix
+        if [ ! -f $HOME/dotfiles/config/nixos/hardware/$hostname.nix ]; then
+            echo "No hardware configuration found for $hostname. Please create a hardware configuration for this machine."
+            exit 1
+        fi
+
+        tput setaf 2
+        echo "Hardware configuration found for $hostname. Continuing setup..."
+        tput sgr0
+        return
+    fi
+
     # Ask the user what hostname this machine should have
     tput setaf 3
     echo "Enter the hostname for this machine:"
@@ -130,18 +149,34 @@ install_home_manager
 setup_symlinks
 
 # Rebuild NixOS
-sudo nixos-rebuild switch
+cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --flake .#$DOTF_HOSTNAME --impure
+if [ $? -ne 0 ]; then
+    tput setaf 1
+    echo "Failed to rebuild NixOS. Exiting..."
+    tput sgr0
+    exit 1
+fi
 
 # Rebuild Home Manager
 cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch
+if [ $? -ne 0 ]; then
+    tput setaf 1
+    echo "Failed to rebuild Home Manager. Exiting..."
+    tput sgr0
+    exit 1
+fi
+
+tput setaf 2
+echo
+echo "Setup complete. Please logout / restart to continue with 'dotf update'."
+echo
+tput sgr0
 
 touch $HOME/.dotfiles-setup
 
-# Print this in RED
 tput setaf 1
-
+echo
 echo "!!! Ensure the correct UUID is set for the boot device under your hardware configuration before rebooting !!!"
 echo "!!! Afterwards logout / restart to continue with 'dotf update' !!!"
-
-# Reset color
+echo
 tput sgr0
