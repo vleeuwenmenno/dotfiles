@@ -3,8 +3,11 @@
   dconf = {
     enable = true;
     settings = {
-      # Set the color scheme to dark
-      "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+      # Dark theme
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        gtk-theme = "Adwaita-dark";
+      };
 
       # Pinned apps
       # add more by listing them with `gsettings list-recursively | grep favorite-apps`
