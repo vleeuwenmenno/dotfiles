@@ -155,7 +155,7 @@ install_nix
 install_home_manager
 
 # Rebuild NixOS
-cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --flake .#$DOTF_HOSTNAME --impure
+cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --flake .#$hostname --impure
 if [ $? -ne 0 ]; then
     tput setaf 1
     echo "Failed to rebuild NixOS. Exiting..."
@@ -164,7 +164,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Rebuild Home Manager
-cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch --flake .#$DOTF_HOSTNAME --impure
+cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch --flake .#$hostname --impure
 if [ $? -ne 0 ]; then
     tput setaf 1
     echo "Failed to rebuild Home Manager. Exiting..."

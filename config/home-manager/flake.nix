@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
-    # Pinned versions for specific packages
+    # Pinned versions for specific packages (https://nixhub.io)
     nixpkgs-go.url = "github:nixos/nixpkgs/d4f247e89f6e10120f911e2e2d2254a050d0f732";
     nixpkgs-vscode.url = "github:nixos/nixpkgs/d4f247e89f6e10120f911e2e2d2254a050d0f732";
     nixpkgs-zed.url = "github:nixos/nixpkgs/41dea55321e5a999b17033296ac05fe8a8b5a257";
