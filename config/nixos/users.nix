@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   users.users.menno = {
+    shell = pkgs.bash;
     isNormalUser = true;
     description = "Menno van Leeuwen";
     extraGroups = [
@@ -13,6 +14,5 @@
       "video"
       "render"
     ];
-    packages = with pkgs; [ ];
   };
 }

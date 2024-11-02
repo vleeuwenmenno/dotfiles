@@ -11,7 +11,7 @@ alias gl='git log --stat'
 # Home Manager Configuration
 alias hm='cd $HOME/dotfiles/config/home-manager/ && home-manager'
 alias hmnews='hm news --flake .#$DOTF_HOSTNAME'
-alias hmswitch='hm switch --flake .#$DOTF_HOSTNAME --impure'
+alias hmup='hm switch --flake .#$DOTF_HOSTNAME --impure'
 
 # Modern tools aliases
 alias l="eza --header --long --git --group-directories-first --group --icons --color=always --sort=name --hyperlink -o --no-permissions"

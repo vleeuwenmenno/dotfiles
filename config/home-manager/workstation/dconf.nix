@@ -48,9 +48,15 @@
           "org.telegram.desktop.desktop"
           "spotify.desktop"
           "vesktop.desktop"
-          "kitty.desktop"
           "org.gnome.Geary.desktop"
         ];
+      };
+
+      # GNOME Terminal settings
+      "org/gnome/Console" = {
+        use-system-font = false;
+        custom-font = "Hack Nerd Font 14";
+        theme = "night";
       };
 
       # Set wallpaper

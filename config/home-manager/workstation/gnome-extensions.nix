@@ -104,7 +104,6 @@
         menu-button-icon-image = 23;
         menu-button-icon-size = 24;
         menu-button-system-monitor = "missioncenter";
-        menu-button-terminal = "kitty";
         show-power-options = false;
         symbolic-icon = true;
         use-custom-icon = false;

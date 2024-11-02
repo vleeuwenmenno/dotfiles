@@ -229,6 +229,12 @@ check_or_make_symlink() {
     # Ensure the parent directory of the target exists
     mkdir -p "$(dirname "$TARGET")"
 
+    # if source doesn't exist it's likely a secret that hasn't been decrypted yet
+    if [ ! -e "$SOURCE" ]; then
+        printfe "%s\n" "yellow" "    - Source $SOURCE doesn't exist"
+        return
+    fi
+
     SOURCE=$(resolve_path "$SOURCE")
     TARGET=$(resolve_path "$TARGET")
 

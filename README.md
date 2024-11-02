@@ -47,7 +47,7 @@ It's probably a good idea that you either reboot or log out and log back in to m
 Run the `dotf update` command, although nixos-rebuild and home-manager already ran the dotf cli didn't yet place proper symlinks for everything.
 
 ```bash
-dotf update
+source ~/.bashrc && dotf update
 ```
 
 ### 5. Setup 1Password

@@ -172,6 +172,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Make .profile a symlink to .bashrc
+if [ -f $HOME/.profile ]; then
+    mv $HOME/.profile $HOME/.profile.bak
+fi
+ln -s $HOME/.bashrc $HOME/.profile
+
 tput setaf 2
 echo
 echo "Setup complete. Please logout / restart to continue with 'dotf update'."
@@ -183,6 +189,6 @@ touch $HOME/.dotfiles-setup
 tput setaf 1
 echo
 echo "!!! Ensure the correct UUID is set for the boot device under your hardware configuration before rebooting !!!"
-echo "!!! Afterwards logout / restart to continue with 'dotf update' !!!"
+echo "!!! Afterwards logout / restart to continue with 'source ~/.bashrc && dotf update' !!!"
 echo
 tput sgr0

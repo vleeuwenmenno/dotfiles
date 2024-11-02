@@ -10,15 +10,10 @@
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/1password-quick-access/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/missioncenter/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal/"
       ];
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal" = {
-      binding = "<Primary><Alt>t";
-      command = "kitty";
-      name = "open-terminal";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/1password-quick-access" = {
       binding = "<Ctrl><Alt>space";
@@ -29,6 +24,11 @@
       binding = "<Ctrl><Shift>Escape";
       command = "missioncenter";
       name = "missioncenter";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal" = {
+      binding = "<Ctrl><Alt>t";
+      command = "kgx";
+      name = "terminal";
     };
   };
 }
