@@ -104,7 +104,7 @@ sys_packages() {
     brew cleanup
   else
     if [ -x "$(command -v nixos-version)" ]; then
-      cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --flake .#$DOTF_HOSTNAME
+      cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --flake .#$DOTF_HOSTNAME --impure
 
       # Exit if this failed
       if [ $? -ne 0 ]; then
