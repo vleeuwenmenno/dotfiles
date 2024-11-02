@@ -106,6 +106,9 @@
     allowedUDPPorts = [ ];
   };
 
+  # Set hostname to DOTF_HOSTNAME if defined, otherwise use the hostname of the system.
+  networking.hostName = builtins.getEnv "DOTF_HOSTNAME";
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

@@ -14,7 +14,6 @@
           modules = [
             ./hardware/mennos-laptop.nix
             ./configuration.nix
-            { networking.hostName = "mennos-laptop"; }
           ];
         };
         "mennos-gamingpc" = nixpkgs.lib.nixosSystem {
@@ -22,7 +21,6 @@
           modules = [
             ./hardware/mennos-gamingpc.nix
             ./configuration.nix
-            { networking.hostName = "mennos-desktop"; }
           ];
         };
       };

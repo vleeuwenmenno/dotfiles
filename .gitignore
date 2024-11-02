@@ -9,7 +9,6 @@ secrets/ssh_config/*.*
 !secrets/ssh_config/*.gpg
 secrets/*.*
 !secrets/*.gpg
-secrets/id_ed25519
 
 # SHA256 hashes of the encrypted secrets
 *.sha256
