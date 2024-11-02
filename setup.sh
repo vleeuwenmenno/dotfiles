@@ -50,6 +50,14 @@ prepare_hostname() {
         read hostname
     done
 
+    # Check if config/nixos/hardware/ contains config/nixos/hardware/$hostname.nix
+    if [ ! -f $HOME/dotfiles/config/nixos/hardware/$hostname.nix ]; then
+        echo "No hardware configuration found for $hostname. Please create a hardware configuration for this machine."
+        exit 1
+    fi
+
+    echo "Hardware configuration found for $hostname. Continuing setup..."
+
     # Set the hostname by dumping it into $HOME/.hostname
     touch $HOME/.hostname
     echo $hostname > $HOME/.hostname
