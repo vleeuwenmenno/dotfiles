@@ -162,18 +162,6 @@ flatpakpkgs() {
   ensure_flatpak_packages_installed
 }
 
-dockercmd() {
-  # On NixOS this is managed by the docker.nix module
-  if [ -x "$(command -v nixos-version)" ]; then
-    printfe "%s\n" "yellow" "Detected NixOS, skipping Docker."
-    return
-  fi
-
-  printfe "%s\n" "cyan" "Ensuring Docker is installed..."
-  source $HOME/dotfiles/bin/helpers/docker.sh
-  ensure_docker_installed
-}
-
 tailscalecmd() {
   if is_wsl; then
     printfe "%s\n" "yellow" "Running in WSL, skipping Tailscale."
