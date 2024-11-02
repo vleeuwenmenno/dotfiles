@@ -67,6 +67,13 @@ setup_symlinks() {
 }
 
 install_home_manager() {
+    if [ -x "$(command -v home-manager)" ]; then
+        tput setaf 2
+        echo "Home Manager already installed. Skipping..."
+        tput sgr0
+        return
+    fi
+
     tput setaf 3
     echo "Installing Home Manager..."
     tput sgr0
