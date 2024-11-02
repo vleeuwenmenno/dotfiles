@@ -29,6 +29,7 @@ setup_symlinks() {
     ln -s $HOME/dotfiles/config/home-manager ~/.config/home-manager
 
     # Link proper nixos configs
+    sudo rm -rf /etc/nixos/configuration.nix
     sudo ln -s $HOME/dotfiles/config/nixos/configuration.nix /etc/nixos/configuration.nix
 }
 

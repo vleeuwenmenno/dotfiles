@@ -7,7 +7,10 @@ Please install a clean version of NixOS GNOME and then follow the steps below.
 
 ### 0. Install NixOS
 
-Either install GNOME or Minimal depending on if you intend to setup a server or desktop.
+Download the latest NixOS ISO from the [NixOS website](https://nixos.org/download.html) and write it to a USB stick.
+I'd recommend getting the GNOME version as it's easier to setup and you can select minimal from the installer anyway if you want to just setup a headless server.
+
+#### Note: If you intend on using a desktop environment you should select the GNOME version as this dotfiles repository expects the GNOME desktop environment for various configurations
 
 ### 1. Clone dotfiles to home directory
 
