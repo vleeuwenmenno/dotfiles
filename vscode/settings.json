@@ -36,5 +36,6 @@
   "editor.insertSpaces": true,
   "editor.detectIndentation": true,
   "editor.autoIndent": "full",
-  "debug.inlineValues": "on"
+  "debug.inlineValues": "on",
+  "git.confirmSync": false
 }
