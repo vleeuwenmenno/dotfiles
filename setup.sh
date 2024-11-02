@@ -11,15 +11,23 @@ fi
 # Check if nixos-version is available
 ensure_nixos() {
     if [ -x "$(command -v nixos-version)" ]; then
+        tput setaf 2
         echo "Detected NixOS, skipping Nix setup."
+        tput sgr0
         return
     else 
+        tput setaf 3
         echo "NixOS not detected, installing Nix..."
+        tput sgr0
         sh <(curl -L https://nixos.org/nix/install) --daemon
     fi
 }
 
 setup_symlinks() {
+    tput setaf 3
+    echo "Setting up symlinks..."
+    tput sgr0
+
     # Link .bashrc
     rm -rf $HOME/.bashrc
     ln -s $HOME/dotfiles/.bashrc $HOME/.bashrc
@@ -34,6 +42,10 @@ setup_symlinks() {
 }
 
 install_home_manager() {
+    tput setaf 3
+    echo "Installing Home Manager..."
+    tput sgr0
+
     sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-$NIXOS_RELEASE.tar.gz home-manager
     sudo nix-channel --update
     sudo nix-shell '<home-manager>' -A install
@@ -42,7 +54,9 @@ install_home_manager() {
 
 prepare_hostname() {
     # Ask the user what hostname this machine should have
+    tput setaf 3
     echo "Enter the hostname for this machine:"
+    tput sgr0
     read hostname
 
     # Validate hostname to ensure it's not empty, contains only alphanumeric characters, and is less than 64 characters
@@ -57,7 +71,9 @@ prepare_hostname() {
         exit 1
     fi
 
+    tput setaf 2
     echo "Hardware configuration found for $hostname. Continuing setup..."
+    tput sgr0
 
     # Set the hostname by dumping it into $HOME/.hostname
     touch $HOME/.hostname
@@ -77,9 +93,11 @@ cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager swi
 
 touch $HOME/.dotfiles-setup
 
-echo "##############################################################"
-echo "#                                                            #"
-echo "# !!!    LOGOUT & LOGIN OR RESTART BEFORE YOU CONTINUE   !!! #"
-echo "# !!!              Continue with 'dotf update'           !!! #"
-echo "#                                                            #"
-echo "##############################################################"
+# Print this in RED
+tput setaf 1
+
+echo "!!! Ensure the correct UUID is set for the boot device under your hardware configuration before rebooting !!!"
+echo "!!! Afterwards logout / restart to continue with 'dotf update' !!!"
+
+# Reset color
+tput sgr0
