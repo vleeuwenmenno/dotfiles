@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./packages/vscode.nix
-    ./packages/go.nix
-    ./packages/kitty.nix
-    ./packages/zed-editor.nix
+    ./packages/default.nix
     ./fonts.nix
     ./gnome-extensions.nix
     ./dconf.nix
