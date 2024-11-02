@@ -94,6 +94,7 @@
     pinta
     bottles
     trayscale
+    spacedrive
 
     ## Chat Apps
     telegram-desktop
@@ -111,6 +112,19 @@
     stellarium
 
     ## Games
+    ### Open-source games
     openra
+    xonotic
+    mindustry
+    wesnoth
+    shattered-pixel-dungeon
+
+    ### Games launchers
+    lutris
+    heroic
+
+    ### Game utilities
+    protonup-qt
+    protontricks
   ];
 }

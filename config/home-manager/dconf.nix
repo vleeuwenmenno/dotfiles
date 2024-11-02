@@ -1,12 +1,42 @@
 { config, pkgs, ... }:
 {
+  # GTK Theme
+  gtk = {
+    enable = true;
+
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+
+    theme = {
+      name = "Yaru-purple-dark";
+      package = pkgs.yaru-theme;
+    };
+
+    cursorTheme = {
+      name = "Numix-Cursor";
+      package = pkgs.numix-cursor-theme;
+    };
+
+    gtk3.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+
+    gtk4.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+  };
+
   dconf = {
     enable = true;
     settings = {
-      # Dark theme
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
-        gtk-theme = "Adwaita-dark";
       };
 
       # Pinned apps
@@ -25,8 +55,8 @@
 
       # Set wallpaper
       "org/gnome/desktop/background" = {
-        picture-uri-dark = "file:///${config.home.homeDirectory}/dotfiles/secrets/wp/9.jpg";
-        picture-uri = "file:///${config.home.homeDirectory}/dotfiles/secrets/wp/9.jpg";
+        picture-uri-dark = "file:///${config.home.homeDirectory}/dotfiles/secrets/wp/9.png";
+        picture-uri = "file:///${config.home.homeDirectory}/dotfiles/secrets/wp/9.png";
         picture-options = "zoom";
         primary-color = "#000000";
       };

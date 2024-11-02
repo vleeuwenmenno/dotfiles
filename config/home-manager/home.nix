@@ -19,15 +19,6 @@
   home.homeDirectory = "/home/menno";
   home.stateVersion = "24.05";
 
-  # GTK Theme
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome.gnome-themes-extra;
-    };
-  };
-
   # Default applications
   xdg.mimeApps = {
     enable = true;

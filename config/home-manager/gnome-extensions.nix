@@ -1,23 +1,23 @@
 { config, pkgs, ... }:
 {
   home.packages = with pkgs.gnomeExtensions; [
-    # lilypad@shendrew.github.io
-    # tailscale@joaophi.github.com
-    forge
+    tailscale-qs
     gsconnect
     blur-my-shell
-    rounded-window-corners
     weather-oclock
     space-bar
-    show-desktop-button
     gtk4-desktop-icons-ng-ding
     logo-menu
     media-controls
     burn-my-windows
     coverflow-alt-tab
     dash-to-dock
-    hide-top-bar
     appindicator
+    user-themes
+    autohide-battery
+    battery-health-charging
+    just-perfection
+    pano
   ];
 
   # Copy burn-my-windows profile to user config
@@ -34,26 +34,37 @@
       "org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = [
-          # "tilingshell@ferrarodomenico.com"
-          "forge@jmmaranan.com"
+          "tilingshell@ferrarodomenico.com"
           "gsconnect@andyholmes.github.io"
           "blur-my-shell@aunetx"
           "tailscale@joaophi.github.com"
           "easy_docker_containers@red.software.systems"
           "weatheroclock@CleoMenezesJr.github.io"
           "space-bar@luchrioh"
-          "show-desktop-button@amivaleo"
           "gtk4-ding@smedius.gitlab.com"
           "logomenu@aryan_k"
           "mediacontrols@cliffniff.github.com"
           "burn-my-windows@schneegans.github.com"
           "CoverflowAltTab@palatis.blogspot.com"
           "dash-to-dock@micxgx.gmail.com"
-          "hidetopbar@mathieu.bidon.ca"
           "gnome-shell-extension-appindicator"
-          "lilypad@shendrew.github.io"
           "appindicatorsupport@rgcjonas.gmail.com"
+          "user-theme@gnome-shell-extensions.gcampax.github.com"
+          "autohide-battery@sitnik.ru"
+          "just-perfection-desktop@just-perfection"
         ];
+      };
+
+      # Perfection settings
+      "org/gnome/shell/extensions/just-perfection" = {
+        theme = false;
+        notification-banner-position = 2;
+        startup-status = 0;
+      };
+
+      # Autohide battery
+      "org/gnome/shell/extensions/autohide-battery" = {
+        hide-on = 95;
       };
 
       # Configure dash-to-dock
@@ -122,6 +133,68 @@
         noise-amount = 0;
       };
 
+      # Configure tiling shell
+      "org/gnome/shell/extensions/tilingshell" = {
+        layouts-json = ''
+          [
+            {
+              "id": "Layout 1",
+              "tiles": [
+                { "x": 0, "y": 0, "width": 0.22, "height": 0.5, "groups": [1, 2] },
+                { "x": 0, "y": 0.5, "width": 0.22, "height": 0.5, "groups": [1, 2] },
+                { "x": 0.22, "y": 0, "width": 0.56, "height": 1, "groups": [2, 3] },
+                { "x": 0.78, "y": 0, "width": 0.22, "height": 0.5, "groups": [3, 4] },
+                { "x": 0.78, "y": 0.5, "width": 0.22, "height": 0.5, "groups": [3, 4] }
+              ]
+            },
+            {
+              "id": "Layout 2",
+              "tiles": [
+                { "x": 0, "y": 0, "width": 0.22, "height": 1, "groups": [1] },
+                { "x": 0.22, "y": 0, "width": 0.56, "height": 1, "groups": [1, 2] },
+                { "x": 0.78, "y": 0, "width": 0.22, "height": 1, "groups": [2] }
+              ]
+            },
+            {
+              "id": "Layout 3",
+              "tiles": [
+                { "x": 0, "y": 0, "width": 0.33, "height": 1, "groups": [1] },
+                { "x": 0.33, "y": 0, "width": 0.67, "height": 1, "groups": [1] }
+              ]
+            },
+            {
+              "id": "Layout 4",
+              "tiles": [
+                { "x": 0, "y": 0, "width": 0.67, "height": 1, "groups": [1] },
+                { "x": 0.67, "y": 0, "width": 0.33, "height": 1, "groups": [1] }
+              ]
+            },
+            {
+              "id": "Portrait Layout",
+              "tiles": [
+                { "x": 0, "y": 0, "width": 1, "height": 0.25, "groups": [1] },
+                { "x": 0, "y": 0.25, "width": 1, "height": 0.5, "groups": [1, 2] },
+                {
+                  "x": 0,
+                  "y": 0.75,
+                  "width": 0.50,
+                  "height": 0.25,
+                  "groups": [2, 3]
+                },
+                {
+                  "x": 0.50,
+                  "y": 0.75,
+                  "width": 0.50,
+                  "height": 0.25,
+                  "groups": [2, 3]
+                }
+              ]
+            }
+          ]
+        '';
+        overridden-settings = "{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Super>Right']\",\"toggle-tiled-left\":\"['<Super>Left']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"['<Super>Up']\",\"unmaximize\":\"['<Super>Down', '<Alt>F5']\"},\"org.gnome.mutter\":{\"edge-tiling\":\"false\"}}";
+      };
+
       # Configure forge
       "org/gnome/shell/extensions/forge" = {
         move-pointer-focus-enabled = false;
@@ -170,6 +243,11 @@
         window-toggle-always-float = [ "<Shift><Super>c" ];
         window-toggle-float = [ "<Super>c" ];
         workspace-active-tile-toggle = [ "<Shift><Super>w" ];
+      };
+
+      # User theme
+      "org/gnome/shell/extensions/user-theme" = {
+        name = "Yaru-purple-dark";
       };
     };
   };
