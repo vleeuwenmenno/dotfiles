@@ -1,16 +1,13 @@
-{ pkgs, ... }:
-let
-  pinnedPkgs = import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/d4f247e89f6e10120f911e2e2d2254a050d0f732.tar.gz";
-    # Update this SHA256 when a new version is required ^^^
-    # You can find them here: https://www.nixhub.io/packages/vscode
-  }) { };
-in
 {
-  # Use the pinned VSCode for the programs.vscode configuration
+  config,
+  pkgs,
+  pkgs-vscode,
+  ...
+}:
+{
   programs.vscode = {
     enable = true;
-    package = pinnedPkgs.vscode;
+    package = pkgs-vscode.vscode;
     mutableExtensionsDir = true;
     extensions = with pkgs.vscode-extensions; [
       ms-azuretools.vscode-docker
@@ -42,17 +39,5 @@ in
       github.copilot
       github.copilot-chat
     ];
-    #   ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-    #     {
-    #       name = "warpnet.salt-lint";
-    #       publisher = "warpnet";
-    #       version = "latest";
-    #     }
-    #     {
-    #         name = "mguellsegarra.highlight-on-copy";
-    #         publisher = "mguellsegarra";
-    #         version = "latest";
-    #     }
-    #   ];
   };
 }

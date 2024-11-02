@@ -8,8 +8,7 @@ if [ -f $HOME/.dotfiles-setup ]; then
     exit 0
 fi
 
-# Check if nixos-version is available
-ensure_nixos() {
+install_nix() {
     if [ -x "$(command -v nixos-version)" ]; then
         tput setaf 2
         echo "Detected NixOS, skipping Nix setup."
@@ -151,9 +150,9 @@ prepare_hostname() {
 }
 
 prepare_hostname
-ensure_nixos
-install_home_manager
 setup_symlinks
+install_nix
+install_home_manager
 
 # Rebuild NixOS
 cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --flake .#$DOTF_HOSTNAME --impure
@@ -165,7 +164,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Rebuild Home Manager
-cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch
+cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch --flake .#$DOTF_HOSTNAME --impure
 if [ $? -ne 0 ]; then
     tput setaf 1
     echo "Failed to rebuild Home Manager. Exiting..."

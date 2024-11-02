@@ -80,6 +80,7 @@ If you add a new system you should add the relevant files to these paths.
 - `nconfig/nixos/hardware/`: Contains the hardware configurations for the different systems.
 - `config/ssh/authorized_keys`: Contains the public keys per hostname that will be symlinked to the `~/.ssh/authorized_keys` file.
 - `config/nixos/flake.nix`: Contains an array `nixosConfigurations` where you should be adding the new system hostname and relevant configuration.
+- `config/home-manager/flake.nix`: Contains an array `homeConfigurations` where you should be adding the new system hostname and relevant configuration.
 
 ### Adding a new system
 

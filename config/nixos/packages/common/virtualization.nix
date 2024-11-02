@@ -1,5 +1,11 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   boot.kernelModules = [ "kvm-amd" ];
+
+  environment.systemPackages = with pkgs; [
+    qemu
+    OVMF
+  ];
 
   virtualisation = {
     docker = {
