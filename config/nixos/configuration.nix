@@ -1,13 +1,22 @@
-{ config, pkgs, ... }:
 {
-  imports = [
-    ./packages/default.nix
-    ./virtualization.nix
-    ./users.nix
-    ./flatpak.nix
-    ./hosts.nix
-    ./yubikey.nix
-  ];
+  config,
+  pkgs,
+  lib,
+  isServer ? false,
+  isWorkstation ? false,
+  ...
+}:
+{
+  imports =
+    [
+      ./packages/common/default.nix
+      ./users.nix
+      ./hosts.nix
+      ./yubikey.nix
+    ]
+    # Include packages based on whether this is a server or workstation.
+    ++ lib.optional isServer ./packages/server/default.nix
+    ++ lib.optional isWorkstation ./packages/workstation/default.nix;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -16,8 +25,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # Enable experimental nix-command flakes
   nix = {
@@ -26,6 +35,9 @@
       experimental-features = nix-command flakes
     '';
   };
+
+  # Set your time zone.
+  time.timeZone = "Europe/Amsterdam";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -48,33 +60,6 @@
   ];
 
   services.tailscale.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Enable the OpenSSH daemon.
-  # services.openssh = {
-  #   enable = true;
-  #   port = 400;
-  #   permitRootLogin = "no";
-  #   passwordAuthentication = false;
-  #   pubkeyAuthentication = true;
-  # };
-
-  # Open ports in the firewall.
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [
-      3389
-      3390
-      3391
-    ];
-    allowedUDPPorts = [
-      3389
-      3390
-      3391
-    ];
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

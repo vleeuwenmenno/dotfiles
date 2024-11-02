@@ -16,6 +16,10 @@
             ./common/workstation.nix
             ./configuration.nix
           ];
+          specialArgs = {
+            isWorkstation = true;
+            isServer = false;
+          };
         };
         "mennos-gamingpc" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -24,14 +28,22 @@
             ./common/workstation.nix
             ./configuration.nix
           ];
+          specialArgs = {
+            isWorkstation = true;
+            isServer = false;
+          };
         };
-        "mennos-desktop" = nixpkgs.lib.nixosSystem {
+        "mennos-server" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./hardware/mennos-desktop.nix
+            ./hardware/mennos-server.nix
             ./common/server.nix
             ./configuration.nix
           ];
+          specialArgs = {
+            isWorkstation = false;
+            isServer = true;
+          };
         };
       };
     };

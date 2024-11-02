@@ -21,22 +21,9 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/1356cd09-5c55-45b5-8b06-6aadc84cee37";
+    device = "/dev/disk/by-uuid/010484c7-457e-4953-8712-5e81275e57f4";
     fsType = "ext4";
   };
-
-  boot.initrd.luks.devices."luks-32bf1c42-e6ef-4fb8-9b76-8bb13b9ea155".device = "/dev/disk/by-uuid/32bf1c42-e6ef-4fb8-9b76-8bb13b9ea155";
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/CD6B-8910";
-    fsType = "vfat";
-    options = [
-      "fmask=0077"
-      "dmask=0077"
-    ];
-  };
-
-  swapDevices = [ ];
 
   # Enable OpenGL
   hardware.opengl = {
@@ -82,7 +69,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  networking.hostName = "mennos-desktop";
+  networking.hostName = "mennos-server";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

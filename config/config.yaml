@@ -22,7 +22,7 @@ config:
     u2f:
       sources:
         mennos-laptop: ~/dotfiles/secrets/yubico/u2f.work.keys
-        mennos-desktop: ~/dotfiles/secrets/yubico/u2f.personal.keys
+        mennos-server: ~/dotfiles/secrets/yubico/u2f.personal.keys
         mennos-gamingpc: ~/dotfiles/secrets/yubico/u2f.personal.keys
         homeserver-pc: ~/dotfiles/secrets/yubico/u2f.personal.keys
       target: ~/.config/Yubico/u2f_keys
@@ -50,7 +50,7 @@ config:
     ssh_authorized_keys:
       sources:
         mennos-laptop: ~/dotfiles/config/ssh/authorized_keys/mennos-laptop
-        mennos-desktop: ~/dotfiles/config/ssh/authorized_keys/mennos-desktop
+        mennos-server: ~/dotfiles/config/ssh/authorized_keys/mennos-server
         mennos-gamingpc: ~/dotfiles/config/ssh/authorized_keys/mennos-gamingpc
         homeserver-pc: ~/dotfiles/config/ssh/authorized_keys/homeserver-pc
       target: ~/.ssh/authorized_keys

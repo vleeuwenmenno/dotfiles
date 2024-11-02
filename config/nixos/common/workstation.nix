@@ -24,4 +24,40 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  # Open ports in the firewall
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      # RDP (Gnome Remote Desktop)
+      3389
+      3390
+      3391
+
+      # SSH
+      400
+    ];
+    allowedUDPPorts = [
+      # RDP (Gnome Remote Desktop)
+      3389
+      3390
+      3391
+    ];
+  };
+
+  # OpenSSH server
+  services.openssh = {
+    enable = true;
+    ports = [ 400 ];
+    settings = {
+      PasswordAuthentication = false;
+      AllowUsers = [ "menno" ];
+      X11Forwarding = true;
+      PermitRootLogin = "prohibit-password";
+      AllowTCPForwarding = true;
+      AllowAgentForwarding = true;
+      PermitEmptyPasswords = false;
+      PubkeyAuthentication = true;
+    };
+  };
 }
