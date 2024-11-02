@@ -13,6 +13,7 @@
           system = "x86_64-linux";
           modules = [
             ./hardware/mennos-laptop.nix
+            ./common/workstation.nix
             ./configuration.nix
           ];
         };
@@ -20,6 +21,15 @@
           system = "x86_64-linux";
           modules = [
             ./hardware/mennos-gamingpc.nix
+            ./common/workstation.nix
+            ./configuration.nix
+          ];
+        };
+        "mennos-desktop" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hardware/mennos-desktop.nix
+            ./common/server.nix
             ./configuration.nix
           ];
         };

@@ -95,8 +95,12 @@ if [ -f /home/menno/.config/op/plugins.sh ]; then
     source /home/menno/.config/op/plugins.sh
 fi
 
-# Starship Prompt Initialization (Adapted for Bash)
-eval "$(starship init bash)"
+# Initialize starship if available
+if ! command -v starship &> /dev/null; then
+    echo "FYI, starship not found"
+else
+    eval "$(starship init bash)"
+fi
 
 # Source nix home-manager
 if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
@@ -112,17 +116,27 @@ if command -v zoxide &> /dev/null; then
 fi
 
 # Check if we are running from zellij, if not then launch it
-if [ -z "$ZELLIJ" ]; then
-    zellij
+launch_zellij_conditionally() {
+    if [ -z "$ZELLIJ" ]; then
+        # Don't launch zellij in tmux, vscode, screen or zeditor.
+        if [ ! -t 1 ] || [ -n "$TMUX" ] || [ -n "$VSCODE_STABLE" ] || [ -n "$STY" ] || [ -n "$ZED_TERM" ]; then
+            return
+        fi
 
-    # Exit if zellij exits properly with a zero exit code
-    if [ $? -eq 0 ]; then
-        exit $?
+        # Launch zellij
+        zellij
+
+        # Exit if zellij exits properly with a zero exit code
+        if [ $? -eq 0 ]; then
+            exit $?
+        fi
+
+        echo "Zellij exited with a non-zero exit code, falling back to regular shell."
+        return
     fi
+}
 
-    echo "Zellij exited with a non-zero exit code, continuing..."
-    return
-fi
+launch_zellij_conditionally
 
 # Display a welcome message for interactive shells
 if [ -t 1 ]; then

@@ -85,6 +85,7 @@
     cowsay
     cmatrix
     figlet
+    lolcat
 
     # GUI Applications
     ## Utilities

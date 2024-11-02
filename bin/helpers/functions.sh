@@ -15,10 +15,7 @@ is_wsl() {
 }
 
 logo() {
-    tput setaf 2
-    cat $HOME/dotfiles/bin/resources/logo.txt
-    println " " "cyan"
-    tput sgr0
+    echo "Menno's Dotfiles" | figlet | lolcat
 
     # Print if repo is dirty and the count of untracked files, modified files and staged files
     if [[ $(git -C ~/dotfiles status --porcelain) ]]; then

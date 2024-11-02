@@ -260,6 +260,10 @@ else
     --home-manager)
       homemanager
       ;;
+    --nix)
+      sys_packages
+      homemanager
+      ;;
     --git)
       git_repos
       ;;

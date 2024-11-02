@@ -54,10 +54,6 @@ case $1 in
         logo continue
         push $@
         ;;
-    "status")
-        logo continue
-        status $@
-        ;;
     "help"|"--help"|"")
         help $@
         ;;
