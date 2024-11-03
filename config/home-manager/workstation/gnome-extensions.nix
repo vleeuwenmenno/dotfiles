@@ -78,7 +78,7 @@
         custom-theme-running-dots-color = "rgb(255,255,255)";
         dash-max-icon-size = 48;
         dock-fixed = false;
-        dock-position = "BOTTOM";
+        dock-position = "LEFT";
         extend-height = 0;
         height-fraction = 0.9;
         intellihide = true;

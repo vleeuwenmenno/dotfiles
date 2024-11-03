@@ -60,6 +60,9 @@
   ];
 
   services.tailscale.enable = true;
+  security.sudo.extraConfig = ''
+    Defaults env_reset,pwfeedback
+  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
