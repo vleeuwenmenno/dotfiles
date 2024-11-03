@@ -200,7 +200,7 @@ touch $HOME/.dotfiles-setup
 
 tput setaf 1
 echo
-echo "!!! Ensure the correct UUID is set for the boot device under your hardware configuration before rebooting !!!"
-echo "!!! Afterwards logout / restart to continue with 'source ~/.bashrc && dotf update' !!!"
+echo "!!! Please logout / restart to continue !!!"
+echo "~~~   Proceed by running 'dotf update'  ~~~"
 echo
 tput sgr0
