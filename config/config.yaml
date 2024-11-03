@@ -56,15 +56,6 @@ config:
       target: ~/.ssh/authorized_keys
       chmod: 600
 
-    # bashrc
-    bashrc:
-      source: ~/dotfiles/.bashrc
-      target: ~/.bashrc
-
-    profile:
-      source: ~/dotfiles/.bashrc
-      target: ~/.profile
-
     # Starship config
     starship:
       source: ~/dotfiles/config/starship.toml

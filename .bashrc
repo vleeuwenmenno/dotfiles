@@ -147,13 +147,7 @@ launch_zellij_conditionally() {
 # Source ble.sh if it exists
 if [[ -f "${HOME}/.nix-profile/share/blesh/ble.sh" ]]; then
     source "${HOME}/.nix-profile/share/blesh/ble.sh"
-    
-    bleopt prompt_ps1_final='$(starship module character)'
-    
-    # Basic ble.sh settings
-    bleopt complete_menu_complete=1
-    bleopt complete_auto_complete=1
-    
+        
     # Custom function for fzf history search
     function fzf_history_search() {
         local selected

@@ -1,8 +1,16 @@
 { config, pkgs, ... }:
 {
+  home.file.".bashrc.extra".source = "${config.home.homeDirectory}/dotfiles/.bashrc";
+
   programs.bash = {
     enable = true;
     enableCompletion = true;
+
+    initExtra = ''
+      if [ -f ~/.bashrc.extra ]; then
+        source ~/.bashrc.extra
+      fi
+    '';
   };
 
   programs.fzf = {

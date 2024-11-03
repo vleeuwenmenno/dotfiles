@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-ollama, ... }:
 {
   home.packages = with pkgs; [
     # General packages
@@ -8,6 +8,7 @@
     nixfmt-rfc-style
     wget
     fastfetch
+    pkgs-ollama.ollama
 
     # Package management
     pipx

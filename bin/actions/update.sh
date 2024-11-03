@@ -199,7 +199,7 @@ git_repos() {
 }
 
 homemanager() {
-  cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch -b backup --flake .#$DOTF_HOSTNAME
+  cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch -b backup --flake .#$DOTF_HOSTNAME --impure
 }
 
 ensure_homemanager_installed() {
