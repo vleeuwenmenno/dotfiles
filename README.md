@@ -19,7 +19,6 @@ Clone the repository to your home directory, you can do this by opening a shell 
 ```bash
 nix-shell -p git
 git clone https://git.mvl.sh/vleeuwenmenno/dotfiles.git ~/dotfiles
-exit
 ```
 
 ### 2. Run `setup.sh`
@@ -47,28 +46,25 @@ It's probably a good idea that you either reboot or log out and log back in to m
 Run the `dotf update` command, although nixos-rebuild and home-manager already ran the dotf cli didn't yet place proper symlinks for everything.
 
 ```bash
-source ~/.bashrc && dotf update
+dotf update
 ```
 
-### 5. Setup 1Password
+### 5. Setup 1Password (Optional)
 
 1Password is installed but you need to login and enable the SSH agent and CLI components under the settings before continuing.
 
 ### 6. Decrypt secrets
 
-Now that you've got 1Password setup you can decrypt the secrets needed for various applications.
+Either using 1Password or by manualling providing the decryption key you should decrypt the secrets.
+Various configurations depend on the secrets to be decrypted such as the SSH keys, yubikey pam configuration and more.
 
 ```bash
 dotf secrets decrypt
 ```
 
-### 7. Reboot
+### 7. Profit
 
-After you have done all the steps above you should reboot your system to make sure everything is working as intended.
-
-```bash
-# sudo reboot
-```
+You should now have a fully setup system with all the configurations applied.
 
 ## Adding a new system
 
