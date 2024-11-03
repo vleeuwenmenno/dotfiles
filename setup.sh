@@ -57,10 +57,18 @@ clear_files() {
     sudo ln -s $HOME/dotfiles/config/nixos/configuration.nix /etc/nixos/configuration.nix
 
     # Confirm paths are now proper symlinks
-    if [ -L $HOME/.bashrc ] && [ -L ~/.config/home-manager ] && [ -L /etc/nixos/configuration.nix ]; then
-        tput setaf 2
-        echo "Symlinks set up successfully."
-        tput sgr0
+    if [ -L ~/.config/home-manager ] && [ -L /etc/nixos/configuration.nix ]; then
+        # Confirm .bashrc and .profile are no longer present to prevent conflicts in nixoos-rebuild/home-manager switch
+        if [ ! -f $HOME/.bashrc ] && [ ! -f $HOME/.profile ]; then
+            tput setaf 2
+            echo "Symlinks set up successfully."
+            tput sgr0
+        else
+            tput setaf 1
+            echo "Failed to set up symlinks. Exiting..."
+            tput sgr0
+            exit 1
+        fi
     else
         tput setaf 1
         echo "Failed to set up symlinks. Exiting..."
