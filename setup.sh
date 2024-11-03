@@ -29,27 +29,31 @@ install_nix() {
     fi
 }
 
-setup_symlinks() {
+clear_files() {
     tput setaf 3
     echo "Setting up symlinks..."
     tput sgr0
 
     # Link .bashrc
     if [ -f $HOME/.bashrc ]; then
+        echo "Backing up $HOME/.bashrc to $HOME/.bashrc.bak..."
         mv $HOME/.bashrc $HOME/.bashrc.bak
     fi
-    ln -s $HOME/dotfiles/.bashrc $HOME/.bashrc
 
     # Link proper home-manager configs
     if [ -d ~/.config/home-manager ]; then
+        echo "Backing up ~/.config/home-manager to ~/.config/home-manager.bak..."
         mv ~/.config/home-manager ~/.config/home-manager.bak
     fi
+    echo "Linking ~/.config/home-manager to $HOME/dotfiles/config/home-manager..."
     ln -s $HOME/dotfiles/config/home-manager ~/.config/home-manager
 
     # Link proper nixos configs
     if [ -d /etc/nixos ]; then
+        echo "Backing up /etc/nixos/configuration.nix to /etc/nixos/configuration.nix.bak..."
         sudo mv /etc/nixos/configuration.nix /etc/nixos/configuration.nix.bak
     fi
+    echo "Linking /etc/nixos/configuration.nix to $HOME/dotfiles/config/nixos/configuration.nix..."
     sudo ln -s $HOME/dotfiles/config/nixos/configuration.nix /etc/nixos/configuration.nix
 
     # Confirm paths are now proper symlinks
@@ -150,7 +154,7 @@ prepare_hostname() {
 }
 
 prepare_hostname
-setup_symlinks
+clear_files
 install_nix
 install_home_manager
 
@@ -174,9 +178,9 @@ fi
 
 # Make .profile a symlink to .bashrc
 if [ -f $HOME/.profile ]; then
+    echo "Backup up $HOME/.profile to $HOME/.profile.bak..."
     mv $HOME/.profile $HOME/.profile.bak
 fi
-ln -s $HOME/.bashrc $HOME/.profile
 
 tput setaf 2
 echo
