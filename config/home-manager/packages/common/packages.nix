@@ -4,105 +4,102 @@
   hostname,
   ...
 }:
-let
-  hostSpecificPackages =
-    if hostname == "mennos-gamingpc" then
-      with pkgs-unstable; [ ollama-rocm ]
-    else if hostname == "mennos-laptop" then
-      with pkgs-unstable; [ ollama-cuda ]
-    else if hostname == "mennos-server" then
-      with pkgs-unstable; [ ollama-cuda ]
-    else
-      with pkgs-unstable; [ ollama ];
-in
 {
-  home.packages =
-    with pkgs;
-    [
-      # General packages
-      git
-      gnupg
-      gh
-      nixfmt-rfc-style
-      wget
-      fastfetch
+  # Import host-specific packages
+  imports =
+    if hostname == "mennos-gamingpc" then
+      [ ./hosts/mennos-gamingpc.nix ]
+    else if hostname == "mennos-laptop" then
+      [ ./hosts/mennos-laptop.nix ]
+    else if hostname == "mennos-server" then
+      [ ./hosts/mennos-server.nix ]
+    else
+      [ ./hosts/fallback.nix ];
 
-      # Package management
-      pipx
-      devbox
+  home.packages = with pkgs; [
+    # General packages
+    git
+    gnupg
+    gh
+    nixfmt-rfc-style
+    wget
+    fastfetch
 
-      # Development SDKs/Toolkits
-      gcc
-      pkg-config
-      gnumake
-      stdenv.cc
-      rustc
-      cargo
-      cargo-edit
-      cargo-watch
-      cargo-audit
-      cargo-expand
-      cargo-tarpaulin
-      pyenv
-      act # GitHub Actions CLI
+    # Package management
+    pipx
+    devbox
 
-      # File and directory operations
-      eza # Modern ls
-      bat # Modern cat
-      zoxide # Smarter cd command
-      broot # Interactive directory navigator
-      du-dust # Modern du
-      duf # Modern df
-      zip
-      unzip
+    # Development SDKs/Toolkits
+    gcc
+    pkg-config
+    gnumake
+    stdenv.cc
+    rustc
+    cargo
+    cargo-edit
+    cargo-watch
+    cargo-audit
+    cargo-expand
+    cargo-tarpaulin
+    pyenv
+    act # GitHub Actions CLI
 
-      # Search and text processing
-      ripgrep # Modern grep
-      sd # Modern sed
-      choose # Modern cut
-      jq # JSON processor
-      yq # YAML processor
-      xsv # CSV processor
+    # File and directory operations
+    eza # Modern ls
+    bat # Modern cat
+    zoxide # Smarter cd command
+    broot # Interactive directory navigator
+    du-dust # Modern du
+    duf # Modern df
+    zip
+    unzip
 
-      # System monitoring and process management
-      procs # Modern ps
-      bottom # Modern top/htop
-      hyperfine # Benchmarking tool
-      bandwhich # Network utilization tool
-      doggo # Modern dig
-      gping # Ping with graph
-      htop # Interactive process viewer
+    # Search and text processing
+    ripgrep # Modern grep
+    sd # Modern sed
+    choose # Modern cut
+    jq # JSON processor
+    yq # YAML processor
+    xsv # CSV processor
 
-      # Development utilities
-      delta # Better git diff
-      difftastic # Structural diff tool
-      fzf # Fuzzy finder
-      tokei # Code statistics
-      tealdeer # Modern tldr client
-      lazygit # Terminal UI for git
+    # System monitoring and process management
+    procs # Modern ps
+    bottom # Modern top/htop
+    hyperfine # Benchmarking tool
+    bandwhich # Network utilization tool
+    doggo # Modern dig
+    gping # Ping with graph
+    htop # Interactive process viewer
 
-      # Shell and terminal
-      starship # Cross-shell prompt
-      blesh # Bash ble.sh
-      zellij # Modern terminal multiplexer
-      screen # Terminal multiplexer
+    # Development utilities
+    delta # Better git diff
+    difftastic # Structural diff tool
+    fzf # Fuzzy finder
+    tokei # Code statistics
+    tealdeer # Modern tldr client
+    lazygit # Terminal UI for git
 
-      # File viewers and processors
-      hexyl # Modern hexdump
-      chafa # Terminal image viewer
-      glow # Markdown renderer
+    # Shell and terminal
+    starship # Cross-shell prompt
+    blesh # Bash ble.sh
+    zellij # Modern terminal multiplexer
+    screen # Terminal multiplexer
 
-      # Editors
-      neovim
-      nano
-      micro
+    # File viewers and processors
+    hexyl # Modern hexdump
+    chafa # Terminal image viewer
+    glow # Markdown renderer
 
-      # Lolz
-      fortune
-      cowsay
-      cmatrix
-      figlet
-      lolcat
-    ]
-    ++ hostSpecificPackages;
+    # Editors
+    neovim
+    nano
+    micro
+
+    # Lolz
+    fortune
+    cowsay
+    cmatrix
+    figlet
+    lolcat
+  ];
 }
