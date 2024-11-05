@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.etc."docker/duplicati".source = ./duplicati;
+  environment.etc."docker/duplicati/docker-compose.yml".source = ./duplicati/docker-compose.yml;
 
   systemd.services.duplicati = {
     description = "Duplicati Backup Server Docker Compose Service";

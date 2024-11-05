@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.etc."docker/factorio".source = ./factorio;
+  environment.etc."docker/factorio/docker-compose.yml".source = ./factorio/docker-compose.yml;
 
   systemd.services.factorio = {
     description = "Factorio Server Manager Docker Compose Service";

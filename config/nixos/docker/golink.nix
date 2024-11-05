@@ -1,7 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  environment.etc."docker/golink".source = ./golink;
+  environment.etc."docker/golink/docker-compose.yml".source = ./golink/docker-compose.yml;
+  environment.etc."docker/golink/.env".source = ./golink/.env;
 
   systemd.services.golink = {
     description = "GoLink Docker Compose Service";
