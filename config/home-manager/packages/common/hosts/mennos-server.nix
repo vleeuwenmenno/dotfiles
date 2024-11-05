@@ -1,4 +1,4 @@
 { pkgs-unstable, ... }:
 {
-  home.packages = with pkgs-unstable; [ ollama-cuda ];
+  home.packages = with pkgs-unstable; [ ];
 }

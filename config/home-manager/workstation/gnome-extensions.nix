@@ -67,6 +67,7 @@
           "autohide-battery@sitnik.ru"
           "just-perfection-desktop@just-perfection"
           "native-window-placement@gnome-shell-extensions.gcampax.github.com"
+          "smile-extension@mijorus.it"
         ];
       };
 

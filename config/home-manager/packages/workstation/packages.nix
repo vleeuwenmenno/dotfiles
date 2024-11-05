@@ -3,12 +3,13 @@
   home.packages = with pkgs; [
     # GUI Application
     ## Utilities
-    pkgs-unstable.mission-center
+    pkgs-unstable.mission-center # Task Manager like Windows 11
     gnome.gnome-tweaks
-    pinta
-    bottles
-    trayscale
-    spacedrive
+    pinta # Paint.NET alternative
+    bottles # Wine manager
+    trayscale # Tray icon for Tailscale
+    spacedrive # Virtual filesystem manager
+    smile # Emoji picker
 
     ## Chat Apps
     telegram-desktop
