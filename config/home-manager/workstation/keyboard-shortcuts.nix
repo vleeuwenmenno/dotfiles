@@ -33,7 +33,7 @@
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/emotes" = {
       binding = "<Super>e";
-      command = "flatpak run com.tomjwatson.Emote";
+      command = "smile";
       name = "emotes";
     };
   };

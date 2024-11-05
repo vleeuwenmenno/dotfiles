@@ -1,7 +1,7 @@
 { pkgs-unstable, pkgs, ... }:
 {
   home.packages = with pkgs; [
-    # GUI Applications
+    # GUI Application
     ## Utilities
     pkgs-unstable.mission-center
     gnome.gnome-tweaks

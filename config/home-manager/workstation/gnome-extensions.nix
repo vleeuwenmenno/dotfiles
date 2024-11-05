@@ -1,24 +1,37 @@
-{ config, pkgs, ... }:
 {
-  home.packages = with pkgs.gnomeExtensions; [
-    tailscale-qs
-    gsconnect
-    blur-my-shell
-    weather-oclock
-    space-bar
-    gtk4-desktop-icons-ng-ding
-    logo-menu
-    media-controls
-    burn-my-windows
-    coverflow-alt-tab
-    dash-to-dock
-    appindicator
-    user-themes
-    autohide-battery
-    battery-health-charging
-    just-perfection
-    pano
-  ];
+  config,
+  pkgs-unstable,
+  pkgs,
+  ...
+}:
+{
+  # We run most extensions from unstable because they are more up-to-date
+  home.packages =
+    with pkgs.gnomeExtensions;
+    [
+      user-themes
+      weather-oclock
+      native-window-placement
+    ]
+    ++ (with pkgs-unstable.gnomeExtensions; [
+      tiling-shell
+      lilypad
+      tailscale-qs
+      gsconnect
+      blur-my-shell
+      space-bar
+      gtk4-desktop-icons-ng-ding
+      logo-menu
+      media-controls
+      burn-my-windows
+      coverflow-alt-tab
+      dash-to-dock
+      appindicator
+      autohide-battery
+      battery-health-charging
+      just-perfection
+      smile-complementary-extension
+    ]);
 
   # Copy burn-my-windows profile to user config
   home.file.".config/burn-my-windows/profiles/default.conf".text = ''
@@ -34,6 +47,7 @@
       "org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = [
+          "lilypad@shendrew.github.io"
           "tilingshell@ferrarodomenico.com"
           "gsconnect@andyholmes.github.io"
           "blur-my-shell@aunetx"
@@ -52,6 +66,7 @@
           "user-theme@gnome-shell-extensions.gcampax.github.com"
           "autohide-battery@sitnik.ru"
           "just-perfection-desktop@just-perfection"
+          "native-window-placement@gnome-shell-extensions.gcampax.github.com"
         ];
       };
 

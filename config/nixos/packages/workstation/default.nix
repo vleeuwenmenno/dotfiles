@@ -1,8 +1,10 @@
-{ ... }:
+{ config, pkgs, ... }:
 {
+  # Import all the package modules
   imports = [
-    ./steam.nix
     ./1password.nix
     ./flatpak.nix
+    ./steam.nix
+    ./pano.nix
   ];
 }
