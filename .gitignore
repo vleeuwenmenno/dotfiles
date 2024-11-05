@@ -3,14 +3,8 @@ config/ssh/config.d/*
 logs/*
 
 # Don't include secrets in the repository but do include encrypted secrets
-secrets/wp/*.*
-!secrets/wp/*.gpg
-secrets/ssh_config/*.*
-!secrets/ssh_config/*.gpg
-secrets/*.*
-!secrets/*.gpg
-**/*.keys
-secrets/**/*.conf
+!secrets/**/*.gpg
+secrets/**/*.*
 
 # SHA256 hashes of the encrypted secrets
 *.sha256
