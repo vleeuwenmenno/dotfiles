@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 let
   files = builtins.removeAttrs (builtins.readDir ./.) [ "default.nix" ];

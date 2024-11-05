@@ -92,6 +92,10 @@ symlinks() {
   done  
 }
 
+sys_packages_upgrade() {
+  cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --upgrade --flake .#$DOTF_HOSTNAME --impure
+}
+
 sys_packages() {
   ####################################################################################################
   # Update system packages
@@ -177,17 +181,6 @@ tailscalecmd() {
 # Update system settings
 ####################################################################################################
 
-fonts() {
-  if is_wsl; then
-    printfe "%s\n" "yellow" "Running in WSL, skipping fonts."
-    return
-  fi
-
-  printfe "%s\n" "cyan" "Ensuring fonts are installed..."
-  source $HOME/dotfiles/bin/helpers/fonts.sh
-  ensure_fonts_installed
-}
-
 git_repos() {
   ####################################################################################################
   # Ensure git repos
@@ -199,6 +192,12 @@ git_repos() {
 }
 
 homemanager() {
+  # Due to weirdness delete this file if it exists
+  if [ -f "$HOME/.config/mimeapps.list.backup" ]; then
+    echo "Removing mimeapps.list.backup"
+    rip "$HOME/.config/mimeapps.list.backup"
+  fi
+
   cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch -b backup --flake .#$DOTF_HOSTNAME --impure
 }
 
@@ -241,6 +240,9 @@ if [ "$#" -eq 0 ]; then
 else
   for arg in "$@"; do
     case $arg in
+    --nixos-upgrade)
+      sys_packages_upgrade
+      ;;
     --nixos|nixos|nix|nixos-rebuild)
       sys_packages
       ;;

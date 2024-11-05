@@ -3,12 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-
-    # Pinned versions for specific packages (https://nixhub.io)
-    nixpkgs-ollama.url = "github:nixos/nixpkgs/d4f247e89f6e10120f911e2e2d2254a050d0f732";
-    nixpkgs-go.url = "github:nixos/nixpkgs/d4f247e89f6e10120f911e2e2d2254a050d0f732";
-    nixpkgs-vscode.url = "github:nixos/nixpkgs/d4f247e89f6e10120f911e2e2d2254a050d0f732";
-    nixpkgs-zed.url = "github:nixos/nixpkgs/41dea55321e5a999b17033296ac05fe8a8b5a257";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -20,10 +15,7 @@
     {
       self,
       nixpkgs,
-      nixpkgs-go,
-      nixpkgs-vscode,
-      nixpkgs-zed,
-      nixpkgs-ollama,
+      nixpkgs-unstable,
       home-manager,
     }:
     let
@@ -32,19 +24,7 @@
         inherit system;
         config.allowUnfree = true;
       };
-      pkgs-go = import nixpkgs-go {
-        inherit system;
-        config.allowUnfree = true;
-      };
-      pkgs-vscode = import nixpkgs-vscode {
-        inherit system;
-        config.allowUnfree = true;
-      };
-      pkgs-zed = import nixpkgs-zed {
-        inherit system;
-        config.allowUnfree = true;
-      };
-      pkgs-ollama = import nixpkgs-ollama {
+      pkgs-unstable = import nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
       };
@@ -55,14 +35,9 @@
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit
-              pkgs
-              pkgs-go
-              pkgs-vscode
-              pkgs-zed
-              pkgs-ollama
-              ;
+            inherit pkgs pkgs-unstable;
             isServer = false;
+            hostname = "mennos-gamingpc";
           };
         };
 
@@ -70,8 +45,9 @@
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit pkgs pkgs-go pkgs-ollama;
+            inherit pkgs pkgs-unstable;
             isServer = true;
+            hostname = "mennos-server";
           };
         };
 
@@ -79,14 +55,9 @@
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit
-              pkgs
-              pkgs-go
-              pkgs-vscode
-              pkgs-zed
-              pkgs-ollama
-              ;
+            inherit pkgs pkgs-unstable;
             isServer = false;
+            hostname = "mennos-laptop";
           };
         };
 
@@ -94,8 +65,9 @@
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit pkgs pkgs-go pkgs-ollama;
+            inherit pkgs pkgs-unstable;
             isServer = true;
+            hostname = "homeserver-pc";
           };
         };
       };

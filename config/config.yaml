@@ -60,18 +60,6 @@ config:
     starship:
       source: ~/dotfiles/config/starship.toml
       target: ~/.config/starship.toml
-  
-  # Fonts to install (Mostly tested with Nerd Fonts)
-  fonts:
-    Hack:
-      url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip
-      name: Hack
-    Meslo:
-      url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.zip
-      name: Meslo
-    JetBrainsMono:
-      url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip
-      name: JetBrainsMono
 
   git:
     dotfiles:

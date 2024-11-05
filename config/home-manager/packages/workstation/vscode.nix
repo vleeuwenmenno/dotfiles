@@ -1,13 +1,8 @@
-{
-  config,
-  pkgs,
-  pkgs-vscode,
-  ...
-}:
+{ pkgs, pkgs-unstable, ... }:
 {
   programs.vscode = {
     enable = true;
-    package = pkgs-vscode.vscode;
+    package = pkgs-unstable.vscode;
     mutableExtensionsDir = true;
     extensions = with pkgs.vscode-extensions; [
       ms-azuretools.vscode-docker

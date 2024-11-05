@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 {
   boot.kernelModules = [ "kvm-amd" ];
 
@@ -10,6 +15,7 @@
   virtualisation = {
     docker = {
       enable = true;
+      package = pkgs-unstable.docker;
       autoPrune.enable = true;
       daemon.settings = {
         "live-restore" = false;

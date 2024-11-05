@@ -10,6 +10,7 @@ secrets/ssh_config/*.*
 secrets/*.*
 !secrets/*.gpg
 **/*.keys
+secrets/**/*.conf
 
 # SHA256 hashes of the encrypted secrets
 *.sha256

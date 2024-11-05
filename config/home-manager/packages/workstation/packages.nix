@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ pkgs-unstable, pkgs, ... }:
 {
   home.packages = with pkgs; [
     # GUI Applications
     ## Utilities
-    mission-center
+    pkgs-unstable.mission-center
     gnome.gnome-tweaks
     pinta
     bottles

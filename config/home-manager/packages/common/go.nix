@@ -1,12 +1,12 @@
 {
   config,
   pkgs,
-  pkgs-go,
+  pkgs-unstable,
   ...
 }:
 {
   programs.go = {
     enable = true;
-    package = pkgs-go.go;
+    package = pkgs-unstable.go;
   };
 }

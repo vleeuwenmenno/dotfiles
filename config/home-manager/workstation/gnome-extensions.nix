@@ -137,7 +137,7 @@
         layouts-json = ''
           [
             {
-              "id": "Layout 1",
+              "id": "Landscape Ultrawide",
               "tiles": [
                 { "x": 0, "y": 0, "width": 0.22, "height": 0.5, "groups": [1, 2] },
                 { "x": 0, "y": 0.5, "width": 0.22, "height": 0.5, "groups": [1, 2] },
@@ -147,46 +147,20 @@
               ]
             },
             {
-              "id": "Layout 2",
-              "tiles": [
-                { "x": 0, "y": 0, "width": 0.22, "height": 1, "groups": [1] },
-                { "x": 0.22, "y": 0, "width": 0.56, "height": 1, "groups": [1, 2] },
-                { "x": 0.78, "y": 0, "width": 0.22, "height": 1, "groups": [2] }
-              ]
-            },
-            {
-              "id": "Layout 3",
-              "tiles": [
-                { "x": 0, "y": 0, "width": 0.33, "height": 1, "groups": [1] },
-                { "x": 0.33, "y": 0, "width": 0.67, "height": 1, "groups": [1] }
-              ]
-            },
-            {
-              "id": "Layout 4",
-              "tiles": [
-                { "x": 0, "y": 0, "width": 0.67, "height": 1, "groups": [1] },
-                { "x": 0.67, "y": 0, "width": 0.33, "height": 1, "groups": [1] }
-              ]
-            },
-            {
-              "id": "Portrait Layout",
+              "id": "Portrait Ultrawide",
               "tiles": [
                 { "x": 0, "y": 0, "width": 1, "height": 0.25, "groups": [1] },
                 { "x": 0, "y": 0.25, "width": 1, "height": 0.5, "groups": [1, 2] },
-                {
-                  "x": 0,
-                  "y": 0.75,
-                  "width": 0.50,
-                  "height": 0.25,
-                  "groups": [2, 3]
-                },
-                {
-                  "x": 0.50,
-                  "y": 0.75,
-                  "width": 0.50,
-                  "height": 0.25,
-                  "groups": [2, 3]
-                }
+                { "x": 0, "y": 0.75, "width": 0.5, "height": 0.25, "groups": [2, 3] },
+                { "x": 0.5, "y": 0.75, "width": 0.5, "height": 0.25, "groups": [2, 3] }
+              ]
+            },
+            {
+              "id": "Landscape Laptop",
+              "tiles": [
+                { "x": 0, "y": 0, "width": 0.33, "height": 0.5, "groups": [1, 2] },
+                { "x": 0.33, "y": 0, "width": 0.67, "height": 1, "groups": [1] },
+                { "x": 0, "y": 0.5, "width": 0.33, "height": 0.5, "groups": [2, 1] }
               ]
             }
           ]
