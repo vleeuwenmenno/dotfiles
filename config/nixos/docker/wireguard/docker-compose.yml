@@ -9,7 +9,7 @@ services:
     environment:
       - PEERS=fold6,pc,laptop
     volumes:
-      - ./wireguard:/config
+      - ./config:/config
     ports:
       - 51820:51820/udp
     sysctls:
