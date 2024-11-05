@@ -1,22 +1,19 @@
 { config, pkgs, ... }:
+
 {
-  services.docker-compose = {
-    enable = true;
-    containers = {
-      wireguard = {
-        image = "lscr.io/linuxserver/wireguard:latest";
-        containerName = "wireguard";
-        capAdd = [ "NET_ADMIN" ];
-        environment = {
-          PEERS = "fold6,pc,laptop";
-        };
-        volumes = [ "./wireguard:/config" ];
-        ports = [ "51820:51820/udp" ];
-        sysctls = {
-          "net.ipv4.conf.all.src_valid_mark" = 1;
-        };
-        restartPolicy = "unless-stopped";
-      };
+  environment.etc."docker/vpn/docker-compose.yml".source = ./vpn.yml;
+
+  systemd.services.wireguard = {
+    description = "Wireguard Docker Compose Service";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose -f /etc/docker/vpn/docker-compose.yml up";
+      ExecStop = "${pkgs.docker-compose}/bin/docker-compose -f /etc/docker/vpn/docker-compose.yml down";
+      WorkingDirectory = "/etc/docker/vpn";
+      Restart = "always";
+      RestartSec = 10;
     };
+    wantedBy = [ "multi-user.target" ];
   };
 }
