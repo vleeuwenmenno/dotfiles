@@ -1,4 +1,9 @@
 { ... }:
 {
-  imports = [ ./vpn.nix ];
+  imports = [
+    ./vpn.nix
+    ./duplicati.nix
+    ./factorio.nix
+    ./golink.nix
+  ];
 }

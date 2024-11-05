@@ -1,0 +1,16 @@
+services:
+  factorio-server-manager:
+    image: "ofsm/ofsm:latest"
+    container_name: "factorio-server-manager"
+    restart: "unless-stopped"
+    environment:
+      - "FACTORIO_VERSION=stable"
+    ports:
+      - "5080:80"
+      - "34197:34197/udp"
+    volumes:
+      - "./fsm:/opt/fsm-data"
+      - "./saves:/opt/factorio/saves"
+      - "./mods:/opt/factorio/mods"
+      - "./config:/opt/factorio/config"
+      - "./mod_packs:/opt/fsm/mod_packs"

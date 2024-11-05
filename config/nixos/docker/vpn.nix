@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.etc."docker/vpn/docker-compose.yml".source = ./vpn.yml;
+  environment.etc."docker/vpn".source = ./vpn;
 
   systemd.services.wireguard = {
     description = "Wireguard Docker Compose Service";

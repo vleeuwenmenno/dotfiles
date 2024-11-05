@@ -1,0 +1,8 @@
+services:
+  golink:
+    image: ghcr.io/tailscale/golink:main
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+    volumes:
+      - ./data:/home/nonroot
+    restart: "unless-stopped"

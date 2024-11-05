@@ -1,0 +1,13 @@
+services:
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    environment:
+      - TZ=Europe/Amsterdam
+      - CLI_ARGS=
+    volumes:
+      - ./config:/config
+      - /mnt:/source/mnt
+      - /etc/docker:/source/etc/docker
+    ports:
+      - 8200:8200
+    restart: unless-stopped
