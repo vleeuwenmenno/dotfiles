@@ -78,7 +78,7 @@ fi
 
 # Tradaware / DiscountOffice Configuration
 if [ -d "/home/menno/Projects/Work" ]; then
-    export TRADAWARE_FROM_SOURCE=true
+    export TRADAWARE_DEVOPS=true
 fi
 
 # pyenv Configuration
