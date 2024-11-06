@@ -49,6 +49,8 @@
           "spotify.desktop"
           "vesktop.desktop"
           "org.gnome.Geary.desktop"
+          "org.gnome.Console.desktop"
+          "org.gnome.Nautilus.desktop"
         ];
       };
 
