@@ -51,7 +51,7 @@ confirm_symlink() {
 
 backup_file() {
     local file="$1"
-    local need_sudo="$2"
+    local need_sudo="${2:-false}"
 
     if [ -f "$file" ]; then
         log_info "Backing up $file to $file.bak..."
@@ -62,6 +62,7 @@ backup_file() {
         fi
     fi
 }
+
 
 check_prerequisites() {
     command -v git >/dev/null 2>&1 || die "Git is required but not installed"
