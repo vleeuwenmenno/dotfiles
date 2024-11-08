@@ -17,6 +17,135 @@ if [ ! -d $HOME/dotfiles ]; then
     git clone $GIT_REPO $HOME/dotfiles
 fi
 
+create_hardware_config() {
+    hostname=$1
+
+    tput setaf 3
+    echo "Creating hardware configuration for $hostname..."
+    tput sgr0
+
+    template="
+    {
+        config,
+        lib,
+        pkgs,
+        modulesPath,
+        ...
+    }:
+    {
+        imports = [ /etc/nixos/hardware-configuration.nix ];
+        networking.hostName = \"$hostname\";
+    }"
+
+    echo "$template" > $HOME/dotfiles/config/nixos/hardware/$hostname.nix
+
+    if [ -f $HOME/dotfiles/config/nixos/hardware/$hostname.nix ]; then
+        tput setaf 2
+        echo "Hardware configuration created successfully."
+        echo "Consider adding additional hardware configuration to ~/dotfiles/config/nixos/hardware/$hostname.nix."
+        tput sgr0
+    else
+        tput setaf 1
+        echo "Failed to create hardware configuration. Exiting..."
+        tput sgr0
+        exit 1
+    fi
+
+    # Ask if this is a server or workstation
+    tput setaf 3
+    echo "Is this a server or workstation? (s/w)"
+    tput sgr0
+    read type
+
+    while [[ $type != "s" && $type != "w" ]]; do
+        echo "Invalid input. Please enter 's' for server or 'w' for workstation:"
+        read type
+    done
+
+    isWorkstation=$(if [ $type == "w" ]; then echo "true"; else echo "false"; fi)
+    isServer=$(if [ $type == "s" ]; then echo "true"; else echo "false" fi)
+
+    flakeConfiguration="
+
+        "$hostname" = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hardware/$hostname.nix
+            ./common/server.nix
+            ./configuration.nix
+          ];
+          specialArgs = {
+            inherit pkgs-unstable;
+            isWorkstation = $isWorkstation;
+            isServer = $isServer;
+          };
+        };
+
+    "
+
+    # Insert flakeConfiguration into flake.nix at nixosConfigurations = { ... }
+    sed -i "s/nixosConfigurations = {/nixosConfigurations = { $flakeConfiguration/g" $HOME/dotfiles/config/nixos/flake.nix
+
+    # Validate flake.nix with nixfmt
+    nix-shell -p nixfmt --run "nixfmt $HOME/dotfiles/config/nixos/flake.nix"
+
+    if [ $? -ne 0 ]; then
+        tput setaf 1
+        echo "Something went wrong adding the flake configuration for NixOS."
+        echo "Failed to validate flake.nix. Exiting..."
+        tput sgr0
+        exit 1
+    fi
+
+    tput setaf 2
+    echo "NixOS Flake configuration added successfully."
+    tput sgr0
+
+    haFlakeConfiguration="
+
+        "$hostname" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./home.nix ];
+          extraSpecialArgs = {
+            inherit pkgs pkgs-unstable;
+            isServer = $isServer;
+            hostname = "$hostname";
+          };
+        };
+
+    "
+
+    # Insert haFlakeConfiguration into flake.nix of home-manager at homeConfigurations = {
+    sed -i "s/homeConfigurations = {/homeConfigurations = { $haFlakeConfiguration/g" $HOME/dotfiles/config/home-manager/flake.nix
+
+    # Validate flake.nix with nixfmt
+    nix-shell -p nixfmt --run "nixfmt $HOME/dotfiles/config/home-manager/flake.nix"
+
+    if [ $? -ne 0 ]; then
+        tput setaf 1
+        echo "Something went wrong adding the flake configuration for Home Manager."
+        echo "Failed to validate flake.nix. Exiting..."
+        tput sgr0
+        exit 1
+    fi
+
+    tput setaf 2
+    echo "Home Manager Flake configuration added successfully."
+    tput sgr0
+
+
+    # Add to git
+    git add $HOME/dotfiles/config/nixos/hardware/$hostname.nix $HOME/dotfiles/config/nixos/flake.nix $HOME/dotfiles/config/home-manager/flake.nix
+
+    tput setaf 3
+    echo ""
+    echo "Don't forget to commit and push the changes to the dotfiles repo after testing."
+    tput sgr0
+
+    git status
+    echo ""
+}
+
 install_nix() {
     if [ -x "$(command -v nixos-version)" ]; then
         tput setaf 2
@@ -145,8 +274,9 @@ prepare_hostname() {
 
     # Check if config/nixos/hardware/ contains config/nixos/hardware/$hostname.nix
     if [ ! -f $HOME/dotfiles/config/nixos/hardware/$hostname.nix ]; then
-        echo "No hardware configuration found for $hostname. Please create a hardware configuration for this machine."
-        exit 1
+        echo "No hardware configuration found for $hostname."
+        create_hardware_config $hostname
+        return
     fi
 
     tput setaf 2
