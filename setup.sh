@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 
 NIXOS_RELEASE=24.05
+GIT_REPO=https://git.mvl.sh/vleeuwenmenno/dotfiles.git
 
 # Check if $HOME/.dotfiles-setup exists, if so exit because setup has already been run
 if [ -f $HOME/.dotfiles-setup ]; then
     echo "Setup has already been run, exiting..."
     exit 0
+fi
+
+# Check if $HOME/dotfiles exists, if not clone the dotfiles repo
+if [ ! -d $HOME/dotfiles ]; then
+    tput setaf 3
+    echo "Cloning dotfiles repo..."
+    tput sgr0
+    git clone $GIT_REPO $HOME/dotfiles
 fi
 
 install_nix() {
