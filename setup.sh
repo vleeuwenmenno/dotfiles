@@ -55,14 +55,14 @@ create_hardware_config() {
     tput setaf 3
     echo "Is this a server or workstation? (s/w)"
     tput sgr0
-    read type
-
-    while [[ $type != "s" && $type != "w" ]]; do
+    
+    read systemType
+    while [[ $systemType != "s" && $systemType != "w" ]]; do
         echo "Invalid input. Please enter 's' for server or 'w' for workstation:"
-        read type
+        read systemType
     done
 
-    if [ $type == "s" ]; then
+    if [ $systemType == "s" ]; then
         isServer="true"
         isWorkstation="false"
     else
