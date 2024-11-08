@@ -51,9 +51,15 @@ confirm_symlink() {
 
 backup_file() {
     local file="$1"
+    local need_sudo="$2"
+
     if [ -f "$file" ]; then
         log_info "Backing up $file to $file.bak..."
-        mv "$file" "$file.bak" || die "Failed to backup $file"
+        if [ "$need_sudo" = "true" ]; then
+            sudo mv "$file" "$file.bak" || die "Failed to backup $file (sudo)"
+        else
+            mv "$file" "$file.bak" || die "Failed to backup $file"
+        fi
     fi
 }
 
@@ -162,7 +168,8 @@ update_nixos_flake() {
             isWorkstation = $isWorkstation;
             isServer = $isServer;
           };
-        };"
+        };
+        "
 
     # Create temporary file
     local temp_file=$(mktemp)
@@ -209,7 +216,8 @@ update_home_manager_flake() {
             isServer = $isServer;
             hostname = \"$hostname\";
           };
-        };"
+        };
+        "
 
     # Create temporary file
     local temp_file=$(mktemp)
@@ -257,12 +265,9 @@ install_nix() {
 setup_symlinks() {
     log_info "Setting up symlinks..."
 
-    # Backup and create symlinks
+    # Backup and create symlinks for user files
     backup_file "$HOME/.bashrc"
     backup_file "$HOME/.profile"
-
-    # Create .config/ if it doesn't exist
-    mkdir -p "$HOME/.config"
 
     if [ -d "$HOME/.config/home-manager" ]; then
         log_info "Backing up ~/.config/home-manager to ~/.config/home-manager.bak..."
@@ -274,13 +279,16 @@ setup_symlinks() {
     ln -s "$DOTFILES_DIR/config/home-manager" "$HOME/.config/home-manager" || \
         die "Failed to create home-manager symlink"
 
+    # Handle NixOS configuration with proper sudo permissions
     if [ -d "/etc/nixos" ]; then
-        backup_file "/etc/nixos/configuration.nix"
-    fi
+        if [ -f "/etc/nixos/configuration.nix" ]; then
+            backup_file "/etc/nixos/configuration.nix" true
+        fi
 
-    log_info "Linking /etc/nixos/configuration.nix to $DOTFILES_DIR/config/nixos/configuration.nix..."
-    sudo ln -s "$DOTFILES_DIR/config/nixos/configuration.nix" "/etc/nixos/configuration.nix" || \
-        die "Failed to create nixos configuration symlink"
+        log_info "Linking /etc/nixos/configuration.nix to $DOTFILES_DIR/config/nixos/configuration.nix..."
+        sudo ln -s "$DOTFILES_DIR/config/nixos/configuration.nix" "/etc/nixos/configuration.nix" || \
+            die "Failed to create nixos configuration symlink"
+    fi
 
     # Verify symlinks
     confirm_symlink "$HOME/.config/home-manager" "Failed to set up home-manager symlink"
