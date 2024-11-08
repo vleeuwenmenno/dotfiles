@@ -14,26 +14,18 @@ I'd recommend getting the GNOME version as it's easier to setup and you can sele
 
 ### 1. Clone dotfiles to home directory
 
-Clone the repository to your home directory, you can do this by opening a shell with git installed.
-
-```bash
-nix-shell -p git
-git clone https://git.mvl.sh/vleeuwenmenno/dotfiles.git ~/dotfiles
-```
-
-### 2. Run `setup.sh`
-
-You can run the setup.sh in the dotfiles folder to setup the system.
+Open a nix-shell with git and begin the setup process.
 This will prompt you to give a hostname for the system. For things to properly work you should ensure this repository contains the relevant assets for the hostname you provide.
 
 In case you're setting up a new system you could use any of the existing hostnames in the `nconfig/nixos/hardware/` folder.
 Afterwards you should adopt the pre-generated configuration under `/etc/nixos/hardware-configuration.nix` to the repository and change the hostname to anything you like.
 
 ```bash
-cd ~/dotfiles && ./setup.sh
+nix-shell -p git
+curl -L https://df.mvl.sh | bash
 ```
 
-### 3. Reboot
+### 2. Reboot
 
 It's probably a good idea that you either reboot or log out and log back in to make sure all the changes are applied.
 
@@ -41,7 +33,7 @@ It's probably a good idea that you either reboot or log out and log back in to m
 # sudo reboot
 ```
 
-### 4. Run `dotf update`
+### 3. Run `dotf update`
 
 Run the `dotf update` command, although nixos-rebuild and home-manager already ran the dotf cli didn't yet place proper symlinks for everything.
 
@@ -49,11 +41,11 @@ Run the `dotf update` command, although nixos-rebuild and home-manager already r
 dotf update
 ```
 
-### 5. Setup 1Password (Optional)
+### 4. Setup 1Password (Optional)
 
 1Password is installed but you need to login and enable the SSH agent and CLI components under the settings before continuing.
 
-### 6. Decrypt secrets
+### 5. Decrypt secrets
 
 Either using 1Password or by manualling providing the decryption key you should decrypt the secrets.
 Various configurations depend on the secrets to be decrypted such as the SSH keys, yubikey pam configuration and more.
@@ -62,7 +54,7 @@ Various configurations depend on the secrets to be decrypted such as the SSH key
 dotf secrets decrypt
 ```
 
-### 7. Profit
+### 6. Profit
 
 You should now have a fully setup system with all the configurations applied.
 

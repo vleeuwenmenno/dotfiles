@@ -93,6 +93,7 @@ symlinks() {
 }
 
 sys_packages_upgrade() {
+  sudo nix-channel --update
   cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --upgrade --flake .#$DOTF_HOSTNAME --impure
 }
 
