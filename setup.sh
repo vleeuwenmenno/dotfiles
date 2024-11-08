@@ -136,7 +136,6 @@ EOF
     git -C "$DOTFILES_DIR" status
     echo
 }
-# Update these functions in the previous script:
 
 update_nixos_flake() {
     local hostname="$1"
@@ -150,15 +149,8 @@ update_nixos_flake() {
         common_module="./common/server.nix"
     fi
 
-    # Create temporary file
-    local temp_file=$(mktemp)
-    
-    # Read file up to nixosConfigurations
-    awk '/nixosConfigurations = {/,/{/{if($0 ~ /nixosConfigurations = {/) {p=NR}} p==NR{print}' "$flake_file" > "$temp_file"
-    
-    # Add new configuration
-    cat >> "$temp_file" << EOF
-        "$hostname" = nixpkgs.lib.nixosSystem {
+    # Create new configuration entry
+    local new_config="        \"$hostname\" = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
             ./hardware/$hostname.nix
@@ -170,13 +162,27 @@ update_nixos_flake() {
             isWorkstation = $isWorkstation;
             isServer = $isServer;
           };
-        };
+        };"
 
-EOF
+    # Create temporary file
+    local temp_file=$(mktemp)
+    
+    # Find the line number where nixosConfigurations = { appears
+    local config_line=$(grep -n "nixosConfigurations = {" "$flake_file" | cut -d: -f1)
+    
+    if [ -z "$config_line" ]; then
+        rm "$temp_file"
+        die "Could not find nixosConfigurations in flake.nix"
+    fi
 
-    # Add the rest of the original file
-    awk 'BEGIN{p=0}/nixosConfigurations = {/{p=1;next}p==1{print}' "$flake_file" | \
-        tail -n +2 >> "$temp_file"
+    # Copy the file up to the line after nixosConfigurations = {
+    head -n "$config_line" "$flake_file" > "$temp_file"
+    
+    # Add the new configuration
+    echo "$new_config" >> "$temp_file"
+    
+    # Add the rest of the file starting from the line after nixosConfigurations = {
+    tail -n +"$((config_line + 1))" "$flake_file" >> "$temp_file"
 
     # Validate the new file
     if ! nix-shell -p nixfmt --run "nixfmt $temp_file"; then
@@ -194,29 +200,36 @@ update_home_manager_flake() {
     local isServer="$2"
     local flake_file="$DOTFILES_DIR/config/home-manager/flake.nix"
     
-    # Create temporary file
-    local temp_file=$(mktemp)
-    
-    # Read file up to homeConfigurations
-    awk '/homeConfigurations = {/,/{/{if($0 ~ /homeConfigurations = {/) {p=NR}} p==NR{print}' "$flake_file" > "$temp_file"
-    
-    # Add new configuration
-    cat >> "$temp_file" << EOF
-        "$hostname" = home-manager.lib.homeManagerConfiguration {
+    # Create new configuration entry
+    local new_config="        \"$hostname\" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
             inherit pkgs pkgs-unstable;
             isServer = $isServer;
-            hostname = "$hostname";
+            hostname = \"$hostname\";
           };
-        };
+        };"
 
-EOF
+    # Create temporary file
+    local temp_file=$(mktemp)
+    
+    # Find the line number where homeConfigurations = { appears
+    local config_line=$(grep -n "homeConfigurations = {" "$flake_file" | cut -d: -f1)
+    
+    if [ -z "$config_line" ]; then
+        rm "$temp_file"
+        die "Could not find homeConfigurations in flake.nix"
+    fi
 
-    # Add the rest of the original file
-    awk 'BEGIN{p=0}/homeConfigurations = {/{p=1;next}p==1{print}' "$flake_file" | \
-        tail -n +2 >> "$temp_file"
+    # Copy the file up to the line after homeConfigurations = {
+    head -n "$config_line" "$flake_file" > "$temp_file"
+    
+    # Add the new configuration
+    echo "$new_config" >> "$temp_file"
+    
+    # Add the rest of the file starting from the line after homeConfigurations = {
+    tail -n +"$((config_line + 1))" "$flake_file" >> "$temp_file"
 
     # Validate the new file
     if ! nix-shell -p nixfmt --run "nixfmt $temp_file"; then
