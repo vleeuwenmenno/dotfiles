@@ -372,9 +372,9 @@ main() {
 
     # Run setup steps
     prepare_hostname
-    setup_symlinks
     install_nix
     install_home_manager
+    setup_symlinks
 
     # Get hostname
     local hostname
