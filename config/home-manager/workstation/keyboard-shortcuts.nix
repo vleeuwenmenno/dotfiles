@@ -14,6 +14,7 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/missioncenter/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/emotes/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/frog/"
       ];
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/1password-quick-access" = {
@@ -35,6 +36,11 @@
       binding = "<Super>e";
       command = "smile";
       name = "emotes";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/frog" = {
+      binding = "<Shift><Alt>3";
+      command = "frog";
+      name = "frog-ocr";
     };
   };
 }
