@@ -136,18 +136,33 @@ EOF
     git -C "$DOTFILES_DIR" status
     echo
 }
+# Update these functions in the previous script:
 
 update_nixos_flake() {
     local hostname="$1"
     local isServer="$2"
     local isWorkstation="$3"
+    local flake_file="$DOTFILES_DIR/config/nixos/flake.nix"
+    
+    # Determine which common module to use
+    local common_module="./common/workstation.nix"
+    if [ "$isServer" = "true" ]; then
+        common_module="./common/server.nix"
+    fi
 
-    local flake_config="
-        \"$hostname\" = nixpkgs.lib.nixosSystem {
+    # Create temporary file
+    local temp_file=$(mktemp)
+    
+    # Read file up to nixosConfigurations
+    awk '/nixosConfigurations = {/,/{/{if($0 ~ /nixosConfigurations = {/) {p=NR}} p==NR{print}' "$flake_file" > "$temp_file"
+    
+    # Add new configuration
+    cat >> "$temp_file" << EOF
+        "$hostname" = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
             ./hardware/$hostname.nix
-            ./common/server.nix
+            $common_module
             ./configuration.nix
           ];
           specialArgs = {
@@ -156,37 +171,61 @@ update_nixos_flake() {
             isServer = $isServer;
           };
         };
-    "
 
-    local flake_file="$DOTFILES_DIR/config/nixos/flake.nix"
-    sed -i "s/nixosConfigurations = {/nixosConfigurations = { $flake_config/g" "$flake_file"
+EOF
 
-    # Validate flake.nix
-    nix-shell -p nixfmt --run "nixfmt $flake_file" || return 1
+    # Add the rest of the original file
+    awk 'BEGIN{p=0}/nixosConfigurations = {/{p=1;next}p==1{print}' "$flake_file" | \
+        tail -n +2 >> "$temp_file"
+
+    # Validate the new file
+    if ! nix-shell -p nixfmt --run "nixfmt $temp_file"; then
+        rm "$temp_file"
+        return 1
+    fi
+
+    # Replace original file
+    mv "$temp_file" "$flake_file" || return 1
     log_success "NixOS Flake configuration added successfully."
 }
 
 update_home_manager_flake() {
     local hostname="$1"
     local isServer="$2"
-
-    local flake_config="
-        \"$hostname\" = home-manager.lib.homeManagerConfiguration {
+    local flake_file="$DOTFILES_DIR/config/home-manager/flake.nix"
+    
+    # Create temporary file
+    local temp_file=$(mktemp)
+    
+    # Read file up to homeConfigurations
+    awk '/homeConfigurations = {/,/{/{if($0 ~ /homeConfigurations = {/) {p=NR}} p==NR{print}' "$flake_file" > "$temp_file"
+    
+    # Add new configuration
+    cat >> "$temp_file" << EOF
+        "$hostname" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
             inherit pkgs pkgs-unstable;
             isServer = $isServer;
-            hostname = \"$hostname\";
+            hostname = "$hostname";
           };
         };
-    "
 
-    local flake_file="$DOTFILES_DIR/config/home-manager/flake.nix"
-    sed -i "s/homeConfigurations = {/homeConfigurations = { $flake_config/g" "$flake_file"
+EOF
 
-    # Validate flake.nix
-    nix-shell -p nixfmt --run "nixfmt $flake_file" || return 1
+    # Add the rest of the original file
+    awk 'BEGIN{p=0}/homeConfigurations = {/{p=1;next}p==1{print}' "$flake_file" | \
+        tail -n +2 >> "$temp_file"
+
+    # Validate the new file
+    if ! nix-shell -p nixfmt --run "nixfmt $temp_file"; then
+        rm "$temp_file"
+        return 1
+    fi
+
+    # Replace original file
+    mv "$temp_file" "$flake_file" || return 1
     log_success "Home Manager Flake configuration added successfully."
 }
 
@@ -208,6 +247,9 @@ setup_symlinks() {
     # Backup and create symlinks
     backup_file "$HOME/.bashrc"
     backup_file "$HOME/.profile"
+
+    # Create .config/ if it doesn't exist
+    mkdir -p "$HOME/.config"
 
     if [ -d "$HOME/.config/home-manager" ]; then
         log_info "Backing up ~/.config/home-manager to ~/.config/home-manager.bak..."
