@@ -62,8 +62,13 @@ create_hardware_config() {
         read type
     done
 
-    isWorkstation=$(if [ $type == "w" ]; then echo "true"; else echo "false"; fi)
-    isServer=$(if [ $type == "s" ]; then echo "true"; else echo "false" fi)
+    if [ $type == "s" ]; then
+        isServer="true"
+        isWorkstation="false"
+    else
+        isServer="false"
+        isWorkstation="true"
+    fi
 
     flakeConfiguration="
 
