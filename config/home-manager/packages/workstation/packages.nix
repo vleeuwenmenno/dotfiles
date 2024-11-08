@@ -12,6 +12,7 @@
     smile # Emoji picker
     gnome-frog # OCR tool
     gnome.gnome-boxes # Virtual machine manager
+    deja-dup # Backup tool
 
     ## Chat Apps
     telegram-desktop
