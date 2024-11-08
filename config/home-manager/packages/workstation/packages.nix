@@ -10,6 +10,8 @@
     trayscale # Tray icon for Tailscale
     spacedrive # Virtual filesystem manager
     smile # Emoji picker
+    gnome-frog # OCR tool
+    gnome.gnome-boxes # Virtual machine manager
 
     ## Chat Apps
     telegram-desktop
@@ -37,6 +39,7 @@
     ### Games launchers
     lutris
     heroic
+    dosbox
 
     ### Game utilities
     protonup-qt
