@@ -33,6 +33,14 @@ die() {
     exit 1
 }
 
+# Ensure we're running interactively
+ensure_interactive() {
+    # If stdin is not a terminal, reconnect stdin to /dev/tty
+    if [ ! -t 0 ]; then
+        exec < /dev/tty || die "Failed to connect to terminal. Please run the script directly instead of piping from curl"
+    fi
+}
+
 confirm_symlink() {
     local link="$1"
     local msg="$2"
@@ -87,6 +95,9 @@ EOF
 
     log_success "Hardware configuration created successfully."
     log_info "Consider adding additional hardware configuration to $config_file"
+
+    # Ensure interactive input before system type selection
+    ensure_interactive
 
     # System type selection
     local systemType
@@ -255,6 +266,9 @@ prepare_hostname() {
         log_success "Hardware configuration found for $hostname. Continuing setup..."
         return
     fi
+
+    # Ensure interactive input before hostname prompt
+    ensure_interactive
 
     while true; do
         log_info "Enter the hostname for this machine:"
