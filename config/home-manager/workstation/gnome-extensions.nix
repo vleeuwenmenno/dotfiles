@@ -31,6 +31,7 @@
       battery-health-charging
       just-perfection
       smile-complementary-extension
+      vitals
     ]);
 
   # Copy burn-my-windows profile to user config
@@ -43,6 +44,13 @@
 
   dconf = {
     settings = {
+      # vitals settings
+      "org/gnome/shell/extensions/vitals" = {
+        position-in-panel = 0;
+        use-higher-precision = true;
+        icon-style = 1;
+      };
+
       # To get an ID of an extension, run `gnome-extensions list`
       "org/gnome/shell" = {
         disable-user-extensions = false;
@@ -68,6 +76,7 @@
           "just-perfection-desktop@just-perfection"
           "native-window-placement@gnome-shell-extensions.gcampax.github.com"
           "smile-extension@mijorus.it"
+          "Vitals@CoreCoding.com"
         ];
       };
 
