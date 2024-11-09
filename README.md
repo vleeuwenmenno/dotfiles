@@ -14,11 +14,11 @@ I'd recommend getting the GNOME version as it's easier to setup and you can sele
 
 ### 1. Clone dotfiles to home directory
 
-Open a nix-shell with git and begin the setup process.
-This will prompt you to give a hostname for the system. For things to properly work you should ensure this repository contains the relevant assets for the hostname you provide.
+Open a nix-shell with git and begin the setup process. This setup will prompt you various questions such as your desired hostname and if the system you are installing is supposed to be a server or workstation.
 
-In case you're setting up a new system you could use any of the existing hostnames in the `nconfig/nixos/hardware/` folder.
-Afterwards you should adopt the pre-generated configuration under `/etc/nixos/hardware-configuration.nix` to the repository and change the hostname to anything you like.
+Feel free to use an exisiting hostname to restore an old system or chose a new name.
+
+If you are running this in a VM be sure to answer yes if it prompts you. This will ensure it generates the correct boot loader configuration.
 
 ```bash
 nix-shell -p git
@@ -35,7 +35,7 @@ It's probably a good idea that you either reboot or log out and log back in to m
 
 ### 3. Run `dotf update`
 
-Run the `dotf update` command, although nixos-rebuild and home-manager already ran the dotf cli didn't yet place proper symlinks for everything.
+Run the `dotf update` command, although the setup script did most of the work some symlinks still need to be set which at the moment is done using shell scripts.
 
 ```bash
 dotf update
