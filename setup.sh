@@ -441,6 +441,9 @@ main() {
     # Create setup marker
     touch "$SETUP_MARKER" || die "Failed to create setup marker"
 
+    # Remove remnant files
+    rm "$HOME/.hostname" || die "Failed to remove hostname file"
+
     # Final success message
     log_success "\nSetup complete. Please logout / restart to continue with 'dotf update'.\n"
     log_error "\n!!! Please logout / restart to continue !!!"
