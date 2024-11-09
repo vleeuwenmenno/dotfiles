@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 {
   # Enables the 1Password CLI
   programs._1password = {
@@ -9,6 +9,7 @@
   programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [ "menno" ];
+    package = pkgs-unstable._1password-gui;
   };
 
   environment.etc = {
