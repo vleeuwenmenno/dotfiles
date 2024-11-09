@@ -68,10 +68,7 @@ config:
   packages:
     # Supply a git_url and binary to install from source
     cargo:
-      rip2:
       fd-find:
 
     pipx:
-      - gnome-extensions-cli
-      - bauh
       - shyaml

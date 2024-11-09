@@ -2,5 +2,8 @@
 {
   imports = [ ./virtualization.nix ];
 
-  environment.systemPackages = with pkgs; [ yubikey-manager ];
+  environment.systemPackages = with pkgs; [
+    yubikey-manager
+    trash-cli
+  ];
 }

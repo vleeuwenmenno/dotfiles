@@ -18,7 +18,7 @@ alias la='l -a'
 alias cat='bat'
 alias du='dust'
 alias df='duf'
-alias rm="echo Use 'rip' instead of rm."
+alias rm="trash-put"
 
 # Docker Aliases
 alias d='docker'
