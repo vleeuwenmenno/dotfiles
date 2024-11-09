@@ -81,27 +81,59 @@ create_hardware_config() {
     local hostname="$1"
     log_info "Creating hardware configuration for $hostname..."
 
+    # Get boot configuration type
+    local boot_config
+    while true; do
+        log_info "Is this a virtual machine? (y/n)"
+        read -r -p "(y/n): " yn
+        case $yn in
+            [Yy]* )
+                boot_config=$(cat << 'EOF'
+  # Boot configuration for VM
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = false;
+EOF
+)
+                break
+                ;;
+            [Nn]* )
+                boot_config=$(cat << 'EOF'
+  # Boot configuration for physical machine
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+EOF
+)
+                break
+                ;;
+            * )
+                log_error "Please answer yes or no."
+                ;;
+        esac
+    done
+
+    # Create the full hardware configuration
     local config_file="$DOTFILES_DIR/config/nixos/hardware/$hostname.nix"
     local template=$(cat << 'EOF'
-    {
-        config,
-        lib,
-        pkgs,
-        modulesPath,
-        ...
-    }:
-    {
-        imports = [ /etc/nixos/hardware-configuration.nix ];
-        networking.hostName = "%s";
-    }
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
+{
+  imports = [ /etc/nixos/hardware-configuration.nix ];
+  networking.hostName = "%s";
+
+%s
+}
 EOF
 )
 
-    printf "$template" "$hostname" > "$config_file" || \
+    # Generate the configuration file with hostname and boot configuration
+    printf "$template" "$hostname" "$boot_config" > "$config_file" || \
         die "Failed to create hardware configuration"
-
-    log_success "Hardware configuration created successfully."
-    log_info "Consider adding additional hardware configuration to $config_file"
 
     # Ensure interactive input before system type selection
     ensure_interactive
@@ -139,6 +171,8 @@ EOF
         "config/home-manager/flake.nix" || \
         die "Failed to add files to git"
 
+    log_success "Hardware configuration created successfully."
+    log_info "Consider adding additional hardware configuration to $config_file\n"
     log_info "\nDon't forget to commit and push the changes to the dotfiles repo after testing."
     git -C "$DOTFILES_DIR" status
     echo

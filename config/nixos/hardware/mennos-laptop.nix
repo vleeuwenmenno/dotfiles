@@ -9,6 +9,10 @@
   imports = [ /etc/nixos/hardware-configuration.nix ];
   networking.hostName = "mennos-laptop";
 
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
   # Enable OpenGL
   hardware.opengl.enable = true;
 

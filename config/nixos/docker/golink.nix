@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 {
   environment.etc."docker/golink/docker-compose.yml".source = ./golink/docker-compose.yml;
   environment.etc."docker/golink/.env".source = ./golink/.env;

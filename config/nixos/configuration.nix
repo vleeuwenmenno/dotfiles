@@ -20,10 +20,6 @@
     # Include docker if this is a server, otherwise include nothing because we don't intend on running docker services on workstations.
     ++ lib.optional isServer ./docker/default.nix;
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   # Enable networking
   networking.networkmanager.enable = true;
 

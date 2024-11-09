@@ -9,6 +9,10 @@
   imports = [ /etc/nixos/hardware-configuration.nix ];
   networking.hostName = "mennos-gamingpc";
 
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
   # Enable Vulkan support for AMD graphics cards
   hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ amdvlk ];
 
