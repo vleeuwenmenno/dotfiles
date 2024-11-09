@@ -170,9 +170,6 @@ homemanager() {
 # Parse arguments
 ####################################################################################################
 
-# Shift the first argument since this is the script name
-shift
-
 if [ "$#" -eq 0 ]; then
   printfe "%s\n" "yellow" "No options passed, running full update..."
 

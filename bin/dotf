@@ -25,7 +25,16 @@ update() {
         printfe "%s\n" "red" "Error: Update script not found or not executable"
         return 1
     fi
-    "$update_script" "$@"
+    "$update_script" $@
+}
+
+term() {
+    local term_script="$DOTFILES_BIN/actions/term.sh"
+    if [[ ! -x "$term_script" ]]; then
+        printfe "%s\n" "red" "Error: Terminal script not found or not executable"
+        return 1
+    fi
+    "$term_script" "$@"
 }
 
 help() {
@@ -97,6 +106,7 @@ main() {
     case "${1:-help}" in
         update)  shift; update "$@" ;;
         help)    shift; help "$@" ;;
+        term)    shift; term "$@" ;;
         secrets) shift; secrets "$@" ;;
         *)       help ;;
     esac
