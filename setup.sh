@@ -388,6 +388,19 @@ prepare_hostname() {
     log_success "Hostname set successfully."
 }
 
+warning_prompt() {
+    log_success "This script will set up your NixOS system using Menno's Dotfiles repository.\n"
+    log_error "Please ensure you have a backup of your data before proceeding."
+    log_error "This script will modify system files and may require sudo permissions.\n"
+    log_info "This script works best on a fresh NixOS installation."
+    log_info "Type 'continue' to continue or Ctrl+C to exit."
+    read -r -p "> " continue
+    if [ "$continue" != "continue" ]; then
+        die "Exiting..."
+    fi
+    log_info "Starting setup..."
+}
+
 main() {
     # Check if setup has already been run
     if [ -f "$SETUP_MARKER" ]; then
@@ -405,6 +418,7 @@ main() {
     fi
 
     # Run setup steps
+    warning_prompt
     prepare_hostname
     install_nix
     install_home_manager
