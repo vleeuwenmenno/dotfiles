@@ -97,11 +97,11 @@ sys_packages_upgrade() {
   cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --upgrade --flake .#$DOTF_HOSTNAME --impure
 }
 
-sys_packages() {
-  ####################################################################################################
-  # Update system packages
-  ####################################################################################################
+####################################################################################################
+# Update packages
+####################################################################################################
 
+sys_packages() {
   printfe "%s\n" "cyan" "Updating system packages..."
   if [[ "$OSTYPE" == "darwin"* ]]; then
     brew update
@@ -122,10 +122,6 @@ sys_packages() {
     sudo nala autoremove -y --purge
   fi
 }
-
-####################################################################################################
-# Update packages
-####################################################################################################
 
 cargopkgs() {  
   printfe "%s\n" "cyan" "Ensuring Cargo packages are installed..."
@@ -167,31 +163,6 @@ flatpakpkgs() {
   ensure_flatpak_packages_installed
 }
 
-tailscalecmd() {
-  if is_wsl; then
-    printfe "%s\n" "yellow" "Running in WSL, skipping Tailscale."
-    return
-  fi
-
-  printfe "%s\n" "cyan" "Ensuring Tailscale is installed..."
-  source $HOME/dotfiles/bin/helpers/tailscale.sh
-  ensure_tailscale_installed
-}
-
-####################################################################################################
-# Update system settings
-####################################################################################################
-
-git_repos() {
-  ####################################################################################################
-  # Ensure git repos
-  ####################################################################################################
-
-  printfe "%s\n" "cyan" "Ensuring git repos..."
-  source $HOME/dotfiles/bin/helpers/git.sh
-  ensure_git_repos
-}
-
 homemanager() {
   # Due to weirdness delete this file if it exists
   if [ -f "$HOME/.config/mimeapps.list.backup" ]; then
@@ -202,25 +173,9 @@ homemanager() {
   cd $HOME/dotfiles/config/home-manager && NIXPKGS_ALLOW_UNFREE=1 home-manager switch -b backup --flake .#$DOTF_HOSTNAME --impure
 }
 
-ensure_homemanager_installed() {
-  if [ ! -x "$(command -v home-manager)" ]; then
-    printfe "%s\n" "yellow" "Home Manager is not installed, installing it..."
-    nix-channel --add https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz home-manager
-    nix-channel --update
-    nix-shell '<home-manager>' -A install
-
-    printfe "%s\n" "yellow" "Home Manager installed, please run the script again."
-    exit 1
-  fi
-}
-
 ####################################################################################################
 # Parse arguments
 ####################################################################################################
-
-# Multiple options can be passed to the script, for example:
-# ./update.sh --git --symlinks --packages
-# If no options are passed, the script will run all functions
 
 # Shift the first argument since this is the script name
 shift
@@ -228,15 +183,12 @@ shift
 if [ "$#" -eq 0 ]; then
   printfe "%s\n" "yellow" "No options passed, running full update..."
 
-  ensure_homemanager_installed
   symlinks
   sys_packages
   homemanager
   cargopkgs
   pipxpkgs
-  git_repos
   flatpakpkgs
-  tailscalecmd
   dotf secrets encrypt
 else
   for arg in "$@"; do
@@ -254,9 +206,6 @@ else
       sys_packages
       homemanager
       ;;
-    --git)
-      git_repos
-      ;;
     --symlinks)
       symlinks
       ;;
@@ -265,7 +214,6 @@ else
       cargopkgs
       pipxpkgs
       flatpakpkgs
-      tailscalecmd
       ;;
     --pipx)
       pipxpkgs
@@ -275,9 +223,6 @@ else
       ;;
     --flatpak)
       flatpakpkgs
-      ;;
-    --tailscale)
-      tailscalecmd
       ;;
     *)
       printfe "%s\n" "red" "Unknown option: $arg"

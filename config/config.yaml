@@ -61,21 +61,6 @@ config:
       source: ~/dotfiles/config/starship.toml
       target: ~/.config/starship.toml
 
-  git:
-    dotfiles:
-      url: git@git.mvl.sh:vleeuwenmenno/dotfiles.git
-      branch: master
-      target: ~/dotfiles
-
-    ssdc_app_v2:
-      url: git@github.com:vleeuwenmenno/ssdc_app_v2.git
-      branch: master
-      target: ~/Projects/Private/ssdc_app_v2
-
-    infra:
-      url: git@github.com:tradaware/infra.git
-      branch: main
-      target: ~/Projects/Work
 
   # Packages to install
   # Note: Uninstalling packages is not supported, if you remove a package from this list it will not be removed from the system!

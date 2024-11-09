@@ -1,76 +1,105 @@
 #!/usr/bin/env bash
 
-source $HOME/dotfiles/bin/helpers/functions.sh
-export DOTFILES_CONFIG=$HOME/dotfiles/config/config.yaml
+# strict mode
+set -euo pipefail
+IFS=$'\n\t'
 
-status() {
-    $HOME/dotfiles/bin/actions/status.sh $@
-}
+# Script constants
+readonly DOTFILES_ROOT="$HOME/dotfiles"
+readonly DOTFILES_BIN="$DOTFILES_ROOT/bin"
+readonly DOTFILES_CONFIG="$DOTFILES_ROOT/config/config.yaml"
 
+# Source helper functions
+if [[ ! -f "$DOTFILES_BIN/helpers/functions.sh" ]]; then
+    echo "Error: Required helper functions not found"
+    exit 1
+fi
+source "$DOTFILES_BIN/helpers/functions.sh"
+
+export DOTFILES_CONFIG
+
+# Command functions
 update() {
-    $HOME/dotfiles/bin/actions/update.sh $@
+    local update_script="$DOTFILES_BIN/actions/update.sh"
+    if [[ ! -x "$update_script" ]]; then
+        printfe "%s\n" "red" "Error: Update script not found or not executable"
+        return 1
+    fi
+    "$update_script" "$@"
 }
 
 help() {
-    $HOME/dotfiles/bin/actions/help.sh $@
+    local help_script="$DOTFILES_BIN/actions/help.sh"
+    if [[ ! -x "$help_script" ]]; then
+        printfe "%s\n" "red" "Error: Help script not found or not executable"
+        return 1
+    fi
+    "$help_script" "$@"
 }
 
 secrets() {
-    $HOME/dotfiles/bin/actions/secrets.sh $@
-}
-
-push() {
-    $HOME/dotfiles/bin/actions/push.sh $@
+    local secrets_script="$DOTFILES_BIN/actions/secrets.sh"
+    if [[ ! -x "$secrets_script" ]]; then
+        printfe "%s\n" "red" "Error: Secrets script not found or not executable"
+        return 1
+    fi
+    "$secrets_script" "$@"
 }
 
 ensure_git_hooks() {
-    # If ~/dotfiles/.git/hooks is a symlink, skip this
-    if [[ -L ~/dotfiles/.git/hooks ]]; then
-        # Let's make sure the symlink is correct
-        if [[ $(readlink ~/dotfiles/.git/hooks) != $HOME/dotfiles/bin/actions/git ]]; then
-            printfe "%s\n" "yellow" "The ~/dotfiles/.git/hooks symlink is incorrect. Please remove it and run this script again."
+    local hooks_dir="$DOTFILES_ROOT/.git/hooks"
+    local target_link="$DOTFILES_BIN/actions/git"
+
+    # Validate target directory exists
+    if [[ ! -d "$target_link" ]]; then
+        printfe "%s\n" "red" "Error: Git hooks source directory does not exist: $target_link"
+        return 1
+    fi
+
+    # Handle existing symlink
+    if [[ -L "$hooks_dir" ]]; then
+        local current_link
+        current_link=$(readlink "$hooks_dir")
+        if [[ "$current_link" != "$target_link" ]]; then
+            printfe "%s\n" "yellow" "Incorrect git hooks symlink found. Removing and recreating..."
+            rm "$hooks_dir"
+        else
+            return 0
         fi
-        return
     fi
 
-    if [[ -d ~/dotfiles/.git/hooks ]]; then
-        rm -rf ~/dotfiles/.git/hooks
-        printfe "%s\n" "yellow" "The ~/dotfiles/.git/hooks directory already exists. We're removing it!"
+    # Handle existing directory
+    if [[ -d "$hooks_dir" ]]; then
+        printfe "%s\n" "yellow" "Removing existing hooks directory..."
+        rm -rf "$hooks_dir"
     fi
 
-    ln -s $HOME/dotfiles/bin/actions/git ~/dotfiles/.git/hooks
-    printfe "%s\n" "green" "Git hooks are now set up!"
+    # Create new symlink
+    if ln -s "$target_link" "$hooks_dir"; then
+        printfe "%s\n" "green" "Git hooks successfully configured!"
+    else
+        printfe "%s\n" "red" "Failed to create git hooks symlink"
+        return 1
+    fi
 }
 
-ensure_git_hooks
+main() {
+    # Ensure we're in the correct directory
+    if [[ ! -d "$DOTFILES_ROOT" ]]; then
+        printfe "%s\n" "red" "Error: Dotfiles directory not found"
+        exit 1
+    fi
 
-# switch case for parameters
-case $1 in
-    "update")
-        logo
-        update $@
-        ;;
-    "push")
-        logo continue
-        push $@
-        ;;
-    "help"|"--help"|"")
-        help $@
-        ;;
-    "secrets")
-        secrets $@
-        ;;
-    "term")
-        $HOME/dotfiles/bin/actions/term.sh $@
-        ;;
-    "auto-start"|"-a"|"-auto-start"|"as")
-        $HOME/dotfiles/bin/actions/auto-start.sh $@
-        ;;
-    "hotkey-daemon")
-        x-terminal-emulator -e $HOME/dotfiles/bin/actions/hotkey-daemon.sh $@
-        ;;
-    *)
-        printfe "%s\n" "red" "Unknown command $1"
-        help $@
-        ;;
-esac
+    # Setup git hooks
+    ensure_git_hooks || exit 1
+
+    # Parse commands
+    case "${1:-help}" in
+        update)  shift; update "$@" ;;
+        help)    shift; help "$@" ;;
+        secrets) shift; secrets "$@" ;;
+        *)       help ;;
+    esac
+}
+
+main "$@"

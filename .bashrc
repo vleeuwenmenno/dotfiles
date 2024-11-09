@@ -142,6 +142,7 @@ launch_zellij_conditionally() {
     fi
 }
 
+# Disabled for now, I don't like the way it behaves but I don't want to remove it either
 # launch_zellij_conditionally
 
 # Source ble.sh if it exists

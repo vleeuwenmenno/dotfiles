@@ -5,5 +5,7 @@ Usage: dotf [options] [optional parameters]
     update:         Pull latest changes, and update symlinks and configurations.
     status:         Show the status of the dotfiles repository.
     secrets:        Encrypt and decrypt secrets.
+    auto-start:     Runs various programs for easy startup in case GNOME doesn't properly auto-start them.
+    term:           Shows the welcome message for the terminal and the current dotfiles git status.
     help:           Shows this help message
     
