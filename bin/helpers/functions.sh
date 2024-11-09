@@ -17,9 +17,13 @@ is_wsl() {
 logo() {
     echo "Menno's Dotfiles" | figlet | lolcat
 
+    if [[ $(trash-list | wc -l) -gt 0 ]]; then
+        printfe "%s" "yellow" "[!] $(trash-list | wc -l | tr -d ' ') file(s) in trash - "
+    fi
+
     # Print if repo is dirty and the count of untracked files, modified files and staged files
     if [[ $(git -C ~/dotfiles status --porcelain) ]]; then
-        printfe "%s" "yellow" "dotfiles repo is dirty "
+        printfe "%s" "yellow" "dotfiles is dirty "
         printfe "%s" "red" "[$(git -C ~/dotfiles status --porcelain | grep -c '^??')] untracked "
         printfe "%s" "yellow" "[$(git -C ~/dotfiles status --porcelain | grep -c '^ M')] modified "
         printfe "%s" "green" "[$(git -C ~/dotfiles status --porcelain | grep -c '^M ')] staged "
@@ -29,6 +33,7 @@ logo() {
     if [[ $(git -C ~/dotfiles log origin/master..HEAD) ]]; then
         printfe "%s" "yellow" "[!] You have $(git -C ~/dotfiles log origin/master..HEAD --oneline | wc -l | tr -d ' ') commit(s) to push"
     fi
+
     println "" "normal"
 }
 

@@ -3,7 +3,7 @@
 source $HOME/dotfiles/bin/helpers/functions.sh
 
 # Print logo
-echo "Menno's Dotfiles" | figlet | lolcat
+logo
 
 # Print help
 cat $HOME/dotfiles/bin/resources/help.txt
