@@ -81,60 +81,12 @@ ensure_package_installed() {
     println "   - $1 is available." "green"
 }
 
-ask_before_do() {
-    printfe "%s" "yellow" "Trying to run: "
-    printfe "%s" "cyan" "'$@' "
-    read -p "Continue? [y/N]: " -n 1 -r
-    echo ""
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        return
-    fi
-
-    printfe "%s" "cyan" "Running '"
-    printfe "%s" "yellow" "$@"
-    println "'..." "cyan"
-
-    # In case DRY_RUN is set to true we should just print the command and not run it
-    if [ "$DRY_RUN" = true ]; then
-        println "Would have run '$@'" "yellow"
-        return
-    else
-        $@
-    fi
-}
-
 ensure_sudo_privileges() {
     if sudo -n true 2>/dev/null; then 
         return
     else
         println "$1" "yellow"
         sudo true
-    fi
-}
-
-ask_before_do_multi() {
-    if [ "$DRY_RUN" = true ]; then
-        println "Would have run: $1" "yellow"
-    else
-        read -p "$1 (y/n) " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            return false
-        fi
-        return true
-    fi
-}
-
-add_to_hosts() {
-    local domain=$1
-    local ip="127.0.0.1"
-
-    # Check if domain already exists in /etc/hosts
-    if ! grep -q "$domain" /etc/hosts; then
-        println "   - adding $domain to /etc/hosts" "yellow"
-        echo "$ip $domain" | sudo tee -a /etc/hosts >/dev/null
-    else
-        println "   - $domain already exists in /etc/hosts" "green"
     fi
 }
 
