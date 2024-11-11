@@ -1,7 +1,17 @@
-version: '3.8'
-
-services:
-  wireguard:
+name: wireguard
+services:  
+  upnp:
+    image: ghcr.io/vleeuwenmenno/auto-upnp:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      UPNP_DURATION: 86400  # 24 hours in seconds
+      PORTS: | 
+        [
+          {"port": 51820, "protocol": "udp"}
+        ]
+        
+  server:
     image: lscr.io/linuxserver/wireguard:latest
     container_name: wireguard
     cap_add:
