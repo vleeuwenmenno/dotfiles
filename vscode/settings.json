@@ -37,5 +37,8 @@
   "editor.detectIndentation": true,
   "editor.autoIndent": "full",
   "debug.inlineValues": "on",
-  "git.confirmSync": false
+  "git.confirmSync": false,
+  "[dockercompose]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  }
 }
