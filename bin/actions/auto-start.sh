@@ -13,14 +13,18 @@ apps=(
 echo "Starting auto-start applications..."
 for app in "${apps[@]}"; do
   if [ -x "$(command -v $app)" ]; then
-    # Check if there's already a screen session with the same name
     if screen -list | grep -q $app; then
       echo "$app is already running. Skipping..."
       continue
     fi
-    
+
     echo "Starting $app..."
     screen -dmS $app $app
     sleep 1
   fi
 done
+
+# check if screen has any dead sessions
+if screen -list | grep -q "Dead"; then
+  screen -wipe
+fi
