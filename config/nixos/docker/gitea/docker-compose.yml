@@ -1,0 +1,55 @@
+name: gittea
+services:  
+  upnp:
+    image: ghcr.io/vleeuwenmenno/auto-upnp:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      UPNP_DURATION: 86400  # 24 hours in seconds
+      PORTS: | 
+        [
+          {"port": 22, "protocol": "tcp"},
+          {"port": 22, "protocol": "udp"}
+        ]
+
+  server:
+    image: gitea/gitea:latest
+    restart: always
+    volumes:
+      - ./data/gittea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3030:3000"
+      - "22:22"
+    networks:
+      - net
+
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=gitea
+      - POSTGRES_DB=gitea
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - net
+    
+  act_runner:
+    image: gitea/act_runner:latest
+    volumes:
+      - ./act-runner-config.yaml:/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+        - GITEA_INSTANCE_URL=https://git.mvl.sh
+        - GITEA_RUNNER_REGISTRATION_TOKEN=lIlte9POlu7aBanhCh3Xm1SPfohrexyfxqs9Yiqz
+        - GITEA_RUNNER_NAME=act-worker
+        - CONFIG_FILE=/config.yaml
+    restart: always
+    networks:
+      - net
+
+networks:
+  net:

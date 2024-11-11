@@ -7,5 +7,6 @@
     ./golink.nix
     ./immich.nix
     ./satisfactory.nix
+    ./gitea.nix
   ];
 }
