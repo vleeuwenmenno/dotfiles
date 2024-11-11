@@ -25,6 +25,16 @@
     pulse.enable = true;
   };
 
+  # Japanese input
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      fcitx5-mozc
+      fcitx5-gtk
+    ];
+    ibus.engines = with pkgs.ibus-engines; [ mozc ];
+  };
+
   # Open ports in the firewall
   networking.firewall = {
     enable = true;
