@@ -1,5 +1,17 @@
+name: factorio
 services:
-  factorio-server-manager:
+  upnp:
+    image: ghcr.io/vleeuwenmenno/auto-upnp:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      UPNP_DURATION: 86400  # 24 hours in seconds
+      PORTS: | 
+        [
+          {"port": 34197, "protocol": "udp"}
+        ]
+
+  server-manager:
     image: "ofsm/ofsm:latest"
     container_name: "factorio-server-manager"
     restart: "unless-stopped"
