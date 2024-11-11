@@ -1,5 +1,6 @@
+name: golink
 services:
-  golink:
+  server:
     image: ghcr.io/tailscale/golink:main
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
