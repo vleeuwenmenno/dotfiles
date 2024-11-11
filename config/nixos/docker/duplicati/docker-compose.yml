@@ -1,5 +1,6 @@
+name: duplicati
 services:
-  duplicati:
+  server:
     image: lscr.io/linuxserver/duplicati:latest
     environment:
       - TZ=Europe/Amsterdam

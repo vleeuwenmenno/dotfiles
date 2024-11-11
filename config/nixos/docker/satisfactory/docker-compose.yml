@@ -1,0 +1,66 @@
+name: satisfactory
+services:
+  upnp:
+    image: ghcr.io/vleeuwenmenno/auto-upnp:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      UPNP_DURATION: 86400  # 24 hours in seconds
+      PORTS: | 
+        [
+          {"port": 7777, "protocol": "udp"},
+          {"port": 15000, "protocol": "udp"},
+          {"port": 15777, "protocol": "udp"},
+          {"port": 27015, "protocol": "tcp"},
+          {"port": 27015, "protocol": "udp"},
+          {"port": 27031, "protocol": "udp"},
+          {"port": 27032, "protocol": "udp"},
+          {"port": 27033, "protocol": "udp"},
+          {"port": 27034, "protocol": "udp"},
+          {"port": 27035, "protocol": "udp"},
+          {"port": 27036, "protocol": "tcp"},
+          {"port": 27036, "protocol": "udp"}
+        ]
+
+  server:
+    hostname: 'satisfactory-server'
+    image: 'wolveix/satisfactory-server:latest'
+    restart: unless-stopped
+    volumes:
+      - './data/config:/config'
+      - './data/certs/live/satisfactory.mvl.sh/fullchain.pem:/config/gamefiles/FactoryGame/Certificates/cert_chain.pem'
+      - './data/certs/live/satisfactory.mvl.sh/privkey.pem:/config/gamefiles/FactoryGame/Certificates/private_key.pem'
+    environment:
+      - MAXPLAYERS=4
+      - PGID=1000
+      - PUID=1000
+      - ROOTLESS=false
+      - STEAMBETA=false
+    healthcheck:
+      test: [ "CMD", "bash", "/healthcheck.sh" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    depends_on:
+      certbot:
+        condition: service_completed_successfully
+    deploy:
+      resources:
+        reservations:
+          memory: 4G
+        limits:
+          memory: 8G
+    network_mode: 'host'
+
+  certbot:
+    image: certbot/certbot
+    command: certonly --standalone --non-interactive --agree-tos -m menno@vleeuwen.me -d satisfactory.mvl.sh
+    # Uncomment this when requesting a new certificate, make sure to disable nginx-proxy-manager first since this conflicts with port 80
+    # ports:
+    #   - '80:80/tcp'
+    volumes:
+      - ./data/certs:/etc/letsencrypt
+    environment:
+      - CERTBOT_MAIL=menno@vleeuwen.me
+      - DOMAIN=satisfactory.mvl.sh
