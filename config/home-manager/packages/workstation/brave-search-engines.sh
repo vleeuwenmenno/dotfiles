@@ -81,10 +81,10 @@ INSERT INTO keywords (
   'https://search.brave.com/search?q={searchTerms}&source=desktop',
   1, 0, 0, 'UTF-8',
   'https://search.brave.com/api/suggest?q={searchTerms}&rich=true&source=desktop',
-  550, '485bf7d3-0215-45af-87dc-538868000550', '[]', 13376052494948729, 0
+  550, '485bf7d3-0215-45af-87dc-538868000550', '[]', 0, 0
 ),
 (
-  'Google', ':g',
+  'Google', ':gg',
   'https://www.google.com/images/branding/product/ico/googleg_alldp.ico',
   '{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:language}{google:prefetchSource}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}',
   1, 0, 0, 'UTF-8',
@@ -92,7 +92,7 @@ INSERT INTO keywords (
   1, '485bf7d3-0215-45af-87dc-538868000001', '[]', 0, 0
 ),
 (
-  'DuckDuckGo', ':d',
+  'DuckDuckGo', ':dd',
   'https://duckduckgo.com/favicon.ico',
   'https://duckduckgo.com/?q={searchTerms}&t=brave',
   1, 0, 0, 'UTF-8',
@@ -100,20 +100,20 @@ INSERT INTO keywords (
   501, '485bf7d3-0215-45af-87dc-538868000501', '[]', 0, 0
 ),
 (
-  'NixOS', 'nix',
+  'NixOS', ':nix',
   'https://search.nixos.org/favicon.png',
   'https://search.nixos.org/packages?query={searchTerms}',
-  1, 13376052510404586, 1, '',
+  1, 0, 0, '',
   '',
-  0, 'bea7b4cd-8693-40d8-8bd0-7f59e0f0eb8d', '[]', 13376052522458505, 1
+  0, '485bf7d3-0215-45af-87dc-538868000552', '[]', 0, 1
 ),
 (
-  'GoLink', 'go',
-  'https://tailscale.com/favicon.ico',
+  'GoLink', ':go',
+  'http://go/favicon.ico',
   'http://go/{searchTerms}',
-  1, 13376052510404586, 1, '',
+  1, 0, 0, '',
   '',
-  0, 'bef7b3cd-8693-40d8-8bd0-5f59e0f0eb8d', '[]', 13376052522458505, 1
+  0, '485bf7d3-0215-45af-87dc-538868000551', '[]', 0, 1
 );
 ENDSQL
 
