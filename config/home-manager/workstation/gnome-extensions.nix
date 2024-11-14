@@ -33,6 +33,7 @@
       just-perfection
       smile-complementary-extension
       vitals
+      clipboard-indicator
     ]);
 
   # Copy burn-my-windows profile to user config
@@ -79,7 +80,18 @@
           "native-window-placement@gnome-shell-extensions.gcampax.github.com"
           "smile-extension@mijorus.it"
           "Vitals@CoreCoding.com"
+          "clipboard-indicator@tudmotu.com"
         ];
+      };
+
+      # Clipboard indicator settings
+      "org/gnome/shell/extensions/clipboard-indicator" = {
+        history-size = 50;
+        cache-size = 50;
+        preview-size = 50;
+        strip-text = true;
+        keep-selected-on-clear = true;
+        toggle-menu = [ "<Shift><Alt>V" ];
       };
 
       # Perfection settings
