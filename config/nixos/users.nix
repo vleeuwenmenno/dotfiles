@@ -13,6 +13,7 @@
       "docker"
       "video"
       "render"
+      "users"
     ];
   };
 }

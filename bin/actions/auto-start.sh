@@ -10,6 +10,11 @@ apps=(
   fcitx5
 )
 
+# check if screen has any dead sessions
+if screen -list | grep -q "Dead"; then
+  screen -wipe
+fi
+
 echo "Starting auto-start applications..."
 for app in "${apps[@]}"; do
   if [ -x "$(command -v $app)" ]; then
@@ -24,7 +29,3 @@ for app in "${apps[@]}"; do
   fi
 done
 
-# check if screen has any dead sessions
-if screen -list | grep -q "Dead"; then
-  screen -wipe
-fi

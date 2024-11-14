@@ -12,6 +12,7 @@
       user-themes
       weather-oclock
       native-window-placement
+      kimpanel
     ]
     ++ (with pkgs-unstable.gnomeExtensions; [
       tiling-shell
@@ -55,6 +56,7 @@
       "org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = [
+          "kimpanel@kde.org"
           "lilypad@shendrew.github.io"
           "tilingshell@ferrarodomenico.com"
           "gsconnect@andyholmes.github.io"
@@ -94,6 +96,8 @@
 
       # Configure dash-to-dock
       "org/gnome/shell/extensions/dash-to-dock" = {
+        pressure-threshold = 250;
+        require-pressure-to-show = false;
         apply-custom-theme = false;
         apply-glossy-effect = false;
         autohide-in-fullscreen = true;

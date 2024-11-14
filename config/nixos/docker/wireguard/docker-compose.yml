@@ -1,23 +1,23 @@
 name: wireguard
-services:  
+services:
   upnp:
     image: ghcr.io/vleeuwenmenno/auto-upnp:latest
     restart: unless-stopped
     network_mode: host
     environment:
       UPNP_DURATION: 86400  # 24 hours in seconds
-      PORTS: | 
+      PORTS: |
         [
           {"port": 51820, "protocol": "udp"}
         ]
-        
+
   server:
     image: lscr.io/linuxserver/wireguard:latest
     container_name: wireguard
     cap_add:
       - NET_ADMIN
     environment:
-      - PEERS=fold6,pc,laptop
+      - PEERS=s24,pc,laptop
     volumes:
       - ./config:/config
     ports:
@@ -25,4 +25,3 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
-    

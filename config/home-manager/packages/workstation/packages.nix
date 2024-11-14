@@ -13,6 +13,7 @@
     gnome-frog # OCR tool
     gnome.gnome-boxes # Virtual machine manager
     deja-dup # Backup tool
+    sqlitebrowser # SQLite database manager
 
     ## Chat Apps
     telegram-desktop

@@ -4,11 +4,11 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      # Zen Browser
-      "application/xhtml+xml" = [ "io.github.zen_browser.zen.desktop" ];
-      "text/html" = [ "io.github.zen_browser.zen.desktop" ];
-      "x-scheme-handler/http" = [ "io.github.zen_browser.zen.desktop" ];
-      "x-scheme-handler/https" = [ "io.github.zen_browser.zen.desktop" ];
+      # Brave Browser
+      "application/xhtml+xml" = [ "brave-browser.desktop" ];
+      "text/html" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/http" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/https" = [ "brave-browser.desktop" ];
 
       # Geary
       "x-scheme-handler/mailto" = [ "org.gnome.Geary.desktop" ];

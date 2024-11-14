@@ -93,7 +93,10 @@ symlinks() {
 }
 
 sys_packages_upgrade() {
+  printfe "%s\n" "cyan" "Running NixOS channel update..."
   sudo nix-channel --update
+
+  printfe "%s\n" "cyan" "Upgrading NixOS packages..."
   cd $HOME/dotfiles/config/nixos && sudo nixos-rebuild switch --upgrade --flake .#$DOTF_HOSTNAME --impure
 }
 
@@ -157,6 +160,8 @@ flatpakpkgs() {
 }
 
 homemanager() {
+  printfe "%s\n" "cyan" "Running Home Manager update..."
+
   # Due to weirdness delete this file if it exists
   if [ -f "$HOME/.config/mimeapps.list.backup" ]; then
     echo "Removing mimeapps.list.backup"

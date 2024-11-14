@@ -40,10 +40,10 @@
       };
 
       # Pinned apps
-      # add more by listing them with `gsettings list-recursively | grep favorite-apps`
+      # add more by listing them with `gsettings list-recursively | grep favorite-apps | sed "s/,//g; s/'/\"/g"` then copy pasting the output here
       "org/gnome/shell" = {
         favorite-apps = [
-          "io.github.zen_browser.zen.desktop"
+          "brave-browser.desktop"
           "code.desktop"
           "org.telegram.desktop.desktop"
           "spotify.desktop"
