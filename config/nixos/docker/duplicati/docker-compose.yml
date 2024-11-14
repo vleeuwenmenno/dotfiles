@@ -1,14 +1,29 @@
 name: duplicati
 services:
-  server:
+  app:
     image: lscr.io/linuxserver/duplicati:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/Amsterdam
       - CLI_ARGS=
     volumes:
-      - ./data:/config
-      - /mnt/20tb:/mnt
-      - /etc/docker:/source/etc/docker
+      - ./config:/config
+      - /mnt:/mnt
     ports:
       - 8200:8200
+    extra_hosts:
+      - host.docker.internal:host-gateway
     restart: unless-stopped
+
+  notifications:
+    image: ghcr.io/vleeuwenmenno/duplicati-discord-notification:main
+    ports:
+      - 5334:5000
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+
+
+
+
