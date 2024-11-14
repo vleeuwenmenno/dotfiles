@@ -8,6 +8,9 @@
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
   networking.hostName = "mennos-gamingpc";
+  networking.interfaces.enp8s0.wakeOnLan = {
+    enable = true;
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

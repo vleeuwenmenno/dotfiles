@@ -113,6 +113,15 @@
           tls.certResolver = "letsencrypt";
         };
         services.personal-site.loadBalancer.servers = [ { url = "http://127.0.0.1:4203"; } ];
+
+        # Duplicati Notification Server
+        routers.duplicati-notif = {
+          rule = "Host(`duplicati-notifications.mvl.sh`)";
+          service = "duplicati-notif";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+        };
+        services.duplicati-notif.loadBalancer.servers = [ { url = "http://127.0.0.1:5334"; } ];
       };
     };
   };
