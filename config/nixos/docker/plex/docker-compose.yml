@@ -1,0 +1,35 @@
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    environment:
+      - VERSION=docker
+      - PLEX_CLAIM=claim-sfTz4AWc_Uxhzfzz9fKS
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+    volumes:
+      - ./data/plex:/config
+      - /mnt/20tb/Movies:/movies
+      - /mnt/20tb/TV_Shows:/tvshows
+      - /mnt/20tb/Music:/music
+    restart: unless-stopped
+
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./data/tautulli:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped

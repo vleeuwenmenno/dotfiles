@@ -47,6 +47,7 @@
           "code.desktop"
           "org.telegram.desktop.desktop"
           "spotify.desktop"
+          "com.plexamp.Plexamp.desktop"
           "vesktop.desktop"
           "org.gnome.Geary.desktop"
           "org.gnome.Nautilus.desktop"

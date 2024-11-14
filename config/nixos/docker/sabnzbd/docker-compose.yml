@@ -1,0 +1,12 @@
+services:
+ sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./data:/config
+      - /mnt/20tb:/storage
+    ports:
+      - 7788:8080
+    restart: unless-stopped

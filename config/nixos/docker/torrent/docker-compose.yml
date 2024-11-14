@@ -1,0 +1,35 @@
+services:
+  gluetun:
+      image: qmcgaw/gluetun:latest
+      container_name: gluetun
+      cap_add:
+        - NET_ADMIN
+      network_mode: bridge
+      ports:
+        - 6881:6881
+        - 6881:6881/udp
+        - 8085:8085
+      volumes:
+        - ./data/gluetun:/gluetun
+      environment:
+        - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+        - OPENVPN_USER=${OPENVPN_USER}
+        - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
+        - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+      restart: always
+
+  qbittorrent:
+      image: lscr.io/linuxserver/qbittorrent
+      container_name: qbittorrent
+      network_mode: "service:gluetun"
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - WEBUI_PORT=8085
+      volumes:
+        - "/etc/localtime:/etc/localtime:ro"
+        - ./data/qbit:/config
+        - /mnt/20tb:/storage
+      depends_on:
+        - gluetun
+      restart: always

@@ -17,12 +17,13 @@ services:
     restart: "unless-stopped"
     environment:
       - "FACTORIO_VERSION=stable"
+      - "RCON_PASS=458fc84534"
     ports:
       - "5080:80"
       - "34197:34197/udp"
     volumes:
-      - "./fsm:/opt/fsm-data"
-      - "./saves:/opt/factorio/saves"
-      - "./mods:/opt/factorio/mods"
-      - "./config:/opt/factorio/config"
-      - "./mod_packs:/opt/fsm/mod_packs"
+      - "./data/fsm:/opt/fsm-data"
+      - "./data/saves:/opt/factorio/saves"
+      - "./data/mods:/opt/factorio/mods"
+      - "./data/config:/opt/factorio/config"
+      - "./data/mod_packs:/opt/fsm/mod_packs"

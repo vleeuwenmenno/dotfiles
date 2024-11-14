@@ -6,8 +6,8 @@ services:
       - TZ=Europe/Amsterdam
       - CLI_ARGS=
     volumes:
-      - ./config:/config
-      - /mnt:/source/mnt
+      - ./data:/config
+      - /mnt/20tb:/mnt
       - /etc/docker:/source/etc/docker
     ports:
       - 8200:8200

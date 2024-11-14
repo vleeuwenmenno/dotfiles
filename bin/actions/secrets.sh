@@ -106,10 +106,10 @@ decrypt_folder() {
     done
 }
 
-if [[ "$2" == "decrypt" ]]; then
+if [[ "$1" == "decrypt" ]]; then
     printfe "%s\n" "cyan" "Decrypting secrets..."
     decrypt_folder ~/dotfiles/secrets
-elif [[ "$2" == "encrypt" ]]; then
+elif [[ "$1" == "encrypt" ]]; then
     printfe "%s\n" "cyan" "Encrypting secrets..."
     encrypt_folder ~/dotfiles/secrets
 fi

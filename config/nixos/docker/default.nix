@@ -1,12 +1,18 @@
 { ... }:
 {
   imports = [
-    ./wireguard.nix
+    ./arr-stack.nix
     ./duplicati.nix
     ./factorio.nix
+    ./gitea.nix
     ./golink.nix
     ./immich.nix
+    ./minecraft.nix
+    ./plex.nix
+    ./sabnzbd.nix
     ./satisfactory.nix
-    ./gitea.nix
+    ./stash.nix
+    ./torrent.nix
+    ./wireguard.nix
   ];
 }
