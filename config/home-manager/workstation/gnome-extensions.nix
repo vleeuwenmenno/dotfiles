@@ -91,6 +91,7 @@
         preview-size = 50;
         strip-text = true;
         keep-selected-on-clear = true;
+        move-item-first = true;
         toggle-menu = [ "<Shift><Alt>V" ];
       };
 
