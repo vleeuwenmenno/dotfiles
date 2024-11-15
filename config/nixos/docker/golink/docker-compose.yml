@@ -5,5 +5,5 @@ services:
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
     volumes:
-      - ./data:/home/nonroot
+      - /mnt/services/golink:/home/nonroot
     restart: "unless-stopped"

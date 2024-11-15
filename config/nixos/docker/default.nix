@@ -7,6 +7,7 @@
     ./stash.nix
     ./sabnzbd.nix
     ./gitea.nix
+    ./golink.nix
   ];
 }
 # TODO: Import all the package modules, disabled for testing one by one.
