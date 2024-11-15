@@ -16,9 +16,10 @@
     ]
     # Include packages based on whether this is a server or workstation.
     ++ lib.optional isServer ./packages/server/default.nix
-    ++ lib.optional isWorkstation ./packages/workstation/default.nix
-    # Include docker if this is a server, otherwise include nothing because we don't intend on running docker services on workstations.
-    ++ lib.optional isServer ./docker/default.nix;
+    ++ lib.optional isWorkstation ./packages/workstation/default.nix;
+  # Include docker if this is a server, otherwise include nothing because we don't intend on running docker services on workstations.
+  # ++ lib.optional isServer ./docker/default.nix;
+  # TODO: Enable the line above once we migrated the basic server configuration to the new NixOS setup.
 
   # Enable networking
   networking.networkmanager.enable = true;
