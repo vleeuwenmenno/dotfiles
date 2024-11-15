@@ -26,6 +26,8 @@ services:
       - /mnt/services/proxy/nginx-proxy-manager/data:/data
       - /mnt/services/proxy/nginx-proxy-manager/data/letsencrypt:/etc/letsencrypt
       - /mnt/services/proxy/nginx/snippets:/snippets:ro
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
   authelia:
     container_name: authelia
@@ -35,6 +37,8 @@ services:
       - 9091:9091
     volumes:
       - /mnt/services/proxy/authelia/config:/config:ro
+    extra_hosts:
+      - host.docker.internal:host-gateway
     environment:
       - PUID=1000
       - PGID=1000
