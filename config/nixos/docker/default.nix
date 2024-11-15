@@ -9,6 +9,7 @@
     ./gitea.nix
     ./golink.nix
     ./plex.nix
+    ./upnp.nix
   ];
 }
 # TODO: Import all the package modules, disabled for testing one by one.
