@@ -25,6 +25,8 @@ services:
       - "19132:19132/udp"
       - "3456:8100/tcp"
     environment:
+      PUID: 1000
+      PGID: 1000
       EULA: "TRUE"
       TYPE: "paper"
       VERSION: 1.21.1

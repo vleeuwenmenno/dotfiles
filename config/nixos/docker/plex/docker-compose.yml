@@ -12,12 +12,14 @@ services:
               capabilities: [gpu]
 
     environment:
+      - PUID=1000
+      - PGID=1000
       - VERSION=docker
       - PLEX_CLAIM=claim-sfTz4AWc_Uxhzfzz9fKS
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
     volumes:
-      - ./data/plex:/config
+      - /mnt/services/plex/plex:/config
       - /mnt/movies:/movies
       - /mnt/tvshows:/tvshows
       - /mnt/music:/music
@@ -27,9 +29,11 @@ services:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/Amsterdam
     volumes:
-      - ./data/tautulli:/config
+      - /mnt/services/plex/tautulli:/config
     ports:
       - 8181:8181
     restart: unless-stopped

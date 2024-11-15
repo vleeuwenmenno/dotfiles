@@ -3,8 +3,8 @@ services:
   app:
     image: lscr.io/linuxserver/duplicati:latest
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1
+      - PGID=1
       - TZ=Europe/Amsterdam
       - CLI_ARGS=
     volumes:

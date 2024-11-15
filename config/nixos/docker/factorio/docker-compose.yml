@@ -16,6 +16,8 @@ services:
     container_name: "factorio-server-manager"
     restart: "unless-stopped"
     environment:
+      - PUID=1000
+      - PGID=1000
       - "FACTORIO_VERSION=stable"
       - "RCON_PASS=458fc84534"
     ports:

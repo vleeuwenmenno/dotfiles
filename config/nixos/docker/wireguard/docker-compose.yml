@@ -17,6 +17,8 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
+      - PUID=1000
+      - PGID=1000
       - PEERS=s24,pc,laptop
     volumes:
       - /mnt/services/wireguard/data:/config

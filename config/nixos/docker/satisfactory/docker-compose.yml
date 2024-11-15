@@ -31,6 +31,8 @@ services:
       - './data/certs/live/satisfactory.mvl.sh/fullchain.pem:/config/gamefiles/FactoryGame/Certificates/cert_chain.pem'
       - './data/certs/live/satisfactory.mvl.sh/privkey.pem:/config/gamefiles/FactoryGame/Certificates/private_key.pem'
     environment:
+      - PUID=1000
+      - PGID=1000
       - MAXPLAYERS=4
       - ROOTLESS=false
       - STEAMBETA=false

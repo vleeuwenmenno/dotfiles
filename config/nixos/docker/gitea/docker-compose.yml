@@ -15,6 +15,9 @@ services:
   server:
     image: gitea/gitea:latest
     restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
     volumes:
       - /mnt/services/gitea/gitea:/data
       - /etc/timezone:/etc/timezone:ro
@@ -29,6 +32,8 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
+      - PUID=1000
+      - PGID=1000
       - POSTGRES_USER=gitea
       - POSTGRES_PASSWORD=gitea
       - POSTGRES_DB=gitea
@@ -43,10 +48,12 @@ services:
       - ./act-runner-config.yaml:/config.yaml
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-        - GITEA_INSTANCE_URL=https://git.mvl.sh
-        - GITEA_RUNNER_REGISTRATION_TOKEN=lIlte9POlu7aBanhCh3Xm1SPfohrexyfxqs9Yiqz
-        - GITEA_RUNNER_NAME=act-worker
-        - CONFIG_FILE=/config.yaml
+      - PUID=1000
+      - PGID=1000
+      - GITEA_INSTANCE_URL=https://git.mvl.sh
+      - GITEA_RUNNER_REGISTRATION_TOKEN=lIlte9POlu7aBanhCh3Xm1SPfohrexyfxqs9Yiqz
+      - GITEA_RUNNER_NAME=act-worker
+      - CONFIG_FILE=/config.yaml
     restart: always
     networks:
       - net

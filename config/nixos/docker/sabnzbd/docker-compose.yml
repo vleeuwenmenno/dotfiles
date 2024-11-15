@@ -1,8 +1,10 @@
 services:
- sabnzbd:
+  sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/Amsterdam
     volumes:
       - /mnt/services/sabnzbd:/config
