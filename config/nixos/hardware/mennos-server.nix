@@ -17,18 +17,17 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Enable OpenGL
-  hardware.opengl.enable = true;
-
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  # Add nvidia support to docker
-  virtualisation = {
-    docker = {
-      enableNvidia = true;
-    };
+  # Enable oepngl and 32-bit support
+  hardware.opengl = {
+    driSupport32Bit = true;
+    enable = true;
   };
+
+  # Enable NVIDIA Docker support
+  virtualisation.docker.enableNvidia = true;
 
   hardware.nvidia = {
     # Modesetting is required.
