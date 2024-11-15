@@ -74,4 +74,4 @@ services:
 
     restart: unless-stopped
     volumes:
-      - /mnt/services/minecraft/data:/data
+      - /mnt/services/minecraft:/data
