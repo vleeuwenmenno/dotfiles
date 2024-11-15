@@ -27,7 +27,7 @@
   };
 
   # Enable NVIDIA Docker support
-  virtualisation.docker.enableNvidia = true;
+  hardware.nvidia-container-toolkit.enable = true;
 
   hardware.nvidia = {
     # Modesetting is required.
