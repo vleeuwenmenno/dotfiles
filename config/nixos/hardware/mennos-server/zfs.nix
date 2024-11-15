@@ -9,7 +9,6 @@
       enable = true;
       interval = "weekly";
     };
-    autoMount = true;
     pools.datapool = {
       import = true;
     };
