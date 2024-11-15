@@ -5,8 +5,12 @@
 
   # ZFS system services
   services.zfs = {
+    mountService = {
+      enable = true;
+      requiredBy = [ "multi-user.target" ];
+    };
     autoSnapshot = {
-      enable = false;
+      enable = false; # TODO: Enable this when we're ready to do so
       frequent = 4; # Keep 4 15-minute snapshots
       hourly = 24; # Keep 24 hourly snapshots
       daily = 7; # Keep 7 daily snapshots
@@ -25,54 +29,67 @@
     "/mnt/ai" = {
       device = "datapool/ai";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/movies" = {
       device = "datapool/movies";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/tvshows" = {
       device = "datapool/tv_shows";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/music" = {
       device = "datapool/music";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/astrophotography" = {
       device = "datapool/astro";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/downloads" = {
       device = "datapool/downloads";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/photos" = {
       device = "datapool/photos";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/stash" = {
       device = "datapool/stash";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/ISOs" = {
       device = "datapool/isos";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/audiobooks" = {
       device = "datapool/audiobooks";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/VMs" = {
       device = "datapool/vms";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/mnt/old_backups" = {
       device = "datapool/old_backups";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
     "/etc/docker" = {
       device = "datapool/services";
       fsType = "zfs";
+      options = [ "zfsutil" ];
     };
   };
 
@@ -149,6 +166,7 @@
     };
   };
 
+  # TODO: Enable this when we're ready to do so
   # environment.etc."local/bin/zfs-backup.sh" = {
   #   mode = "0755";
   #   text = ''
