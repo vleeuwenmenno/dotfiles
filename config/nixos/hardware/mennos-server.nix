@@ -11,6 +11,7 @@
     # ./mennos-server/zfs.nix
   ];
   networking.hostName = "mennos-server";
+  networking.hostId = "64519940";
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

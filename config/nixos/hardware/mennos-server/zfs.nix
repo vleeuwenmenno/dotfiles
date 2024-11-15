@@ -2,7 +2,6 @@
 {
   # Enable ZFS support
   boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.enableUnstable = false;
 
   # ZFS system services
   services.zfs = {
