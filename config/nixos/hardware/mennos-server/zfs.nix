@@ -5,10 +5,6 @@
 
   # ZFS system services
   services.zfs = {
-    mountService = {
-      enable = true;
-      requiredBy = [ "multi-user.target" ];
-    };
     autoSnapshot = {
       enable = false; # TODO: Enable this when we're ready to do so
       frequent = 4; # Keep 4 15-minute snapshots
