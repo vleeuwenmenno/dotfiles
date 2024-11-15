@@ -19,7 +19,7 @@ services:
     environment:
       - PEERS=s24,pc,laptop
     volumes:
-      - ./data:/config
+      - /mnt/services/wireguard/data:/config
     ports:
       - 51820:51820/udp
     sysctls:

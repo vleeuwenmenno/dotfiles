@@ -5,7 +5,7 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     volumes:
-      - ./data:/config
+      - /mnt/services/sabnzbd:/config
       - /mnt:/storage
     ports:
       - 7788:8080

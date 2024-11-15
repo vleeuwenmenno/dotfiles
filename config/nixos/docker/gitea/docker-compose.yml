@@ -16,7 +16,7 @@ services:
     image: gitea/gitea:latest
     restart: always
     volumes:
-      - ./data/gittea:/data
+      - /mnt/services/gitea/gitea:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
@@ -33,7 +33,7 @@ services:
       - POSTGRES_PASSWORD=gitea
       - POSTGRES_DB=gitea
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - /mnt/services/gitea/postgres:/var/lib/postgresql/data
     networks:
       - net
     

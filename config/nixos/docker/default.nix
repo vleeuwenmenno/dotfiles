@@ -1,6 +1,13 @@
 { ... }:
 {
-  imports = [ ./minecraft.nix ];
+  imports = [
+    ./minecraft.nix
+    ./wireguard.nix
+    ./torrent.nix
+    ./stash.nix
+    ./sabnzbd.nix
+    ./gitea.nix
+  ];
 }
 # TODO: Import all the package modules, disabled for testing one by one.
 # { config, pkgs, ... }:
