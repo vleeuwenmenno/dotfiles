@@ -38,8 +38,8 @@
       chown menno:users /mnt/astrophotography
       chmod 770 /mnt/astrophotography
 
-      # docker - root:menno 775
-      chown root:menno /mnt/docker
+      # docker - root:users 775
+      chown root:users /mnt/docker
       chmod 775 /mnt/docker
 
       # ai - menno:users 770
