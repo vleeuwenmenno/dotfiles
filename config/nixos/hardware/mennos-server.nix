@@ -8,7 +8,7 @@
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
-    # ./mennos-server/zfs.nix
+    ./mennos-server/zfs.nix
   ];
   networking.hostName = "mennos-server";
   networking.hostId = "64519940";
