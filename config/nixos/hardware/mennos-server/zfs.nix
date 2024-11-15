@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-{ config, pkgs, ... }:
 
 let
   # Create a script to set permissions
