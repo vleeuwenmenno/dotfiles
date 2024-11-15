@@ -8,6 +8,13 @@
         websecure.address = ":443";
         traefik.address = ":18080";
       };
+      api = {
+        dashboard = true;
+        insecure = true;
+      };
+      log = {
+        level = "DEBUG";
+      };
       certificatesResolvers.letsencrypt.acme = {
         email = "menno@vleeuwen.me";
         storage = "/var/lib/traefik/acme.json";
