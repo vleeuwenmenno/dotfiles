@@ -9,12 +9,6 @@
       enable = true;
       interval = "weekly";
     };
-    pools.datapool = {
-      import = true;
-    };
-    pools.backup = {
-      import = true;
-    };
   };
 
   # Install ZFS utilities
