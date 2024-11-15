@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 {
   environment.etc."docker/nginx-proxy-manager/docker-compose.yml".source = ./nginx-proxy-manager/docker-compose.yml;
-  environment.etc."docker/nginx-proxy-manager/.env".source = ./nginx-proxy-manager/.env;
 
   systemd.services.nginx-proxy-manager = {
     description = "nginx-proxy-manager Docker Compose Service";
