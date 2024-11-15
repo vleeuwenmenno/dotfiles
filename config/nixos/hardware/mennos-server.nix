@@ -22,12 +22,18 @@
 
   # Enable oepngl and 32-bit support
   hardware.opengl = {
-    driSupport32Bit = true;
     enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
   };
 
   # Enable NVIDIA Docker support
+  # test with: $ docker run --rm -it --device=nvidia.com/gpu=all ubuntu:latest nvidia-smi
   hardware.nvidia-container-toolkit.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableNvidia = true;
+  };
 
   hardware.nvidia = {
     # Modesetting is required.
