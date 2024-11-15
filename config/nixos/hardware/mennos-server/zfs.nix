@@ -91,16 +91,16 @@
     wantedBy = [ "multi-user.target" ];
     script = ''
       # Set ownership and permissions for each dataset
-      # Astrophotography - menno:menno 770
-      chown menno:menno /mnt/astrophotography
+      # Astrophotography - menno:users 770
+      chown menno:users /mnt/astrophotography
       chmod 770 /mnt/astrophotography
 
       # docker - root:menno 775
       chown root:menno /mnt/docker
       chmod 775 /mnt/docker
 
-      # ai - menno:menno 770
-      chown menno:menno /mnt/ai
+      # ai - menno:users 770
+      chown menno:users /mnt/ai
       chmod 770 /mnt/ai
 
       # Audiobooks - menno:users 760
@@ -131,12 +131,12 @@
       chown menno:users /mnt/old_backups
       chmod 760 /mnt/old_backups
 
-      # Photos - menno:menno 775
-      chown menno:menno /mnt/photos
+      # Photos - menno:users 775
+      chown menno:users /mnt/photos
       chmod 775 /mnt/photos
 
-      # Stash - menno:menno 775
-      chown menno:menno /mnt/stash
+      # Stash - menno:users 775
+      chown menno:users /mnt/stash
       chmod 775 /mnt/stash
 
       # TV_Shows - menno:users 760
