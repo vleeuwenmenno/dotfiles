@@ -6,6 +6,7 @@
       entryPoints = {
         web.address = ":80";
         websecure.address = ":443";
+        traefik.address = ":18080";
       };
       certificatesResolvers.letsencrypt.acme = {
         email = "menno@vleeuwen.me";
