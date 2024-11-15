@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [ ./virtualization.nix ];
+  imports = [ ./virtualisation.nix ];
 
   environment.systemPackages = with pkgs; [
     yubikey-manager
