@@ -17,7 +17,7 @@ services:
       ## Keep configs, scrapers, and plugins here.
       - ./data/config:/root/.stash
       ## Point this at your collection.
-      - /mnt/20tb/Stash:/data
+      - /mnt/stash:/data
       ## This is where your stash's metadata lives
       - ./data/metadata:/metadata
       ## Any other cache content.

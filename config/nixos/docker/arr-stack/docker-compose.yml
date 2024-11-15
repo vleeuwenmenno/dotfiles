@@ -11,7 +11,7 @@ services:
       - host.docker.internal:host-gateway
     volumes:
       - ./data/radarr-config:/config
-      - /mnt/20tb:/storage
+      - /mnt:/storage
     restart: "unless-stopped"
 
   sonarr:
@@ -21,7 +21,7 @@ services:
       - TZ=Europe/Amsterdam
     volumes:
       - ./data/sonarr-config:/config
-      - /mnt/20tb:/storage
+      - /mnt:/storage
     ports:
       - 8989:8989
     extra_hosts:
@@ -38,7 +38,7 @@ services:
       - host.docker.internal:host-gateway
     volumes:
       - ./data/lidarr-config:/config
-      - /mnt/20tb:/storage
+      - /mnt:/storage
     restart: unless-stopped
 
   whisparr:
@@ -51,7 +51,7 @@ services:
       - host.docker.internal:host-gateway
     volumes:
       - ./data/whisparr-config:/config
-      - /mnt/20tb:/storage
+      - /mnt:/storage
     restart: unless-stopped
 
   prowlarr:

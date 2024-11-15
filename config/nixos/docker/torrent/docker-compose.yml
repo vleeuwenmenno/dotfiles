@@ -29,7 +29,7 @@ services:
       volumes:
         - "/etc/localtime:/etc/localtime:ro"
         - ./data/qbit:/config
-        - /mnt/20tb:/storage
+        - /mnt:/storage
       depends_on:
         - gluetun
       restart: always

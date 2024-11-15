@@ -6,7 +6,7 @@ services:
       - TZ=Europe/Amsterdam
     volumes:
       - ./data:/config
-      - /mnt/20tb:/storage
+      - /mnt:/storage
     ports:
       - 7788:8080
     restart: unless-stopped

@@ -1,18 +1,12 @@
-{ ... }:
+{ config, pkgs, ... }:
+
+let
+  files = builtins.removeAttrs (builtins.readDir ./.) [ "default.nix" ];
+
+  # Import all other .nix files as modules
+  moduleFiles = builtins.map (fname: ./. + "/${fname}") (builtins.attrNames files);
+in
 {
-  imports = [
-    ./arr-stack.nix
-    ./duplicati.nix
-    ./factorio.nix
-    ./gitea.nix
-    ./golink.nix
-    ./immich.nix
-    ./minecraft.nix
-    ./plex.nix
-    ./sabnzbd.nix
-    ./satisfactory.nix
-    ./stash.nix
-    ./torrent.nix
-    ./wireguard.nix
-  ];
+  # Import all the package modules
+  imports = moduleFiles;
 }

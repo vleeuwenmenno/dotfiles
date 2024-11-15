@@ -18,9 +18,9 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
     volumes:
       - ./data/plex:/config
-      - /mnt/20tb/Movies:/movies
-      - /mnt/20tb/TV_Shows:/tvshows
-      - /mnt/20tb/Music:/music
+      - /mnt/movies:/movies
+      - /mnt/tvshows:/tvshows
+      - /mnt/music:/music
     restart: unless-stopped
 
   tautulli:

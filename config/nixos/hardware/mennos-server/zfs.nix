@@ -23,62 +23,67 @@
   # Your ZFS pool and datasets will be automatically imported
   # But we can specify mount points explicitly for clarity
   fileSystems = {
-    "/mnt/20tb/Movies" = {
+    "/mnt/ai" = {
+      device = "datapool/ai";
+      fsType = "zfs";
+      options = [ "defaults" ];
+    };
+    "/mnt/movies" = {
       device = "datapool/movies";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/TV_Shows" = {
+    "/mnt/tvshows" = {
       device = "datapool/tv_shows";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/Music" = {
+    "/mnt/music" = {
       device = "datapool/music";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/Astrophotography" = {
+    "/mnt/astrophotography" = {
       device = "datapool/astro";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/Downloads" = {
+    "/mnt/downloads" = {
       device = "datapool/downloads";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/Photos" = {
+    "/mnt/photos" = {
       device = "datapool/photos";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/Stash" = {
+    "/mnt/stash" = {
       device = "datapool/stash";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/ISOs" = {
+    "/mnt/ISOs" = {
       device = "datapool/isos";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/Audiobooks" = {
+    "/mnt/audiobooks" = {
       device = "datapool/audiobooks";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/VMs" = {
+    "/mnt/VMs" = {
       device = "datapool/vms";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/Old_Backups" = {
+    "/mnt/old_backups" = {
       device = "datapool/old_backups";
       fsType = "zfs";
       options = [ "defaults" ];
     };
-    "/mnt/20tb/Services" = {
+    environment.etc."docker" = {
       device = "datapool/services";
       fsType = "zfs";
       options = [ "defaults" ];
@@ -101,56 +106,56 @@
     script = ''
       # Set ownership and permissions for each dataset
       # Astrophotography - menno:menno 770
-      zfs set acltype=posixacl datapool/astro
-      zfs set xattr=sa datapool/astro
-      chown menno:menno /mnt/20tb/Astrophotography
-      chmod 770 /mnt/20tb/Astrophotography
+      chown menno:menno /mnt/astrophotography
+      chmod 770 /mnt/astrophotography
+
+      # docker - root:menno 775
+      chown root:menno /mnt/docker
+      chmod 775 /mnt/docker
+
+      # ai - menno:menno 770
+      chown menno:menno /mnt/ai
+      chmod 770 /mnt/ai
 
       # Audiobooks - menno:users 760
-      zfs set acltype=posixacl datapool/audiobooks
-      zfs set xattr=sa datapool/audiobooks
-      chown menno:users /mnt/20tb/Audiobooks
-      chmod 760 /mnt/20tb/Audiobooks
+      chown menno:users /mnt/audiobooks
+      chmod 760 /mnt/audiobooks
 
       # Downloads - menno:users 760
-      chown menno:users /mnt/20tb/Downloads
-      chmod 760 /mnt/20tb/Downloads
+      chown menno:users /mnt/downloads
+      chmod 760 /mnt/downloads
 
       # ISOs - menno:libvirt 777
-      chown menno:libvirt /mnt/20tb/ISOs
-      chmod 777 /mnt/20tb/ISOs
+      chown menno:libvirt /mnt/ISOs
+      chmod 777 /mnt/ISOs
 
       # VMs - menno:libvirt 777
-      chown menno:libvirt /mnt/20tb/VMs
-      chmod 777 /mnt/20tb/VMs
+      chown menno:libvirt /mnt/VMs
+      chmod 777 /mnt/VMs
 
       # Movies - menno:users 760
-      chown menno:users /mnt/20tb/Movies
-      chmod 760 /mnt/20tb/Movies
+      chown menno:users /mnt/movies
+      chmod 760 /mnt/movies
 
       # Music - menno:users 760
-      chown menno:users /mnt/20tb/Music
-      chmod 760 /mnt/20tb/Music
+      chown menno:users /mnt/music
+      chmod 760 /mnt/music
 
-      # Old_Backups - menno:users 760
-      chown menno:users /mnt/20tb/Old_Backups
-      chmod 760 /mnt/20tb/Old_Backups
+      # old_backups - menno:users 760
+      chown menno:users /mnt/old_backups
+      chmod 760 /mnt/old_backups
 
       # Photos - menno:menno 775
-      chown menno:menno /mnt/20tb/Photos
-      chmod 775 /mnt/20tb/Photos
-
-      # Services - menno:users 760
-      chown menno:users /mnt/20tb/Services
-      chmod 760 /mnt/20tb/Services
+      chown menno:menno /mnt/photos
+      chmod 775 /mnt/photos
 
       # Stash - menno:menno 775
-      chown menno:menno /mnt/20tb/Stash
-      chmod 775 /mnt/20tb/Stash
+      chown menno:menno /mnt/stash
+      chmod 775 /mnt/stash
 
       # TV_Shows - menno:users 760
-      chown menno:users /mnt/20tb/TV_Shows
-      chmod 760 /mnt/20tb/TV_Shows
+      chown menno:users /mnt/tvshows
+      chmod 760 /mnt/tvshows
     '';
     serviceConfig = {
       Type = "oneshot";
@@ -165,8 +170,7 @@
       set -euo pipefail
 
       DATE=$(date +%Y%m%d-%H%M)
-      # Updated DATASETS list to match your actual datasets
-      DATASETS="movies tv_shows music astro downloads photos stash isos audiobooks vms old_backups services"
+      DATASETS="music astro photos stash isos ai audiobooks vms old_backups services"
       RETAIN_SNAPSHOTS=24
       BACKUP_POOL="backup"
       SOURCE_POOL="datapool"
