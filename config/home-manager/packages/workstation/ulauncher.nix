@@ -61,6 +61,16 @@ let
       "run_without_argument" = false;
       "added" = 0;
     };
+    "43d1ed32-8fd3-fbf8-94f5-cffa7cd607a1" = {
+      "id" = "40d1ed32-8fd3-4bf8-92f5-cbaa7cd607a1";
+      "name" = "GitHub";
+      "keyword" = "gh";
+      "cmd" = "https://github.com/search?q=%s";
+      "icon" = null;
+      "is_default_search" = false;
+      "run_without_argument" = false;
+      "added" = 0;
+    };
   };
 
   # Create a Python environment with all required packages
@@ -91,15 +101,13 @@ let
   '';
 
 in
+
 # Extensions
 # https://github.com/friday/ulauncher-gnome-settings
 # https://ext.ulauncher.io/-/github-ulauncher-ulauncher-emoji
 # https://ext.ulauncher.io/-/github-tchar-ulauncher-albert-calculate-anything
 # https://ext.ulauncher.io/-/github-isacikgoz-ukill
 # https://ext.ulauncher.io/-/github-iboyperson-ulauncher-system
-#
-#
-#
 {
   nixpkgs.overlays = [
     (final: prev: { ulauncher = prev.ulauncher.override { python3 = pythonWithPackages; }; })
