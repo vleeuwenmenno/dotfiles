@@ -1,0 +1,66 @@
+name: nginx-proxy-manager
+services:
+  upnp:
+    image: ghcr.io/vleeuwenmenno/auto-upnp:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      UPNP_DURATION: 86400  # 24 hours in seconds
+      PORTS: |
+        [
+          {"port": 80, "protocol": "tcp"},
+          {"port": 443, "protocol": "tcp"}
+        ]
+
+  server:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /mnt/services/proxy/nginx-proxy-manager/data:/data
+      - /mnt/services/proxy/nginx-proxy-manager/data/letsencrypt:/etc/letsencrypt
+      - /mnt/services/proxy/nginx/snippets:/snippets:ro
+
+  authelia:
+    container_name: authelia
+    image: authelia/authelia
+    restart: unless-stopped
+    ports:
+      - 9091:9091
+    volumes:
+      - /mnt/services/proxy/authelia/config:/config:ro
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - /mnt/services/proxy/redis:/data
+    expose:
+      - 6379
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+
+  postgres:
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - POSTGRES_DB=authelia
+      - POSTGRES_USER=authelia
+      - POSTGRES_PASSWORD=authelia
+    image: postgres:15.4-alpine
+    restart: unless-stopped
+    volumes:
+      - /mnt/services/proxy/postgres:/var/lib/postgresql/data

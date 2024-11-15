@@ -9,7 +9,7 @@
     ./gitea.nix
     ./golink.nix
     ./plex.nix
-    ./upnp.nix
+    ./nginx-proxy-manager.nix
   ];
 }
 # TODO: Import all the package modules, disabled for testing one by one.
