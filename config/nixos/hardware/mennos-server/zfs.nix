@@ -24,67 +24,54 @@
     "/mnt/ai" = {
       device = "datapool/ai";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/astrophotography" = {
       device = "datapool/astro";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/audiobooks" = {
       device = "datapool/audiobooks";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/downloads" = {
       device = "datapool/downloads";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/ISOs" = {
       device = "datapool/isos";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/movies" = {
       device = "datapool/movies";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/music" = {
       device = "datapool/music";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/old_backups" = {
       device = "datapool/old_backups";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/photos" = {
       device = "datapool/photos";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/services" = {
       device = "datapool/services";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/stash" = {
       device = "datapool/stash";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/tvshows" = {
       device = "datapool/tv_shows";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
     "/mnt/VMs" = {
       device = "datapool/vms";
       fsType = "zfs";
-      options = [ "zfsutil" ];
     };
   };
 }
