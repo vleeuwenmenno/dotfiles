@@ -16,9 +16,7 @@
     ]
     # Include packages based on whether this is a server or workstation.
     ++ lib.optional isServer ./packages/server/default.nix
-    ++ lib.optional isWorkstation ./packages/workstation/default.nix
-    # Include docker if this is a server, otherwise include nothing because we don't intend on running docker services on workstations.
-    ++ lib.optional isServer ./docker/default.nix;
+    ++ lib.optional isWorkstation ./packages/workstation/default.nix;
 
   # Enable networking
   networking.networkmanager.enable = true;

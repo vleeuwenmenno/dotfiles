@@ -1,16 +1,6 @@
 { ... }:
 {
-  imports = [
-    ./minecraft.nix
-    ./wireguard.nix
-    ./torrent.nix
-    ./stash.nix
-    ./sabnzbd.nix
-    ./gitea.nix
-    ./golink.nix
-    ./plex.nix
-    ./nginx-proxy-manager.nix
-  ];
+  imports = [ ];
 }
 # TODO: Import all the package modules, disabled for testing one by one.
 # { config, pkgs, ... }:
