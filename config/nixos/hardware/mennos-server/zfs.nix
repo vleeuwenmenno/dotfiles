@@ -26,67 +26,54 @@
     "/mnt/ai" = {
       device = "datapool/ai";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/movies" = {
       device = "datapool/movies";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/tvshows" = {
       device = "datapool/tv_shows";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/music" = {
       device = "datapool/music";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/astrophotography" = {
       device = "datapool/astro";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/downloads" = {
       device = "datapool/downloads";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/photos" = {
       device = "datapool/photos";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/stash" = {
       device = "datapool/stash";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/ISOs" = {
       device = "datapool/isos";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/audiobooks" = {
       device = "datapool/audiobooks";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/VMs" = {
       device = "datapool/vms";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     "/mnt/old_backups" = {
       device = "datapool/old_backups";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
     environment.etc."docker" = {
       device = "datapool/services";
       fsType = "zfs";
-      options = [ "defaults" ];
     };
   };
 
