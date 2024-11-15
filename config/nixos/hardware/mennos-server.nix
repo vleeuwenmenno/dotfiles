@@ -6,7 +6,10 @@
   ...
 }:
 {
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+  imports = [
+    /etc/nixos/hardware-configuration.nix
+    ./mennos-server/zfs.nix
+  ];
   networking.hostName = "mennos-server";
 
   # Bootloader.
@@ -14,11 +17,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # TODO: Enable this when I switch from test VM to actual hardware
-  # Mount 8TB mass storage disk to /mnt/8tb
-  # fileSystems."/mnt/8tb" = {
-  #   device = "/dev/disk/by-uuid/1fb739d5-a9dc-490c-a182-f624127a307f";
-  #   fsType = "ext4";
-  # };
 
   # Enable OpenGL
   # hardware.opengl.enable = true;

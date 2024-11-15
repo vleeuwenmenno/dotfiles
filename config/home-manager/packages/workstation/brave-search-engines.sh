@@ -3,27 +3,6 @@
 BRAVE_DIR="$HOME/.config/BraveSoftware/Brave-Browser/Default"
 MAX_ATTEMPTS=30  # Maximum number of seconds to wait
 
-# Function to kill all Brave processes
-kill_brave() {
-  # Store whether Brave was running
-  if pgrep -x "brave" > /dev/null; then
-    echo "Brave was running, will restart after completion"
-    export BRAVE_WAS_RUNNING=1
-  else
-    export BRAVE_WAS_RUNNING=0
-  fi
-
-  echo "Closing all Brave browser instances..."
-  pkill -x "brave" || true
-  sleep 2  # Give it a moment to clean up
-  
-  # Force kill if any processes remain
-  if pgrep -x "brave" > /dev/null; then
-    echo "Force closing remaining Brave processes..."
-    pkill -9 -x "brave" || true
-  fi
-}
-
 # Function to check if database is locked
 is_db_locked() {
   local db_file="$1"
@@ -45,9 +24,6 @@ if [ ! -f "$BRAVE_DIR/Web Data" ]; then
   echo "Web Data file doesn't exist. Please run Brave at least once."
   exit 1
 fi
-
-# Kill any running Brave instances
-kill_brave
 
 # Wait for database to be unlocked
 attempts=0
