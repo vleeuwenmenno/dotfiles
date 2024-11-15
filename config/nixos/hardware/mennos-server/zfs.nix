@@ -1,5 +1,57 @@
 { config, pkgs, ... }:
+{ config, pkgs, ... }:
+
+let
+  # Create a script to set permissions
+  permissionsScript = pkgs.writeShellScriptBin "set-zfs-permissions" ''
+    # Set default permissions for all service directories
+    find /mnt/services -mindepth 1 -maxdepth 1 -type d \
+      -exec chmod 775 {} \; \
+      -exec chown menno:users {} \;
+
+    # Special cases
+    chmod 774 /mnt/services/golink
+    chown 65532:users /mnt/services/golink
+
+    chmod 754 /mnt/services/torrent
+    chown menno:users /mnt/services/torrent
+
+    chmod 755 /mnt/services/proxy
+    chmod 755 /mnt/services/static-websites
+
+    # Set permissions for other mount points
+    for dir in /mnt/{ai,astrophotography,audiobooks,downloads,ISOs,movies,music,old_backups,photos,stash,tvshows,VMs}; do
+      chmod 755 "$dir"
+      chown menno:users "$dir"
+    done
+  '';
+in
 {
+  environment.systemPackages = with pkgs; [
+    zfs
+    zfstools
+    permissionsScript
+  ];
+
+  # Add the permissions service
+  systemd.services.zfs-permissions = {
+    description = "Set ZFS mount permissions";
+
+    # Run after ZFS mounts are available
+    after = [ "zfs.target" ];
+    requires = [ "zfs.target" ];
+
+    # Run on boot and every 6 hours
+    startAt = "*-*-* */6:00:00";
+
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${permissionsScript}/bin/set-zfs-permissions";
+      User = "root";
+      Group = "root";
+    };
+  };
+
   # Enable ZFS support
   boot.supportedFilesystems = [ "zfs" ];
 
@@ -10,12 +62,6 @@
       interval = "weekly";
     };
   };
-
-  # Install ZFS utilities
-  environment.systemPackages = with pkgs; [
-    zfs
-    zfstools
-  ];
 
   # If you want to keep compression settings
   boot.kernelParams = [ "zfs.zfs_compressed_arc_enabled=1" ];
