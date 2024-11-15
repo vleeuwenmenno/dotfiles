@@ -20,9 +20,14 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
-      # SSH
-      400
+      400 # SSH
+      80 # HTTP
+      443 # HTTPS
+      22 # Git over SSH
+      32400 # Plex
     ];
-    allowedUDPPorts = [ ];
+    allowedUDPPorts = [
+      51820 # WireGuard
+    ];
   };
 }
