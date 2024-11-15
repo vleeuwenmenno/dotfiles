@@ -71,7 +71,7 @@
       device = "datapool/old_backups";
       fsType = "zfs";
     };
-    environment.etc."docker" = {
+    "/etc/docker" = {
       device = "datapool/services";
       fsType = "zfs";
     };
