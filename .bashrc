@@ -81,13 +81,6 @@ if [ -d "/home/menno/Projects/Work" ]; then
     export TRADAWARE_DEVOPS=true
 fi
 
-# pyenv Configuration
-export PYENV_ROOT="$HOME/.pyenv"
-if [[ -d $PYENV_ROOT/bin ]]; then
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
-fi
-
 # Flutter Environment
 if [ -d "$HOME/flutter" ]; then
     export PATH="$PATH:$HOME/flutter/bin"

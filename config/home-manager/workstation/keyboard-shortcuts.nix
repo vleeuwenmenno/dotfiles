@@ -15,6 +15,7 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/emotes/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/frog/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/ulauncher/"
       ];
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/1password-quick-access" = {
@@ -41,6 +42,11 @@
       binding = "<Shift><Alt>3";
       command = "frog";
       name = "frog-ocr";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/ulauncher" = {
+      binding = "<Control>Space";
+      command = "ulauncher-toggle";
+      name = "ulauncher";
     };
   };
 }

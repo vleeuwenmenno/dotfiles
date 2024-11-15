@@ -14,6 +14,7 @@
     gnome.gnome-boxes # Virtual machine manager
     deja-dup # Backup tool
     sqlitebrowser # SQLite database manager
+    wmctrl # Window manager control (Used in ulauncher)
 
     ## Chat Apps
     telegram-desktop

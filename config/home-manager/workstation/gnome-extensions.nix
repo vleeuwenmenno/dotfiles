@@ -304,6 +304,29 @@
       "org/gnome/shell/extensions/user-theme" = {
         name = "Yaru-purple-dark";
       };
+
+      # Lilypad settings
+      "org/gnome/shell/extensions/lilypad/rightbox-order" = {
+
+        # In case this is updated, run: `dconf read /org/gnome/shell/extensions/lilypad/rightbox-order  | sed "s/,//g; s/'/\"/g ` then copy pasting the output here
+        rightbox-order = [
+          "lilypad"
+          "system_monitor"
+          "appindicator_legacy_TelegramDesktop"
+          "appindicator_legacy_1password"
+          "spotify_client"
+          "com_github_eneshecan_WhatsAppForLinux_Tray"
+          "appindicator_legacy_Electron"
+          "steam"
+          "appindicator_legacy_steam"
+          "workspace_indicator"
+          "vitalsMenu"
+          "StatusNotifierItem"
+          "clipboardIndicator"
+          "screenSharing"
+        ];
+        show-icons = false;
+      };
     };
   };
 }

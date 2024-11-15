@@ -8,6 +8,7 @@ apps=(
   trayscale
   1password
   fcitx5
+  ulauncher-wrapped
 )
 
 # check if screen has any dead sessions

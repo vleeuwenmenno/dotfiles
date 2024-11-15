@@ -43,7 +43,6 @@
       cargo-audit
       cargo-expand
       cargo-tarpaulin
-      pyenv
       act # GitHub Actions CLI
 
       # File and directory operations
