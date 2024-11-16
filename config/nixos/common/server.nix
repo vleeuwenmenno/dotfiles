@@ -28,7 +28,7 @@
       25565 # Minecraft
       3456 # Minecraft (Bluemap)
 
-      # Interal services
+      5334 # Duplicati Notifications
       81 # Nginx Proxy Manager
       7788 # Sabnzbd
       8085 # Qbittorrent
