@@ -49,16 +49,16 @@
     ];
 
     # Extra rules for allowing internal communication
-    # extraCommands = ''
-    #   # Allow established connections
-    #   iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    extraCommands = ''
+      # Allow established connections
+      iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
-    #   # Allow all traffic on internal networks
-    #   iptables -A INPUT -i docker0 -j ACCEPT
-    #   iptables -A INPUT -i tailscale0 -j ACCEPT
+      # Allow all traffic on internal networks
+      iptables -A INPUT -i docker0 -j ACCEPT
+      iptables -A INPUT -i tailscale0 -j ACCEPT
 
-    #   # Allow traffic between Docker containers
-    #   iptables -A DOCKER-USER -i docker0 -o docker0 -j ACCEPT
-    # '';
+      # Allow traffic between Docker containers
+      iptables -A DOCKER-USER -i docker0 -o docker0 -j ACCEPT
+    '';
   };
 }
