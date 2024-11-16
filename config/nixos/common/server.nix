@@ -74,7 +74,7 @@
         # Allow internal network traffic
         iptables -A INPUT -i docker0 -j ACCEPT
         iptables -A INPUT -i tailscale0 -j ACCEPT
-        iptables -A INPUT -s 192.168.0.0/16 -j ACCEPT
+        iptables -A INPUT -s 192.168.86.0/24 -j ACCEPT
 
         # Allow Docker inter-network communication
         iptables -A FORWARD -i br-* -o br-* -j ACCEPT
