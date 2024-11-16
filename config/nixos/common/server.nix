@@ -22,20 +22,19 @@
     allowedTCPPorts = [
       80 # HTTP
       443 # HTTPS
-
       22 # Git over SSH
       400 # SSH
       25565 # Minecraft
       3456 # Minecraft (Bluemap)
+      32400 # Plex
+      8096 # Jellyfin
 
-      5334 # Duplicati Notifications
       81 # Nginx Proxy Manager
+      5334 # Duplicati Notifications
       7788 # Sabnzbd
       8085 # Qbittorrent
       3030 # Gitea
       5080 # Factorio Server Manager
-
-      # Arr services
       5555 # Overseerr
       9696 # Prowlarr
       7878 # Radarr
@@ -43,9 +42,6 @@
       8989 # Sonarr
       8386 # Whisparr
       8191 # Flaresolerr
-
-      # Media services
-      32400 # Plex
       9999 # Stash
     ];
     allowedUDPPorts = [
