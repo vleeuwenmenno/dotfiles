@@ -61,7 +61,6 @@
         "enp39s0".allowedTCPPorts = internalPorts;
       };
 
-    # Additional firewall rules
     extraCommands = ''
       # Allow established connections
       iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
@@ -71,10 +70,19 @@
       iptables -A INPUT -i tailscale0 -j ACCEPT
       iptables -A INPUT -s 192.168.0.0/16 -j ACCEPT
 
+      # Allow all Docker-related traffic
+      iptables -A INPUT -s 172.16.0.0/12 -j ACCEPT  # Covers all Docker network ranges
+      iptables -A FORWARD -s 172.16.0.0/12 -j ACCEPT
+      iptables -A FORWARD -d 172.16.0.0/12 -j ACCEPT
+
       # Allow Docker container communication
       iptables -A DOCKER-USER -i docker0 -o docker0 -j ACCEPT
-    '';
 
+      # Allow traffic between different Docker networks
+      iptables -A FORWARD -i br-* -o br-* -j ACCEPT
+      iptables -A FORWARD -i docker0 -o br-* -j ACCEPT
+      iptables -A FORWARD -i br-* -o docker0 -j ACCEPT
+    '';
     # Required for Tailscale
     checkReversePath = "loose";
   };
