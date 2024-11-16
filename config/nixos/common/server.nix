@@ -34,6 +34,7 @@
       3030 # Gitea
 
       # Arr services
+      5555 # Overseerr
       9696 # Prowlarr
       7878 # Radarr
       8686 # Lidarr
