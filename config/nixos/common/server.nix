@@ -25,6 +25,9 @@
       443 # HTTPS
       22 # Git over SSH
       32400 # Plex
+
+      7788 # Sabnzbd
+      8085 # Qbittorrent
     ];
     allowedUDPPorts = [
       51820 # WireGuard
