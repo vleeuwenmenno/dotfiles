@@ -26,21 +26,15 @@
 
       22 # Git over SSH
       32400 # Plex
+
+      # Interal services
+      81 # Nginx Proxy Manager
+      7788 # Sabnzbd
+      8085 # Qbittorrent
+      3030 # Gitea
     ];
     allowedUDPPorts = [
       51820 # WireGuard
     ];
-
-    # Allow local network access only
-    interfaces = {
-      "docker0" = {
-        allowedTCPPorts = [
-          7788 # Sabnzbd
-          8085 # Qbittorrent
-          81 # Nginx Proxy Manager
-          3030 # Gitea
-        ];
-      };
-    };
   };
 }
