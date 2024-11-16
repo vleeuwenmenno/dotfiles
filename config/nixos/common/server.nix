@@ -19,6 +19,8 @@
   # Open ports in the firewall
   networking.firewall = {
     enable = true;
+
+    # Ports accessible from anywhere
     allowedTCPPorts = [
       80 # HTTP
       443 # HTTPS
@@ -28,37 +30,52 @@
       3456 # Minecraft (Bluemap)
       32400 # Plex
       8096 # Jellyfin
-
-      81 # Nginx Proxy Manager
-      5334 # Duplicati Notifications
-      7788 # Sabnzbd
-      #8085 # Qbittorrent
-      3030 # Gitea
-      5080 # Factorio Server Manager
-      5555 # Overseerr
-      9696 # Prowlarr
-      7878 # Radarr
-      8686 # Lidarr
-      8989 # Sonarr
-      8386 # Whisparr
-      8191 # Flaresolerr
-      9999 # Stash
     ];
     allowedUDPPorts = [
       51820 # WireGuard
     ];
 
-    # Extra rules for allowing internal communication
+    # Common internal ports for docker0, tailscale0, and LAN
+    interfaces =
+      let
+        internalPorts = [
+          81 # Nginx Proxy Manager
+          5334 # Duplicati Notifications
+          7788 # Sabnzbd
+          8085 # Qbittorrent
+          3030 # Gitea
+          5080 # Factorio Server Manager
+          5555 # Overseerr
+          9696 # Prowlarr
+          7878 # Radarr
+          8686 # Lidarr
+          8989 # Sonarr
+          8386 # Whisparr
+          8191 # Flaresolerr
+          9999 # Stash
+        ];
+      in
+      {
+        "docker0".allowedTCPPorts = internalPorts;
+        "tailscale0".allowedTCPPorts = internalPorts;
+        "enp39s0".allowedTCPPorts = internalPorts;
+      };
+
+    # Additional firewall rules
     extraCommands = ''
       # Allow established connections
       iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
-      # Allow all traffic on internal networks
+      # Allow internal network traffic
       iptables -A INPUT -i docker0 -j ACCEPT
       iptables -A INPUT -i tailscale0 -j ACCEPT
+      iptables -A INPUT -s 192.168.0.0/16 -j ACCEPT
 
-      # Allow traffic between Docker containers
+      # Allow Docker container communication
       iptables -A DOCKER-USER -i docker0 -o docker0 -j ACCEPT
     '';
+
+    # Required for Tailscale
+    checkReversePath = "loose";
   };
 }
