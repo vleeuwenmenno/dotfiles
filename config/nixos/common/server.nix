@@ -32,6 +32,13 @@
       7788 # Sabnzbd
       8085 # Qbittorrent
       3030 # Gitea
+
+      # Arr services
+      9696 # Prowlarr
+      7878 # Radarr
+      8686 # Lidarr
+      8989 # Sonarr
+      8386 # Whisparr
     ];
     allowedUDPPorts = [
       51820 # WireGuard
