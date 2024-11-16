@@ -39,6 +39,7 @@
       8686 # Lidarr
       8989 # Sonarr
       8386 # Whisparr
+      8191 # Flaresolerr
     ];
     allowedUDPPorts = [
       51820 # WireGuard
