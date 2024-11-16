@@ -36,6 +36,7 @@
 
       allowedUDPPorts = [
         51820 # WireGuard
+        53 # DNS
       ];
 
       # Internal ports
@@ -67,9 +68,6 @@
       extraCommands = ''
         # Allow established connections
         iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-
-        # Block WAN access to internal services
-        iptables -I INPUT -i enp39s0 ! -s 192.168.0.0/16 -j DROP
 
         # Allow internal network traffic
         iptables -A INPUT -i docker0 -j ACCEPT
