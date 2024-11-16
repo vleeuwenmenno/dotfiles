@@ -36,7 +36,6 @@
 
       allowedUDPPorts = [
         51820 # WireGuard
-        53 # DNS
       ];
 
       # Internal ports
@@ -64,28 +63,6 @@
           "tailscale0".allowedTCPPorts = internalPorts;
           "enp39s0".allowedTCPPorts = internalPorts;
         };
-
-      extraCommands = ''
-        # Allow established connections
-        iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-
-        # Allow internal network traffic
-        iptables -A INPUT -i docker0 -j ACCEPT
-        iptables -A INPUT -i tailscale0 -j ACCEPT
-        iptables -A INPUT -s 192.168.86.0/24 -j ACCEPT
-
-        # Allow Docker inter-network communication
-        iptables -A FORWARD -i br-* -o br-* -j ACCEPT
-        iptables -A FORWARD -i docker0 -o br-* -j ACCEPT
-        iptables -A FORWARD -i br-* -o docker0 -j ACCEPT
-
-        # Allow Docker subnet traffic but only internally
-        iptables -A INPUT -s 172.16.0.0/12 -i docker0 -j ACCEPT
-        iptables -A INPUT -s 172.16.0.0/12 -i br-+ -j ACCEPT
-
-        # Allow Docker container communication
-        iptables -A DOCKER-USER -i docker0 -o docker0 -j ACCEPT
-      '';
 
       # Required for Tailscale
       checkReversePath = "loose";
