@@ -32,7 +32,7 @@
       81 # Nginx Proxy Manager
       5334 # Duplicati Notifications
       7788 # Sabnzbd
-      8085 # Qbittorrent
+      #8085 # Qbittorrent
       3030 # Gitea
       5080 # Factorio Server Manager
       5555 # Overseerr
@@ -47,5 +47,18 @@
     allowedUDPPorts = [
       51820 # WireGuard
     ];
+
+    # Extra rules for allowing internal communication
+    # extraCommands = ''
+    #   # Allow established connections
+    #   iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+    #   # Allow all traffic on internal networks
+    #   iptables -A INPUT -i docker0 -j ACCEPT
+    #   iptables -A INPUT -i tailscale0 -j ACCEPT
+
+    #   # Allow traffic between Docker containers
+    #   iptables -A DOCKER-USER -i docker0 -o docker0 -j ACCEPT
+    # '';
   };
 }
